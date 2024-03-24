@@ -1,0 +1,24 @@
+Generar nuevo módulo(entidad)
+Este módulo se agrega automaticamente a app.modules para ser usado
+    nest g res <nombre en plural> --no-spec
+        - REST API
+        - Generate CRUD "YES"
+// localhost:3000/vehiculos  <- Por controlador
+El controlador manda las solicitudes a los respectivos servicios
+
+
+// https://docs.nestjs.com/techniques/database
+En app.module desactivar 
+    synchronize: true
+Para no perder datos por cada ejecución
+
+// Vehiculos es la entidad de ejemplo para usar nestjs
+
+
+
+// app.module.ts tiene la configuración de la base de datos, modificarlo según lo vayan a usar, pero no subir cambios de ese archivo
+// ya que los pipelines ya están configurados para ese usuario root de base de datos
+
+
+
+// En http://localhost:3000/docs está el Swagger
