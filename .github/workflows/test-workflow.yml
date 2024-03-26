@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: '19.9.0'
 
+      - name: Creating env file develop
+        run: cp .env.development.example .env.development
+
       - name: Creating env file
         run: cp .env.workflow .env
 

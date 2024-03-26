@@ -3,19 +3,22 @@ import { VehiculosModule } from './vehiculos/vehiculos.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import configuration from './config/app.config';
 
 @Module({
   imports: [
     VehiculosModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'test',
-      autoLoadEntities: true,
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'mysql',
+        host: configuration().host,
+        port: configuration().port,
+        username: configuration().username,
+        password: configuration().password,
+        database: configuration().database,
+        autoLoadEntities: configuration().autoLoadEntities,
+        synchronize: configuration().synchronize,
+      }),
     }),
   ],
   controllers: [AppController],
