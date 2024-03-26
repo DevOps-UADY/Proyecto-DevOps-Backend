@@ -5,10 +5,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CodigosService {
-  constructor(  
+  constructor (  
     @InjectRepository(Codigo)
     private codigoInvitacionRepository: Repository<Codigo>){}
-    async create() {
+    async create () {
   
       try {
         const codigoEntidad =  this.codigoInvitacionRepository.create();
@@ -24,7 +24,7 @@ export class CodigosService {
       }
     }
 
-  async findAll() {
+  async findAll () {
     try {
       const codigos = await this.codigoInvitacionRepository.find();
       return {
@@ -37,7 +37,7 @@ export class CodigosService {
 
   }
 
-  async findOne(id: string) {
+  async findOne (id: string) {
     try {
       const codigo = await this.codigoInvitacionRepository.findOneBy({
         id
@@ -56,7 +56,7 @@ export class CodigosService {
   
   }
 
-  async update(id: string) {
+  async update (id: string) {
     try {
      const {data} = await this.findOne(id)
       await this.codigoInvitacionRepository.save({
@@ -69,7 +69,7 @@ export class CodigosService {
     }
   }
 
-  async remove(id: string) {
+  async remove (id: string) {
     try {
       const codigoBorrado = await this.codigoInvitacionRepository.delete(id)
       return {

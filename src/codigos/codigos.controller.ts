@@ -5,30 +5,30 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('codigos')
 @ApiTags('codigos')
 export class CodigosController {
-  constructor(private readonly codigosService: CodigosService) {}
+  constructor (private readonly codigosService: CodigosService) {}
 
   @Post()
-  create() {
+  create () {
     return this.codigosService.create();
   }
 
   @Get()
-  findAll() {
+  findAll () {
     return this.codigosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne (@Param('id') id: string) {
     return this.codigosService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string) {
+  update (@Param('id') id: string) {
     return this.codigosService.update(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove (@Param('id') id: string) {
     return this.codigosService.remove(id);
   }
 }
