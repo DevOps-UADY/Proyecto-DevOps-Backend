@@ -3,11 +3,11 @@ import { VehiculosModule } from './vehiculos/vehiculos.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { RutasModule } from './rutas/rutas.module';
 import configuration from './config/app.config';
 
 @Module({
   imports: [
-    VehiculosModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'mysql',
@@ -20,6 +20,8 @@ import configuration from './config/app.config';
         synchronize: configuration().synchronize,
       }),
     }),
+    VehiculosModule,
+    RutasModule
   ],
   controllers: [AppController],
   providers: [AppService],
