@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Put, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Put, Request } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -9,35 +9,35 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('usuarios')
 @ApiTags('codigos')
 export class UsuariosController {
-  constructor(private readonly usuariosService: UsuariosService) {}
+  constructor (private readonly usuariosService: UsuariosService) {}
 
   @Post('register')
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
+  create (@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
   }
 
   @Post('login')
-  login(@Body() createUsuarioDto: LoginUsuarioDto) {
+  login (@Body() createUsuarioDto: LoginUsuarioDto) {
     return this.usuariosService.login(createUsuarioDto);
   }
 
   @Get()
-  findAll() {
+  findAll () {
     return this.usuariosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne (@Param('id') id: string) {
     return this.usuariosService.findOne(id);
   }
   @UseGuards(AuthGuard())
   @Put()
-  async update( @Body() updateUsuarioDto: UpdateUsuarioDto,@Request() req) {
+  async update ( @Body() updateUsuarioDto: UpdateUsuarioDto,@Request() req) {
     return await this.usuariosService.update(req.user, updateUsuarioDto);
   }
   @UseGuards(AuthGuard())
   @Delete()
-  async remove(@Request() req) {
+  async remove (@Request() req) {
     return await this.usuariosService.remove(req.user);
   }
 }

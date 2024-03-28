@@ -12,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsuariosService {
 
-  constructor(
+  constructor (
     @InjectRepository(Usuario)
     private usuarioModel: Repository<Usuario>,
     @InjectRepository(Codigo)
@@ -20,7 +20,7 @@ export class UsuariosService {
     private readonly jwtService: JwtService,
   ) { }
 
-  async create(createUsuarioDto: CreateUsuarioDto) {
+  async create (createUsuarioDto: CreateUsuarioDto) {
 
     // validamos el codigo de invitación
     const codigoInvitacionDb = await this.codigoModel.findOneBy({
@@ -58,7 +58,7 @@ export class UsuariosService {
       this.dbErrors(error)
     }
   }
-  async login(loginUsuarioDto: LoginUsuarioDto) {
+  async login (loginUsuarioDto: LoginUsuarioDto) {
     const user = await this.usuarioModel.findOneBy({ correo: loginUsuarioDto.correo })
     if (!user || !bcrypt.compareSync(loginUsuarioDto.contrasenia, user.contrasenia))
       throw new BadRequestException('Correo o contraseña incorrecta')
@@ -70,7 +70,7 @@ export class UsuariosService {
     }
 
   }
-  async findAll() {
+  async findAll () {
     try {
       const usuarios = await this.usuarioModel.find({
         select: ['id', 'correo', 'codigoInvitacion']
@@ -84,7 +84,7 @@ export class UsuariosService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne (id: string) {
     const usuario = await this.usuarioModel.findOneBy({
       id
     })
@@ -99,7 +99,7 @@ export class UsuariosService {
     };
   }
 
-  async update(user: any, updateUsuarioDto: UpdateUsuarioDto) {
+  async update (user: Usuario, updateUsuarioDto: UpdateUsuarioDto) {
     const contraseniaHashed = await bcrypt.hash(updateUsuarioDto.contrasenia, 10);
     user.contrasenia = contraseniaHashed
     const usuarioCreado = this.usuarioModel.create(user)
@@ -107,7 +107,7 @@ export class UsuariosService {
     return { data: usuarioSaved };
   }
 
-  async remove(user: any) {
+  async remove (user: Usuario) {
     try {
 
       await this.usuarioModel.delete({ id: user.id })
@@ -121,12 +121,12 @@ export class UsuariosService {
     }
 
   }
-  private getJwtToken(payload: JwtPayload) {
+  private getJwtToken (payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
 
   }
-  private dbErrors(error) {
+  private dbErrors (error) {
     if (error.errno === 1062) {
       throw new ConflictException(error.sqlMessage)
     } else {
