@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { RutasModule } from './rutas/rutas.module';
 
 import { CodigosModule } from './codigos/codigos.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 import configuration from './config/app.config';
 
 @Module({
@@ -24,8 +25,8 @@ import configuration from './config/app.config';
     }),
     VehiculosModule,
     RutasModule,
-
-    CodigosModule
+    CodigosModule,
+    UsuariosModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Codigo } from './entities/codigo.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -38,21 +38,14 @@ export class CodigosService {
   }
 
   async findOne (id: string) {
-    try {
-      const codigo = await this.codigoInvitacionRepository.findOneBy({
-        id
-      })
-      if (!codigo)
-      throw new BadRequestException('Código no encontrado')
-      return {
-        data: codigo
-      }
-
-    } catch (error) {
-      console.log(error)
-      throw new InternalServerErrorException('Llame al administrador')
+    const codigo = await this.codigoInvitacionRepository.findOneBy({
+      id
+    })
+    if (!codigo)
+    throw new NotFoundException('No se encontró el código: '+id)
+    return {
+      data: codigo
     }
-
   
   }
 
@@ -78,7 +71,7 @@ export class CodigosService {
       }
     } catch (error) {
       console.log(error)
-      throw new BadRequestException('No se encontró id con el nombre especificado')
+      throw new NotFoundException('No se encontró id con el nombre especificado')
     }
   }
 }

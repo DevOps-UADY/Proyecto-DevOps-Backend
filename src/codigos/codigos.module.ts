@@ -8,5 +8,6 @@ import { Codigo } from './entities/codigo.entity';
   imports:[TypeOrmModule.forFeature([Codigo])],
   controllers: [CodigosController],
   providers: [CodigosService],
+  exports:[TypeOrmModule]
 })
 export class CodigosModule {}
