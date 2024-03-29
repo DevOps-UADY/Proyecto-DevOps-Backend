@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateVehiculoDto } from './create-vehiculo.dto';
 import { IsInt, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
+import { HasMimeType, IsFile, MemoryStoredFile } from 'nestjs-form-data';
 
 export class UpdateVehiculoDto extends PartialType(CreateVehiculoDto) {
     @IsString()
@@ -25,7 +26,10 @@ export class UpdateVehiculoDto extends PartialType(CreateVehiculoDto) {
     @IsOptional()
     costo?: number;
 
-    @IsString()
+    @HasMimeType(['image/jpeg', 'image/png', 'image/webp', 'image/jpg'], {
+        message: 'La fotografia debe ser una imagen con formato JPEG, PNG, WEBP o JPG'
+    })
+    @IsFile()
     @IsOptional()
-    fotografria?: string;
+    fotografia: MemoryStoredFile;
 }

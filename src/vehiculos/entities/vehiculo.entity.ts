@@ -1,4 +1,4 @@
-import { Column, DeleteDateColumn, Entity } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity } from "typeorm";
 
 @Entity()
 export class Vehiculo {
@@ -18,16 +18,16 @@ export class Vehiculo {
     placa: string;
 
     @Column()
-    fechaCompra: string;
+    fechaCompra: Date;
 
     @Column()
     costo: number;
 
     @Column()
-    fotografria: string;
+    fotografia: string;
 
-    @Column()
-    fechaIngresoSistema: string;
+    @CreateDateColumn()
+    fechaIngresoSistema: Date;
 
     @DeleteDateColumn()
     deletedAt: Date;
