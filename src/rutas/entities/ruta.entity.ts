@@ -2,12 +2,12 @@ import { Column, DeleteDateColumn, Entity } from "typeorm";
 
 @Entity()
 export class Ruta {
-    @Column({ primary:true, generated:true })
+    @Column({ primary: true, generated: true })
     id: number;
 
     @Column()
     NombreRuta: string;
- 
+
     @Column()
     FechaCreacionRuta: Date;
 

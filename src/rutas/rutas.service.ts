@@ -11,7 +11,7 @@ export class RutasService {
   constructor (
     @InjectRepository(Ruta)
     private readonly rutaRepository: Repository<Ruta>
-  ){ }
+  ) { }
 
   async create (createRutaDto: CreateRutaDto) {
     const ruta = this.rutaRepository.create(createRutaDto);
@@ -32,23 +32,23 @@ export class RutasService {
 
   async update (id: number, updateRutaDto: UpdateRutaDto) {
     const updateResult = await this.rutaRepository.update(id, updateRutaDto);
-      if (updateResult.affected === 0) {
-        throw new NotFoundException('Recurso no encontrado');
-      }
+    if (updateResult.affected === 0) {
+      throw new NotFoundException('Recurso no encontrado');
+    }
     const Rutamodificada = await this.rutaRepository.findOneBy({ id });
     return Rutamodificada;
   }
 
   async remove (id: number) {
     const rutaToDelete = await this.rutaRepository.findOneBy({ id });
-      if (!rutaToDelete) {
-        throw new NotFoundException('Recurso no encontrado');
-      }
+    if (!rutaToDelete) {
+      throw new NotFoundException('Recurso no encontrado');
+    }
 
-    const deleteResult =  await this.rutaRepository.softDelete({ id });
-      if (deleteResult.affected === 0) {
-        throw new NotFoundException('Recurso no encontrado');
-      }
+    const deleteResult = await this.rutaRepository.softDelete({ id });
+    if (deleteResult.affected === 0) {
+      throw new NotFoundException('Recurso no encontrado');
+    }
     return rutaToDelete;
   }
 }
