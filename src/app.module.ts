@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { RutasModule } from './rutas/rutas.module';
 
 import { ConductoresModule } from './conductores/conductores.module';
+import { CodigosModule } from './codigos/codigos.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 import configuration from './config/app.config';
 
 
@@ -26,6 +28,8 @@ import configuration from './config/app.config';
     }),
     VehiculosModule,
     RutasModule,
+    CodigosModule,
+    UsuariosModule,
     ConductoresModule
   ],
   controllers: [AppController],
