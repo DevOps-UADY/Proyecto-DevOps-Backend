@@ -9,5 +9,5 @@ export default () => ({
   password: process.env.MYSQL_ROOT_PASSWORD || '',
   database: process.env.MYSQL_DATABASE || 'test',
   autoLoadEntities: true,
-  synchronize: true,
+  synchronize: false,
 });
