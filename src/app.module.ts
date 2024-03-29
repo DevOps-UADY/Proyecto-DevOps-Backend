@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RutasModule } from './rutas/rutas.module';
+
+import { CodigosModule } from './codigos/codigos.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 import configuration from './config/app.config';
 
 @Module({
@@ -21,7 +24,9 @@ import configuration from './config/app.config';
       }),
     }),
     VehiculosModule,
-    RutasModule
+    RutasModule,
+    CodigosModule,
+    UsuariosModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,4 +10,5 @@ export default () => ({
     database: process.env.MYSQL_DATABASE || 'test',
     autoLoadEntities: true,
     synchronize: true,
+    JWT_SECRET:process.env.JWT_SECRET || 'development'
   });
