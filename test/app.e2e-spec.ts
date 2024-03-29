@@ -45,6 +45,26 @@ describe('AppController (e2e)', () => {
 
   });
 
+    it('/conductores (POST)', () => {
+    const conductorData = {
+      "id": 0,
+      "NombreConductor": "string",
+      "FechaNacimiento": new Date(),
+      "CURP": "A123",
+      "DireccionCasa": "Domicilio",
+      "Salario": 150,
+      "NumLicencia": "LIC987",
+      "FechaIngresoSistemaConductor": new Date(),
+      "deletedAt": new Date()
+    };
+
+    return request(app.getHttpServer())
+    .post('/conductores')
+    .send(conductorData)
+    .expect(201);
+
+  });
+
   it('/rutas (DELETE)', async () => {
     const rutaData = {
       NombreRuta: 'string',
@@ -66,6 +86,32 @@ describe('AppController (e2e)', () => {
     
     return request(app.getHttpServer())
       .delete(`/rutas/${createdRutaId}`)
+      .expect(200);
+  });
+
+    it('/conductores (DELETE)', async () => {
+    const conductorData = {
+      "id": 0,
+      "NombreConductor": "string",
+      "FechaNacimiento": new Date(),
+      "CURP": "A123",
+      "DireccionCasa": "Domicilio",
+      "Salario": 150,
+      "NumLicencia": "LIC987",
+      "FechaIngresoSistemaConductor": new Date(),
+      "deletedAt": new Date()
+    };
+
+    const response = await request(app.getHttpServer())
+    .post('/conductores')
+    .send(conductorData)
+    .expect(201);
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const createdConductorId = response.body.id;
+    
+    return request(app.getHttpServer())
+      .delete(`/conductores/${createdConductorId}`)
       .expect(200);
   });
 
@@ -96,5 +142,36 @@ describe('AppController (e2e)', () => {
     console.log(updateResponse.body);
     
     expect(updateResponse.body.EstadoRuta).toBe(false);
+  });
+
+    it('/conductores (PUT)', async () => {
+    const conductorData = {
+      "id": 0,
+      "NombreConductor": "string",
+      "FechaNacimiento": new Date(),
+      "CURP": "A123",
+      "DireccionCasa": "Domicilio",
+      "Salario": 150,
+      "NumLicencia": "LIC987",
+      "FechaIngresoSistemaConductor": new Date(),
+      "deletedAt": new Date()
+    };
+  
+    const createResponse = await request(app.getHttpServer())
+      .post('/conductores')
+      .send(conductorData)
+      .expect(201);
+  
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  
+    const createdConductorId = createResponse.body.id;
+  
+    const updateResponse = await request(app.getHttpServer())
+      .put(`/conductores/${createdConductorId}`)
+      .send({ Salario: 300 }) 
+      .expect(200);
+    console.log(updateResponse.body);
+    
+    expect(updateResponse.body.EstadoRuta).toBe(300);
   });
 });
