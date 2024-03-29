@@ -6,7 +6,7 @@ import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
 import { JwtPayload } from './strategies/jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
-import { Codigo } from 'src/codigos/entities/codigo.entity';
+import { Codigo } from '../codigos/entities/codigo.entity';
 import { LoginUsuarioDto } from './dto/login-usuario.dto';
 import * as bcrypt from 'bcrypt';
 @Injectable()
