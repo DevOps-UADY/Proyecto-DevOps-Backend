@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode } from '@nestjs/common';
 import { VehiculosService } from './vehiculos.service';
 import { CreateVehiculoDto } from './dto/create-vehiculo.dto';
 import { UpdateVehiculoDto } from './dto/update-vehiculo.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FormDataRequest } from 'nestjs-form-data';
 @ApiTags('vehiculos')
 @Controller('vehiculos')
 export class VehiculosController {
   constructor (private readonly vehiculosService: VehiculosService) {}
 
+  @FormDataRequest()
   @Post()
+  @HttpCode(201)
   create (@Body() createVehiculoDto: CreateVehiculoDto) {
     return this.vehiculosService.create(createVehiculoDto);
   }
@@ -23,12 +26,15 @@ export class VehiculosController {
     return this.vehiculosService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
+  @FormDataRequest()
+  @HttpCode(204)
   update (@Param('id') id: number, @Body() updateVehiculoDto: UpdateVehiculoDto) {
     return this.vehiculosService.update(id, updateVehiculoDto);
   }
 
   @Delete(':id')
+  @HttpCode(204)
   remove (@Param('id') id: number) {
     return this.vehiculosService.remove(id);
   }
