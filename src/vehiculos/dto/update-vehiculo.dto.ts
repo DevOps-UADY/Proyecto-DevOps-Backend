@@ -1,4 +1,4 @@
-import { IsDate, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsDate, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
 import { HasMimeType, IsFile, MemoryStoredFile } from 'nestjs-form-data';
 
 export class UpdateVehiculoDto {
@@ -34,4 +34,8 @@ S
     @IsFile()
     @IsOptional()
     fotografia?: MemoryStoredFile;
+
+    @IsBoolean()
+    @IsOptional()
+    estatusValidacion?: boolean;
 }

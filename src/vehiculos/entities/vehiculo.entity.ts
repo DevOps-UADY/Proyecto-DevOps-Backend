@@ -26,6 +26,9 @@ export class Vehiculo {
     @Column()
     fotografia: string;
 
+    @Column()
+    estatusValidacion: boolean;
+
     @CreateDateColumn()
     fechaIngresoSistema: Date;
 }

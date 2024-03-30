@@ -1,4 +1,4 @@
-import { IsDate, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsDate, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
 import { HasMimeType, IsFile, MemoryStoredFile } from 'nestjs-form-data';
 
 export class CreateVehiculoDto {
@@ -33,4 +33,8 @@ export class CreateVehiculoDto {
     })
     @IsFile({ message: 'La imagen es obligatoria', always: false })
     fotografia: MemoryStoredFile;
+
+    @IsBoolean()
+    @IsOptional()
+    estatusValidacion?: boolean;
 }
