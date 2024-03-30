@@ -22,3 +22,7 @@ Para no perder datos por cada ejecución
 
 
 // En http://localhost:3000/docs está el Swagger
+
+
+
+// docker run -d   --name mysql-container   -e MYSQL_ROOT_PASSWORD=root   -e MYSQL_DATABASE=test   -p 3306:3306   mysql:latest

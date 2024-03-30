@@ -1,4 +1,5 @@
 npm install
+# docker pull mysql:latest
 RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
 
 docker build -t proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER .

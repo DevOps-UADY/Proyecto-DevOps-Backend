@@ -5,4 +5,4 @@ COPY .env.development.example /app/.env.development
 RUN npm install
 COPY . .
 EXPOSE 3000
-CMD ["./start.sh"]
+CMD ["sh", "./start.sh"]
