@@ -18,4 +18,4 @@ else
     echo "El contenedor no existe."
 fi
 
-docker run -d --name proyectodevopsbackend-$RAMA -p 3000:3000 proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER
+docker run -d --name proyectodevopsbackend-$RAMA --network mi-red-docker -p 3000:3000 proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER

@@ -26,3 +26,12 @@ Para no perder datos por cada ejecución
 
 
 // docker run -d   --name mysql-container   -e MYSQL_ROOT_PASSWORD=root   -e MYSQL_DATABASE=test   -p 3306:3306   mysql:latest
+
+
+// Correr esto para que estén en la misma red y funcionen
+
+// docker network create mi-red-docker
+// docker network inspect mi-red-docker para ver la ip y ponerselo al .env
+
+// docker run -d   --name mysql-container  --network mi-red-docker   -e MYSQL_ROOT_PASSWORD=root   -e MYSQL_DATABASE=test   -p 3306:3306   mysql:latest
+// docker run -d --name proy3s --network mi-red-docker  -p 3000:3000 proyectodevopsbackend:3.0.0
