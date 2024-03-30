@@ -7,7 +7,7 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('rutas')
 @Controller('rutas')
 export class RutasController {
-  constructor (private readonly rutasService: RutasService) {}
+  constructor (private readonly rutasService: RutasService) { }
 
   @Post()
   create (@Body() createRutaDto: CreateRutaDto) {

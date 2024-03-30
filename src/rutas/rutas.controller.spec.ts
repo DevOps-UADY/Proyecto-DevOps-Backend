@@ -45,7 +45,7 @@ describe('RutasController', () => {
           "deletedAt": new Date()
         }
       ]);
-      
+
       const result = await rutasController.findAll();
       expect(result).toEqual([
         {
