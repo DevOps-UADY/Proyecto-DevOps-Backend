@@ -1,0 +1,11 @@
+npm install
+RAMA=$(echo $GIT_BRANCH | cut -b 8-14)
+docker build -t ProyectoDevOpsBackend-$RAMA:1.0.0-$BUILD_NUMBER .
+
+docker stop $(docker ps -a -q --filter="name=ProyectoDevOpsBackend-$RAMA" --format="{{.ID}}")
+docker rm $(docker ps -a -q --filter="name=ProyectoDevOpsBackend-$RAMA" --format="{{.ID}}")
+
+docker run -d --name ProyectoDevOpsBackend-$RAMA -p 3000:3000 ProyectoDevOpsBackend-$RAMA:1.0.0-$BUILD_NUMBER
+
+
+docker run -d --name ProyectoDevOpsBackend -p 3000:3000 ProyectoDevOpsBackend:1.0.0
