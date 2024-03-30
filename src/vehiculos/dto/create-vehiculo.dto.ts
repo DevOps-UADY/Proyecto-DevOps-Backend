@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsPositive, IsString, MinLength } from "class-validator";
+import { IsDate, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
 import { HasMimeType, IsFile, MemoryStoredFile } from 'nestjs-form-data';
 
 export class CreateVehiculoDto {
@@ -18,6 +18,10 @@ export class CreateVehiculoDto {
     @IsString()
     @IsNotEmpty({ message: 'La placa del auto es obligatoria' })
     placa: string;
+
+    @IsDate()
+    @IsOptional()
+    fechaCompra?: Date;
 
     @IsInt()
     @IsPositive()

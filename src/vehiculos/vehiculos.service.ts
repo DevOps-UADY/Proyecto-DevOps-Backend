@@ -8,7 +8,6 @@ import { fileNamer } from './helpers/fileNamer.helper';
 import { saveImage } from './helpers/saveImage.helper';
 import * as fs from 'node:fs';
 import { routeImage } from './helpers/routeImage.helper';
-import { VehiculoDTO } from './dto/vehiculo.dto';
 
 @Injectable()
 export class VehiculosService {
@@ -16,56 +15,80 @@ export class VehiculosService {
   constructor (
     @InjectRepository(Vehiculo)
     private readonly vehiculoRepository: Repository<Vehiculo>
-  ){ }
+  ) { }
 
   async create (createVehiculoDto: CreateVehiculoDto) {
     try {
       const fileNameUuid = fileNamer(createVehiculoDto.fotografia.extension);
       saveImage(createVehiculoDto.fotografia, fileNameUuid);
 
-      const vehicleEntitie = {
+      const entidadVehiculo = {
         ...createVehiculoDto,
         fotografia: fileNameUuid,
       };
 
-      const vehiculo = this.vehiculoRepository.create(vehicleEntitie);
-      return await this.vehiculoRepository.save(vehiculo);
+      const vehiculo = this.vehiculoRepository.create(entidadVehiculo);
+      await this.vehiculoRepository.save(vehiculo);
+
+      return {
+        message: `Vehículo guardado correctamente`,
+        data: vehiculo
+      };
+
     } catch (error) {
       this.handleDbException(error);
     }
   }
 
   async findAll () {
-    const vehiculos = await this.vehiculoRepository.find();
-    return vehiculos.map(vehiculo => this.mapToDto(vehiculo));
+    const vehiculosDB = await this.vehiculoRepository.find({
+      select: ['id', 'marca', 'modelo', 'vin', 'placa', 'fechaCompra', 'costo', 'fotografia', 'fechaIngresoSistema']
+    });
+
+    const vehiculos = vehiculosDB.map(vehiculo => ({
+      ...vehiculo,
+      fotografia: routeImage(vehiculo.fotografia)
+    }));
+
+    return {
+      message: `Vehículos recuperados correctamente`,
+      data: vehiculos
+    };
   }
 
   async findOne (id: number) {
-    const vehiculo = await this.vehiculoRepository.findOneBy({ id });
+    const vehiculo = await this.vehiculoRepository.findOne({ 
+      where: { id },
+      select: ['id', 'marca', 'modelo', 'vin', 'placa', 'fechaCompra', 'costo', 'fotografia', 'fechaIngresoSistema']
+    });
+
     if (!vehiculo) {
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
     }
-    const vehiculoReturn = this.mapToDto(vehiculo);
+
+    vehiculo.fotografia = routeImage(vehiculo.fotografia);
+
     return {
-      data: vehiculoReturn
+      message: `Vehículo con el ID ${id} recuperado correctamente`,
+      data: vehiculo
     };
   }
 
   async update (id: number, updateVehiculoDto: UpdateVehiculoDto) {
-    const vehicle = await this.vehiculoRepository.findOneBy({id});
+    const vehiculo = await this.vehiculoRepository.findOneBy({ id });
 
-    if (!vehicle) {
+    if (!vehiculo) {
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
     }
 
-    let updateEntitie = {};
-    updateEntitie = {
+    let entidadVehiculo = {};
+    entidadVehiculo = {
       ...updateVehiculoDto,
     };
 
-    if (vehicle) {
+    if (vehiculo) {
       if (updateVehiculoDto.fotografia) {
-        const filePath = routeImage(vehicle.fotografia);
+        const filePath = routeImage(vehiculo.fotografia);
 
         fs.unlink(filePath, (err) => {
           if (err) {
@@ -77,18 +100,25 @@ export class VehiculosService {
 
         const fileNameUuid = fileNamer(updateVehiculoDto.fotografia.extension);
         saveImage(updateVehiculoDto.fotografia, fileNameUuid);
-        
-        updateEntitie = {
+
+        entidadVehiculo = {
           ...updateVehiculoDto,
           fotografia: fileNameUuid,
         };
       }
-      await this.vehiculoRepository.update(vehicle.id, updateEntitie);
+      
+      await this.vehiculoRepository.update(vehiculo.id, entidadVehiculo);
     }
   }
 
   async remove (id: number) {
-    return await this.vehiculoRepository.softDelete({ id });
+    const vehiculo = await this.vehiculoRepository.findOneBy({ id });
+
+    if (!vehiculo) {
+      throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
+    }
+
+    return await this.vehiculoRepository.delete({ id });
   }
 
   private handleDbException (error) {
@@ -99,21 +129,5 @@ export class VehiculosService {
         `Cant create  - Check server logs`,
       );
     }
-  }
-
-  private mapToDto (vehiculo: Vehiculo): VehiculoDTO {
-    const vehiculoDto: VehiculoDTO = {
-      id: vehiculo.id,
-      marca: vehiculo.marca,
-      modelo: vehiculo.modelo,
-      vin: vehiculo.vin,
-      placa: vehiculo.placa,
-      fechaCompra: vehiculo.fechaCompra,
-      costo: vehiculo.costo,
-      fotografia: routeImage(vehiculo.fotografia),
-      fechaIngresoSistema: vehiculo.fechaIngresoSistema,
-    };
-  
-    return vehiculoDto;
   }
 }

@@ -7,6 +7,11 @@ export const saveImage = async (file: MemoryStoredFile, fileNameUuid: string) =>
     const filePath = join(directoryPath, fileNameUuid);
 
     try {
+
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath, { recursive: true });
+        }
+
         fs.writeFile(filePath, file.buffer, (err) => {
             if (err) {
                 console.error('Error al guardar el archivo:', err);

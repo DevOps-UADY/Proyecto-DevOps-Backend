@@ -11,7 +11,7 @@ export class VehiculosController {
 
   @FormDataRequest()
   @Post()
-  @HttpCode(204)
+  @HttpCode(201)
   create (@Body() createVehiculoDto: CreateVehiculoDto) {
     return this.vehiculosService.create(createVehiculoDto);
   }
@@ -28,13 +28,13 @@ export class VehiculosController {
 
   @Put(':id')
   @FormDataRequest()
-  @HttpCode(201)
+  @HttpCode(204)
   update (@Param('id') id: number, @Body() updateVehiculoDto: UpdateVehiculoDto) {
     return this.vehiculosService.update(id, updateVehiculoDto);
   }
 
   @Delete(':id')
-  @HttpCode(201)
+  @HttpCode(204)
   remove (@Param('id') id: number) {
     return this.vehiculosService.remove(id);
   }
