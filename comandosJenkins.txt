@@ -1,11 +1,11 @@
 npm install
-RAMA=$(echo $GIT_BRANCH | cut -b 8-14)
-docker build -t ProyectoDevOpsBackend-$RAMA:1.0.0-$BUILD_NUMBER .
+RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
 
-docker stop $(docker ps -a -q --filter="name=ProyectoDevOpsBackend-$RAMA" --format="{{.ID}}")
-docker rm $(docker ps -a -q --filter="name=ProyectoDevOpsBackend-$RAMA" --format="{{.ID}}")
+docker build -t proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER .
 
-docker run -d --name ProyectoDevOpsBackend-$RAMA -p 3000:3000 ProyectoDevOpsBackend-$RAMA:1.0.0-$BUILD_NUMBER
+docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA" | sudo xargs docker stop
+docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA" | sudo xargs docker rm
 
+docker run -d --name proyectodevopsbackend-$RAMA -p 3000:3000 proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER
 
-docker run -d --name ProyectoDevOpsBackend -p 3000:3000 ProyectoDevOpsBackend:1.0.0
+docker run -d --name ProyectoDevOpsBackend -p 3000:3000 proyectodevopsbackend:1.0.0
