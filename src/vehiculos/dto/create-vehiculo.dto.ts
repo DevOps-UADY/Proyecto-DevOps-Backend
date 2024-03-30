@@ -36,5 +36,5 @@ export class CreateVehiculoDto {
 
     @IsBoolean()
     @IsOptional()
-    estatusValidacion?: boolean;
+    estatusAsignacion?: boolean;
 }

@@ -37,5 +37,5 @@ S
 
     @IsBoolean()
     @IsOptional()
-    estatusValidacion?: boolean;
+    estatusAsignacion?: boolean;
 }

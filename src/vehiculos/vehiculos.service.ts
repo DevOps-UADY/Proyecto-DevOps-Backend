@@ -42,7 +42,7 @@ export class VehiculosService {
 
   async findAll () {
     const vehiculosDB = await this.vehiculoRepository.find({
-      select: ['id', 'marca', 'modelo', 'vin', 'placa', 'fechaCompra', 'costo', 'fotografia', 'fechaIngresoSistema', 'estatusValidacion']
+      select: ['id', 'marca', 'modelo', 'vin', 'placa', 'fechaCompra', 'costo', 'fotografia', 'fechaIngresoSistema', 'estatusAsignacion']
     });
 
     const vehiculos = vehiculosDB.map(vehiculo => ({
@@ -59,7 +59,7 @@ export class VehiculosService {
   async findOne (id: number) {
     const vehiculo = await this.vehiculoRepository.findOne({ 
       where: { id },
-      select: ['id', 'marca', 'modelo', 'vin', 'placa', 'fechaCompra', 'costo', 'fotografia', 'fechaIngresoSistema', 'estatusValidacion']
+      select: ['id', 'marca', 'modelo', 'vin', 'placa', 'fechaCompra', 'costo', 'fotografia', 'fechaIngresoSistema', 'estatusAsignacion']
     });
 
     if (!vehiculo) {
