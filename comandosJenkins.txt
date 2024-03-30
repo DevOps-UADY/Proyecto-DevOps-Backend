@@ -3,8 +3,8 @@ RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
 
 docker build -t proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER .
 
-docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA" | sudo xargs docker stop
-docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA" | sudo xargs docker rm
+docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA" | xargs docker stop
+docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA" | xargs docker rm
 
 docker run -d --name proyectodevopsbackend-$RAMA -p 3000:3000 proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER
 
