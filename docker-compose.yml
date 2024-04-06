@@ -7,6 +7,7 @@ services:
       MYSQL_DATABASE: "${MYSQL_DATABASE}"
       MYSQL_USER: "${MYSQL_USER}"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_HOST: "172.19.0.1"
     ports:
       - "${MYSQL_PORT}:3306"
     volumes:
