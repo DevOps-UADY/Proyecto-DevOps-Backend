@@ -7,6 +7,7 @@ import { CodigosModule } from '../codigos/codigos.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import configuration from '../config/app.config';
 
 @Module({
   controllers: [UsuariosController],
@@ -16,7 +17,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 
   JwtModule.register({
-    secret: process.env.JWT_SECRET,
+    secret: configuration().JWT_SECRET,
     signOptions: { expiresIn: '60s' },
   }),
 
