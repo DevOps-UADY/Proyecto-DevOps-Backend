@@ -1,4 +1,4 @@
-import { IsString, MinLength, IsDate, IsNumber } from "class-validator";
+import { IsString, MinLength, IsNumber, IsDateString } from "class-validator";
 
 export class CreateCorridaDto {
 
@@ -9,6 +9,6 @@ export class CreateCorridaDto {
     @MinLength(10)
     Comentarios: string;
  
-    @IsDate()
-    Fecha: Date;
+    @IsDateString()
+    Fecha: string;
 }

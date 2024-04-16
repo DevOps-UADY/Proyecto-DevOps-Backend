@@ -13,6 +13,6 @@ export class Corrida {
     @Column()
     Comentarios: string;
 
-    @Column()
-    Fecha: Date;
+    @Column({ type: 'date' })
+    Fecha: string;
 }

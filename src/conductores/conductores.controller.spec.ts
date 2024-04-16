@@ -36,13 +36,13 @@ describe('RutasController', () => {
         {
           "id": 0,
           "NombreConductor": "string",
-          "FechaNacimiento": new Date(),
+          "FechaNacimiento": "2021-10-06",
           "CURP": "A123",
           "DireccionCasa": "Domicilio",
           "Salario": 150,
           "NumLicencia": "LIC987",
-          "FechaIngresoSistemaConductor": new Date(),
-          "deletedAt": new Date()
+          "FechaIngresoSistemaConductor": "2021-10-06",
+          "deletedAt": new Date("2024-04-16T06:02:35.136Z")
         }
       ]);
 
@@ -51,13 +51,13 @@ describe('RutasController', () => {
         {
           "id": 0,
           "NombreConductor": "string",
-          "FechaNacimiento": new Date(),
+          "FechaNacimiento": "2021-10-06",
           "CURP": "A123",
           "DireccionCasa": "Domicilio",
           "Salario": 150,
           "NumLicencia": "LIC987",
-          "FechaIngresoSistemaConductor": new Date(),
-          "deletedAt": new Date()
+          "FechaIngresoSistemaConductor": "2021-10-06",
+          "deletedAt": new Date("2024-04-16T06:02:35.136Z")
         }
       ]);
     });

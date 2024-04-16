@@ -6,7 +6,7 @@ export class CreateRutaDto {
     NombreRuta: string;
 
     @IsDateString()
-    FechaCreacionRuta: Date;
+    FechaCreacionRuta: string;
 
     @IsBoolean()
     EstadoRuta: boolean;

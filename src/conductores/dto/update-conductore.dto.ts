@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateConductoreDto } from './create-conductore.dto';
-import { Min, IsString, MinLength, IsOptional, IsDateString, IsNumber } from "class-validator";
+import { Min, IsString, MinLength, IsOptional, IsNumber } from "class-validator";
 
 export class UpdateConductoreDto extends PartialType(CreateConductoreDto) {
 
@@ -9,9 +9,8 @@ export class UpdateConductoreDto extends PartialType(CreateConductoreDto) {
     @IsOptional()
     NombreConductor?: string;
 
-    @IsDateString()
     @IsOptional()
-    FechaNacimiento?: Date;
+    FechaNacimiento?: string;
 
     @IsString()
     @MinLength(1)

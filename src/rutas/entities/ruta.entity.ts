@@ -8,8 +8,8 @@ export class Ruta {
     @Column()
     NombreRuta: string;
 
-    @Column()
-    FechaCreacionRuta: Date;
+    @Column({ type: 'date' })
+    FechaCreacionRuta: string;
 
     @Column()
     EstadoRuta: boolean;

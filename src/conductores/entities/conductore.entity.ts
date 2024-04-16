@@ -8,8 +8,8 @@ export class Conductore {
     @Column()
     NombreConductor: string;
 
-    @Column()
-    FechaNacimiento: Date;
+    @Column({ type: 'date' })
+    FechaNacimiento: string; 
 
     @Column()
     CURP: string;
@@ -23,8 +23,8 @@ export class Conductore {
     @Column()
     NumLicencia: string;
 
-    @Column()
-    FechaIngresoSistemaConductor: Date;
+    @Column({ type: 'date' })
+    FechaIngresoSistemaConductor: string;
 
     @DeleteDateColumn()
     deletedAt: Date;

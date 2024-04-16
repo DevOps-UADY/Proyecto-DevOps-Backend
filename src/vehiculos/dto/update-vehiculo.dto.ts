@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
 import { HasMimeType, IsFile, MemoryStoredFile } from 'nestjs-form-data';
 
 export class UpdateVehiculoDto {
@@ -19,9 +19,9 @@ export class UpdateVehiculoDto {
     @IsNotEmpty()
     placa: string;
 
-    @IsDate()
+    @IsDateString()
     @IsOptional()
-    fechaCompra?: Date;
+    fechaCompra?: string;
 S
     @IsInt()
     @IsPositive()

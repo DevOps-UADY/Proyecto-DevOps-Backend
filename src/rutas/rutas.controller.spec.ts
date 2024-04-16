@@ -36,7 +36,7 @@ describe('RutasController', () => {
         {
           "id": 0,
           "NombreRuta": "string",
-          "FechaCreacionRuta": new Date("2024-04-16T03:32:14.053Z"),
+          "FechaCreacionRuta": "2024-04-04",
           "EstadoRuta": true,
           "LatitudInicio": 0,
           "LongitudInicio": 0,
@@ -51,7 +51,7 @@ describe('RutasController', () => {
         {
           "id": 0,
           "NombreRuta": "string",
-          "FechaCreacionRuta": new Date("2024-04-16T03:32:14.053Z"),
+          "FechaCreacionRuta": "2024-04-04",
           "EstadoRuta": true,
           "LatitudInicio": 0,
           "LongitudInicio": 0,
