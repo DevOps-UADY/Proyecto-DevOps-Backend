@@ -20,8 +20,8 @@ export class Asignacion {
     @JoinColumn({name: 'id_ruta'})
     IDRuta: number;
 
-    @Column()
-    FechaAsignacionVinculacion: Date;
+    @Column({ type: 'date' })
+    FechaAsignacionVinculacion: string;
 
     @Column()
     EnFuncionamiento: boolean;

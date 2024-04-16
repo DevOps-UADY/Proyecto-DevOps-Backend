@@ -36,13 +36,13 @@ describe('RutasController', () => {
         {
           "id": 0,
           "NombreRuta": "string",
-          "FechaCreacionRuta": new Date(),
+          "FechaCreacionRuta": "2024-04-04",
           "EstadoRuta": true,
           "LatitudInicio": 0,
           "LongitudInicio": 0,
           "LatitudDestino": 0,
           "LongitudDestino": 0,
-          "deletedAt": new Date()
+          "deletedAt": new Date("2024-04-16T03:32:14.053Z")
         }
       ]);
 
@@ -51,13 +51,13 @@ describe('RutasController', () => {
         {
           "id": 0,
           "NombreRuta": "string",
-          "FechaCreacionRuta": new Date(),
+          "FechaCreacionRuta": "2024-04-04",
           "EstadoRuta": true,
           "LatitudInicio": 0,
           "LongitudInicio": 0,
           "LatitudDestino": 0,
           "LongitudDestino": 0,
-          "deletedAt": new Date()
+          "deletedAt": new Date("2024-04-16T03:32:14.053Z")
         }
       ]);
     });

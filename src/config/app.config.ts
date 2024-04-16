@@ -3,12 +3,12 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.development' });
 
 export default () => ({
-    host: process.env.MYSQL_HOST || '172.19.0.2',
-    port: 3306,
-    username: process.env.MYSQL_USERNAME || 'root',
-    password: process.env.MYSQL_ROOT_PASSWORD || '',
-    database: process.env.MYSQL_DATABASE || 'test',
+    host: process.env.POSTGRES_HOST || '172.17.0.2', 
+    port: parseInt(process.env.POSTGRES_PORT) || 5432,
+    username: process.env.POSTGRES_USER || 'root',
+    password: process.env.POSTGRES_PASSWORD || '',
+    database: process.env.POSTGRES_DB || 'test',
     autoLoadEntities: true,
     synchronize: true,
-    JWT_SECRET:process.env.JWT_SECRET || 'development'
-  });
+    JWT_SECRET: process.env.JWT_SECRET || 'development'
+});

@@ -17,8 +17,8 @@ export class Vehiculo {
     @Column()
     placa: string;
 
-    @Column()
-    fechaCompra: Date;
+    @Column({ type: 'date' })
+    fechaCompra: string;
 
     @Column()
     costo: number;

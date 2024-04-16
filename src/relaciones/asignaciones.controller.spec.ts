@@ -38,7 +38,7 @@ describe('AsignacionesController', () => {
           "IDVehiculo": 0,
           "IDConductor": 0,
           "IDRuta": 0,
-          "FechaAsignacionVinculacion": new Date(),
+          "FechaAsignacionVinculacion": "2024-04-04",
           "EnFuncionamiento": true
         }
       ]);
@@ -50,7 +50,7 @@ describe('AsignacionesController', () => {
             "IDVehiculo": 0,
             "IDConductor": 0,
             "IDRuta": 0,
-            "FechaAsignacionVinculacion": new Date(),
+            "FechaAsignacionVinculacion": "2024-04-04",
             "EnFuncionamiento": true
         }
       ]);

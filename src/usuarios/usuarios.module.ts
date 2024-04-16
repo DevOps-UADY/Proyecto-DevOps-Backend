@@ -7,31 +7,18 @@ import { CodigosModule } from '../codigos/codigos.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import configuration from '../config/app.config';
 
 @Module({
   controllers: [UsuariosController],
   providers: [UsuariosService,JwtStrategy],
   imports:[TypeOrmModule.forFeature([Usuario]),CodigosModule,
   PassportModule.register({ defaultStrategy: 'jwt' }),
-  JwtModule.registerAsync({
-    imports: [  ],
-    inject: [  ],
-    useFactory: (  ) => {
-      // console.log('JWT Secret', configService.get('JWT_SECRET') )
-      // console.log('JWT SECRET', process.env.JWT_SECRET)
-      return {
-        secret: process.env.JWT_SECRET,
-        signOptions: {
-          expiresIn:'2h',
-      
-          
-        }
-      }
-    }
-  })
-
-
-],
-exports:[JwtStrategy,JwtModule,PassportModule]
+  JwtModule.register({
+    secret: configuration().JWT_SECRET,
+    signOptions: { expiresIn: '60s' },
+  })],
+  exports:[JwtStrategy,JwtModule,PassportModule]
 })
+
 export class UsuariosModule {}

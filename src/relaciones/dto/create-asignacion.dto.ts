@@ -1,4 +1,4 @@
-import { IsDate, IsBoolean, IsNumber } from "class-validator";
+import { IsBoolean, IsNumber, IsDateString } from "class-validator";
 
 export class CreateAsignacionDto {
     @IsNumber()
@@ -10,8 +10,8 @@ export class CreateAsignacionDto {
     @IsNumber()
     IDRuta: number;
 
-    @IsDate()
-    FechaAsignacionVinculacion: Date;
+    @IsDateString()
+    FechaAsignacionVinculacion: string;
 
     @IsBoolean()
     EnFuncionamiento: boolean;

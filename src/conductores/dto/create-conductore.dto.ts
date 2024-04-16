@@ -1,4 +1,4 @@
-import { Min, IsString, MinLength, IsDateString, IsNumber } from "class-validator";
+import { Min, IsString, MinLength, IsNumber, IsDateString } from "class-validator";
 
 export class CreateConductoreDto {
     @IsString()
@@ -6,7 +6,7 @@ export class CreateConductoreDto {
     NombreConductor: string;
 
     @IsDateString()
-    FechaNacimiento: Date;
+    FechaNacimiento: string;
 
     @IsString()
     @MinLength(1)
@@ -25,6 +25,6 @@ export class CreateConductoreDto {
     NumLicencia: string;
 
     @IsDateString()
-    FechaIngresoSistemaConductor: Date;
+    FechaIngresoSistemaConductor: string;
 
 }

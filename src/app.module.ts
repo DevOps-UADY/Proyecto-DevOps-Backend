@@ -11,13 +11,11 @@ import { CodigosModule } from './codigos/codigos.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import configuration from './config/app.config';
 
-
-
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        type: 'mysql',
+        type: 'postgres',
         host: configuration().host,
         port: configuration().port,
         username: configuration().username,

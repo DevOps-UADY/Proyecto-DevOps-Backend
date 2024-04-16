@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateAsignacionDto } from './create-asignacion.dto';
-import { IsBoolean, IsDate,  IsNotEmpty, IsNumber } from "class-validator";
+import { IsBoolean, IsOptional,  IsNotEmpty, IsNumber } from "class-validator";
 
 export class UpdateAsignacionDto extends PartialType(CreateAsignacionDto) {
     @IsNumber()
@@ -15,8 +15,8 @@ export class UpdateAsignacionDto extends PartialType(CreateAsignacionDto) {
     @IsNotEmpty()
     IDRuta: number;
 
-    @IsDate()
-    FechaAsignacionVinculacion: Date;
+    @IsOptional()
+    FechaAsignacionVinculacion?: string;
 
     @IsBoolean()
     @IsNotEmpty()
