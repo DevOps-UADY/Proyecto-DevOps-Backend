@@ -38,3 +38,19 @@ Para no perder datos por cada ejecución
 
 docker-compose up
 docker-compose -f docker-compose-mysql.yml up
+
+
+docker run \
+    --name mi_contenedor_postgres \
+    -e POSTGRES_HOST=localhost \
+    -e POSTGRES_DB=test \
+    -e POSTGRES_USER=root \
+    -e POSTGRES_PASSWORD=root \
+    -e POSTGRES_PORT=5432 \
+    -p 5432:5432 \
+    -d \
+    postgres:14
+
+
+docker build -t proyectodevopsbackend:1.0.0 .
+docker run -d --name proy1 -p 3000:3000 proyectodevopsbackend:1.0.0

@@ -7,7 +7,5 @@ export class LoginUsuarioDto {
 
     @IsStrongPassword()
     @MaxLength(20)
-    contrasenia:string
-
-  
+    contrasenia:string  
 }

@@ -14,16 +14,11 @@ import configuration from '../config/app.config';
   providers: [UsuariosService,JwtStrategy],
   imports:[TypeOrmModule.forFeature([Usuario]),CodigosModule,
   PassportModule.register({ defaultStrategy: 'jwt' }),
-
-
   JwtModule.register({
     secret: configuration().JWT_SECRET,
     signOptions: { expiresIn: '60s' },
-  }),
-
-
-
-],
-exports:[JwtStrategy,JwtModule,PassportModule]
+  })],
+  exports:[JwtStrategy,JwtModule,PassportModule]
 })
+
 export class UsuariosModule {}

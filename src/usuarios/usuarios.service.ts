@@ -21,55 +21,50 @@ export class UsuariosService {
   ) { }
 
   async create (createUsuarioDto: CreateUsuarioDto) {
-
-    // validamos el codigo de invitación
+  
+    // validamos el código de invitación
     const codigoInvitacionDb = await this.codigoModel.findOneBy({
       id: createUsuarioDto.codigoInvitacion
-    })
-
+    });
+  
     if (!codigoInvitacionDb)
-      throw new NotFoundException('El código no existe')
-
+      throw new NotFoundException('El código no existe');
+  
     if (!codigoInvitacionDb.isActive)
-      throw new BadRequestException('El código de invitación es inválido')
+      throw new BadRequestException('El código de invitación es inválido');
+  
     try {
-
-
-      // Encriptamos la contraseña
-      const contraseniaHashed = await bcrypt.hash(createUsuarioDto.contrasenia, 10);
-      createUsuarioDto.contrasenia = contraseniaHashed;
-      // Guardamos db
-      const usuarioCreado = this.usuarioModel.create(createUsuarioDto)
+      // Guardamos en la base de datos
+      const usuarioCreado = this.usuarioModel.create(createUsuarioDto);
       const usuarioSaved = await this.usuarioModel.save(usuarioCreado);
       delete usuarioSaved.contrasenia;
-
+  
       // actualizamos el estado del código
       await this.codigoModel.save({
         ...codigoInvitacionDb,
         isActive: false
-      })
-
+      });
       return {
         data: usuarioSaved,
         token: this.getJwtToken({ id: usuarioSaved.id })
-      }
+      };
     } catch (error) {
-      console.log(error)
-      this.dbErrors(error)
+      console.log(error);
+      this.dbErrors(error);
     }
   }
-  async login (loginUsuarioDto: LoginUsuarioDto) {
-    const user = await this.usuarioModel.findOneBy({ correo: loginUsuarioDto.correo })
-    if (!user || !bcrypt.compareSync(loginUsuarioDto.contrasenia, user.contrasenia))
-      throw new BadRequestException('Correo o contraseña incorrecta')
-    delete user.contrasenia
 
+  async login (loginUsuarioDto: LoginUsuarioDto) {
+    const user = await this.usuarioModel.findOneBy({ correo: loginUsuarioDto.correo });
+    if (!user || loginUsuarioDto.contrasenia !== user.contrasenia)
+      throw new BadRequestException('Correo o contraseña incorrecta');
+    
     return {
       user,
       jwt: this.getJwtToken({ id: user.id })
-    }
-
+    };
   }
+
   async findAll () {
     try {
       const usuarios = await this.usuarioModel.find({
@@ -109,9 +104,7 @@ export class UsuariosService {
 
   async remove (user: Usuario) {
     try {
-
       await this.usuarioModel.delete({ id: user.id })
-
       return {
         msg: 'Usuario borrado correctamente'
       }
@@ -121,11 +114,13 @@ export class UsuariosService {
     }
 
   }
+
   private getJwtToken (payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
 
   }
+
   private dbErrors (error) {
     if (error.errno === 1062) {
       throw new ConflictException(error.sqlMessage)
@@ -133,4 +128,5 @@ export class UsuariosService {
       throw new InternalServerErrorException('Llame al administrador')
     }
   }
+
 }
