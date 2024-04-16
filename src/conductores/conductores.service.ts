@@ -8,21 +8,21 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class ConductoresService {
 
-  constructor(
+  constructor (
     @InjectRepository(Conductore)
     private readonly conductoreRepository: Repository<Conductore>
   ) { }
 
-  async create(createConductoreDto: CreateConductoreDto) {
+  async create (createConductoreDto: CreateConductoreDto) {
     const conductor = this.conductoreRepository.create(createConductoreDto);
     return await this.conductoreRepository.save(conductor);
   }
 
-  async findAll() {
+  async findAll () {
     return await this.conductoreRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne (id: number) {
     const conductor = await this.conductoreRepository.findOneBy({ id });
     if (!conductor) {
       throw new NotFoundException('Invalid id');
@@ -30,7 +30,7 @@ export class ConductoresService {
     return conductor;
   }
 
-  async update(id: number, updateConductoreDto: UpdateConductoreDto) {
+  async update (id: number, updateConductoreDto: UpdateConductoreDto) {
     const updateResult = await this.conductoreRepository.update(id, updateConductoreDto);
     if (updateResult.affected === 0) {
       throw new NotFoundException('Recurso no encontrado');
@@ -39,7 +39,7 @@ export class ConductoresService {
     return conductorModificado;
   }
 
-  async remove(id: number) {
+  async remove (id: number) {
     const conductorToDelete = await this.conductoreRepository.findOneBy({ id });
     if (!conductorToDelete) {
       throw new NotFoundException('Recurso no encontrado');

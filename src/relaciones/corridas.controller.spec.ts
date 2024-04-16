@@ -37,7 +37,7 @@ describe('CorridasController', () => {
           "id": 0,
           "IDRuta": 0,
           "Comentarios": "string",
-          "Fecha": new Date()
+          "Fecha": new Date("2024-04-16T03:32:14.053Z")
         }
       ]);
 
@@ -47,7 +47,7 @@ describe('CorridasController', () => {
             "id": 0,
             "IDRuta": 0,
             "Comentarios": "string",
-            "Fecha": new Date()
+            "Fecha": new Date("2024-04-16T03:32:14.053Z")
         }
       ]);
     });
