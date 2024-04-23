@@ -24,7 +24,7 @@ docker run -d \
 
 # docker pull mysql:latest
 RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
-
+echo "La etiqueta de versión generada es: $RAMA"
 # Formatear el número de construcción para ser válido como parte de la etiqueta de la imagen
 TAG_VERSION=$(echo "1.0.0-$BUILD_NUMBER" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]._-')
 
