@@ -1,13 +1,14 @@
+# Detenmos el contenedor de postgres
+docker container stop postgres
+# Damos de baja el contenedor de postgresql
+docker rm postgres
 # Eliminamos la red
 docker network rm devops
 
 # La volvemos a crear 
 docker network create --subnet=172.22.0.0/16 devops
 
-# Detenmos el contenedor de postgres
-docker container stop postgres
-# Damos de baja el contenedor de postgresql
-docker rm postgres
+
 
 # Volvemos a iniciar el contenedor de postgresql dentro de la red establecida
 docker run -d \
@@ -25,16 +26,12 @@ docker run -d \
 # docker pull mysql:latest
 RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
 echo "La etiqueta de versión generada es: $RAMA"
-# Formatear el número de construcción para ser válido como parte de la etiqueta de la imagen
-TAG_VERSION=$(echo "1.0.0-$BUILD_NUMBER" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]._-')
-
-echo "La etiqueta de versión generada es: $TAG_VERSION"
 
 # Construir la imagen con la etiqueta formateada
-docker build -t "proyectodevopsbackend_$RAMA:$TAG_VERSION" .
+docker build -t proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER .
 
 # Obtener el ID del contenedor
-CONTAINER_ID=$(docker ps -a -q --filter="name=proyectodevopsbackend_$RAMA")
+CONTAINER_ID=$(docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA")
 
 # Verificar si el contenedor existe
 if [ -n "$CONTAINER_ID" ]; then
@@ -48,4 +45,4 @@ else
 fi
 
 # Ejecutar el contenedor con la etiqueta de imagen formateada y el número de construcción
-docker run -d --name "proyectodevopsbackend_$RAMA" --network devops -p 3000:3000 "proyectodevopsbackend_$RAMA:$TAG_VERSION"
+docker run -d --name proyectodevopsbackend-$RAMA --network devops -p 3000:3000 proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER
