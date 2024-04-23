@@ -20,15 +20,17 @@ docker run -d \
   -v d_data:/var/lib/postgresql/data \
   postgres:14
 
-
-
 # docker pull mysql:latest
 RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
 
-docker build -t proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER .
+# Formatear el número de construcción para ser válido como parte de la etiqueta de la imagen
+TAG_VERSION=$(echo "1.0.0-$BUILD_NUMBER" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]._-')
+
+# Construir la imagen con la etiqueta formateada
+docker build -t "proyectodevopsbackend_$RAMA:$TAG_VERSION" .
 
 # Obtener el ID del contenedor
-CONTAINER_ID=$(docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA")
+CONTAINER_ID=$(docker ps -a -q --filter="name=proyectodevopsbackend_$RAMA")
 
 # Verificar si el contenedor existe
 if [ -n "$CONTAINER_ID" ]; then
@@ -41,4 +43,5 @@ else
     echo "El contenedor no existe."
 fi
 
-docker run -d --name proyectodevopsbackend-$RAMA  --network devops -p 3000:3000 proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER
+# Ejecutar el contenedor con la etiqueta de imagen formateada y el número de construcción
+docker run -d --name "proyectodevopsbackend_$RAMA" --network devops -p 3000:3000 "proyectodevopsbackend_$RAMA:$TAG_VERSION"
