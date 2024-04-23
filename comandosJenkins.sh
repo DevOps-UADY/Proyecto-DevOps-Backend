@@ -4,6 +4,8 @@ docker network rm devops
 # La volvemos a crear 
 docker network create --subnet=172.22.0.0/16 devops
 
+# Detenmos el contenedor de postgres
+docker container stop postgres
 # Damos de baja el contenedor de postgresql
 docker rm postgres
 
@@ -25,6 +27,8 @@ RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
 
 # Formatear el número de construcción para ser válido como parte de la etiqueta de la imagen
 TAG_VERSION=$(echo "1.0.0-$BUILD_NUMBER" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]._-')
+
+echo "La etiqueta de versión generada es: $TAG_VERSION"
 
 # Construir la imagen con la etiqueta formateada
 docker build -t "proyectodevopsbackend_$RAMA:$TAG_VERSION" .
