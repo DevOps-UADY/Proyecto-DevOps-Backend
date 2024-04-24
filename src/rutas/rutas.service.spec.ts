@@ -36,24 +36,18 @@ describe('Rutas service', () => {
 
   it('create => should create a new ruta and return its data', async ()=>{
     const rutaDTO = {
-        NombreRuta: "San Nicolas del Sur",
-        FechaCreacionRuta: "2024-04-04",
-        EstadoRuta: true,
-        LatitudInicio: 80,
-        LongitudInicio: 170,
-        LatitudDestino: 80,
-        LongitudDestino: 170
+        nombreRuta: "San Nicolas del Sur",
+        estadoRuta: true,
+        latitudDestino: 80,
+        longitudDestino: 170
     }as CreateRutaDto;
 
     const ruta = {
         id: 1,
-        NombreRuta: "San Nicolas del Sur",
-        FechaCreacionRuta: "2024-04-04",
-        EstadoRuta: true,
-        LatitudInicio: 80,
-        LongitudInicio: 170,
-        LatitudDestino: 80,
-        LongitudDestino: 170
+        nombreRuta: "San Nicolas del Sur",
+        estadoRuta: true,
+        latitudDestino: 80,
+        longitudDestino: 170
     } as Ruta;
 
     jest.spyOn(mockRutaRepository, 'create').mockReturnValue(ruta);
@@ -69,13 +63,10 @@ describe('Rutas service', () => {
         const rutas = [
             {
                 id: 1,
-                NombreRuta: "San Nicolas del Sur",
-                FechaCreacionRuta: "2024-04-04",
-                EstadoRuta: true,
-                LatitudInicio: 80,
-                LongitudInicio: 170,
-                LatitudDestino: 80,
-                LongitudDestino: 170
+                nombreRuta: "San Nicolas del Sur",
+                estadoRuta: true,
+                latitudDestino: 80,
+                longitudDestino: 170
             }
         ];
     
@@ -88,13 +79,10 @@ describe('Rutas service', () => {
     it('findOne => should return a single ruta', async ()=>{
         const ruta = {
             id: 1,
-            NombreRuta: "San Nicolas del Sur",
-            FechaCreacionRuta: "2024-04-04",
-            EstadoRuta: true,
-            LatitudInicio: 80,
-            LongitudInicio: 170,
-            LatitudDestino: 80,
-            LongitudDestino: 170
+            nombreRuta: "San Nicolas del Sur",
+            estadoRuta: true,
+            latitudDestino: 80,
+            longitudDestino: 170
         } as Ruta;
     
         jest.spyOn(mockRutaRepository, 'findOneBy').mockReturnValue(ruta);
@@ -106,24 +94,18 @@ describe('Rutas service', () => {
 
     it('update => should update a ruta and return its data', async ()=>{
         const rutaDTO = {
-            NombreRuta: "San Nicolas del Sur",
-            FechaCreacionRuta: "2024-04-04",
-            EstadoRuta: true,
-            LatitudInicio: 80,
-            LongitudInicio: 170,
-            LatitudDestino: 80,
-            LongitudDestino: 170
+          nombreRuta: "San Nicolas del Sur",
+          estadoRuta: true,
+          latitudDestino: 80,
+          longitudDestino: 170
         }as CreateRutaDto;
     
         const ruta = {
             id: 1,
-            NombreRuta: "San Nicolas del Sur",
-            FechaCreacionRuta: "2024-04-04",
-            EstadoRuta: true,
-            LatitudInicio: 80,
-            LongitudInicio: 170,
-            LatitudDestino: 80,
-            LongitudDestino: 170
+            nombreRuta: "San Nicolas del Sur",
+            estadoRuta: true,
+            latitudDestino: 80,
+            longitudDestino: 170
         } as Ruta;
     
         jest.spyOn(mockRutaRepository, 'findOneBy').mockReturnValue(ruta);
@@ -139,13 +121,10 @@ describe('Rutas service', () => {
     it('remove => should delete a ruta', async ()=>{
         const ruta = {
             id: 1,
-            NombreRuta: "San Nicolas del Sur",
-            FechaCreacionRuta: "2024-04-04",
-            EstadoRuta: true,
-            LatitudInicio: 80,
-            LongitudInicio: 170,
-            LatitudDestino: 80,
-            LongitudDestino: 170
+            nombreRuta: "San Nicolas del Sur",
+            estadoRuta: true,
+            latitudDestino: 80,
+            longitudDestino: 170
         } as Ruta;
     
         jest.spyOn(mockRutaRepository, 'findOneBy').mockReturnValue(ruta);

@@ -28,14 +28,10 @@ describe('AppController (e2e)', () => {
 
   it('/rutas (POST)', () => {
     const rutaData = {
-      NombreRuta: 'string',
-      FechaCreacionRuta: new Date(),
-      EstadoRuta: true,
-      LatitudInicio: 0,
-      LongitudInicio: 0,
-      LatitudDestino: 0,
-      LongitudDestino: 0,
-      deletedAt: new Date()
+      nombreRuta: 'string',
+      estadoRuta: true,
+      latitudDestino: 0,
+      longitudDestino: 0,
     };
 
     return request(app.getHttpServer())
@@ -66,13 +62,10 @@ describe('AppController (e2e)', () => {
 
   it('/rutas (DELETE)', async () => {
     const rutaData = {
-      NombreRuta: 'string',
-      FechaCreacionRuta: new Date(),
-      EstadoRuta: true,
-      LatitudInicio: 0,
-      LongitudInicio: 0,
-      LatitudDestino: 0,
-      LongitudDestino: 0
+      nombreRuta: 'string',
+      estadoRuta: true,
+      latitudDestino: 0,
+      longitudDestino: 0
     };
 
     const response = await request(app.getHttpServer())
@@ -114,13 +107,10 @@ describe('AppController (e2e)', () => {
 
   it('/rutas (PUT)', async () => {
     const rutaData = {
-      NombreRuta: 'string',
-      FechaCreacionRuta: new Date(),
-      EstadoRuta: true,
-      LatitudInicio: 0,
-      LongitudInicio: 0,
-      LatitudDestino: 0,
-      LongitudDestino: 0
+      nombreRuta: 'string',
+      estadoRuta: true,
+      latitudDestino: 0,
+      longitudDestino: 0
     };
 
     const createResponse = await request(app.getHttpServer())
@@ -134,11 +124,11 @@ describe('AppController (e2e)', () => {
 
     const updateResponse = await request(app.getHttpServer())
       .put(`/rutas/${createdRutaId}`)
-      .send({ EstadoRuta: false })
+      .send({ estadoRuta: false })
       .expect(200);
     console.log(updateResponse.body);
 
-    expect(updateResponse.body.EstadoRuta).toBe(false);
+    expect(updateResponse.body.estadoRuta).toBe(false);
   });
 
   it('/conductores (PUT)', async () => {
