@@ -1,29 +1,18 @@
-import { Max, Min, IsString, MinLength, IsDateString, IsBoolean } from "class-validator";
+import { Max, Min, IsString, MinLength, IsBoolean } from "class-validator";
 
 export class CreateRutaDto {
     @IsString()
     @MinLength(1)
-    NombreRuta: string;
-
-    @IsDateString()
-    FechaCreacionRuta: string;
+    nombreRuta: string;
 
     @IsBoolean()
-    EstadoRuta: boolean;
-
-    @Min(-90) 
-    @Max(90) 
-    LatitudInicio: number;
-
-    @Min(-180) 
-    @Max(180) 
-    LongitudInicio: number;
+    estadoRuta: boolean;
 
     @Min(-90) 
     @Max(90)
-    LatitudDestino: number;
+    latitudDestino: number;
 
     @Min(-180) 
     @Max(180)
-    LongitudDestino: number;
+    longitudDestino: number;
 }
