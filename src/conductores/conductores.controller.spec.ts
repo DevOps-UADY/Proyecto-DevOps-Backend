@@ -35,13 +35,13 @@ describe('RutasController', () => {
       jest.spyOn(conductoresService, 'findAll').mockResolvedValue([
         {
           "id": 0,
-          "NombreConductor": "string",
-          "FechaNacimiento": "2021-10-06",
-          "CURP": "A123",
-          "DireccionCasa": "Domicilio",
-          "Salario": 150,
-          "NumLicencia": "LIC987",
-          "FechaIngresoSistemaConductor": "2021-10-06",
+          "nombreConductor": "string",
+          "fechaNacimiento": "2021-10-06",
+          "curp": "A123",
+          "direccionCasa": "Domicilio",
+          "salario": 150,
+          "numeroLicencia": 115,
+          "fechaIngresoSistemaConductor": new Date("2024-04-10T06:02:35.136Z"),
           "deletedAt": new Date("2024-04-16T06:02:35.136Z")
         }
       ]);
@@ -50,13 +50,13 @@ describe('RutasController', () => {
       expect(result).toEqual([
         {
           "id": 0,
-          "NombreConductor": "string",
-          "FechaNacimiento": "2021-10-06",
-          "CURP": "A123",
-          "DireccionCasa": "Domicilio",
-          "Salario": 150,
-          "NumLicencia": "LIC987",
-          "FechaIngresoSistemaConductor": "2021-10-06",
+          "nombreConductor": "string",
+          "fechaNacimiento": "2021-10-06",
+          "curp": "A123",
+          "direccionCasa": "Domicilio",
+          "salario": 150,
+          "numeroLicencia": 115,
+          "fechaIngresoSistemaConductor": new Date("2024-04-10T06:02:35.136Z"),
           "deletedAt": new Date("2024-04-16T06:02:35.136Z")
         }
       ]);
