@@ -16,10 +16,13 @@ export class ConductoresService {
   async create (createConductoreDto: CreateConductoreDto) {
     const conductor = this.conductoreRepository.create(createConductoreDto);
     const curp = conductor.curp;
+    const numeroLicencia = conductor.numeroLicencia;
 
-    const exists = this.conductoreRepository.findOneBy({ curp });
-  if (exists) {
-      throw new ConflictException('El conductor con el CURP ingresado ya existe');
+    const existCurp = await this.conductoreRepository.findOneBy({ curp });
+    const existLicense = await this.conductoreRepository.findOneBy({ numeroLicencia });
+
+  if (existCurp || existLicense) {
+      throw new ConflictException('El conductor ingresado ya existe');
     }
     return await this.conductoreRepository.save(conductor);
   }

@@ -1,65 +1,142 @@
-import { Test } from '@nestjs/testing';
-import { ConductoresService } from './conductores.service';
+import { Test, TestingModule } from '@nestjs/testing';
 import { ConductoresController } from './conductores.controller';
+import { ConductoresService } from './conductores.service';
 
-describe('RutasController', () => {
+describe('ConductoresController', () => {
   let conductoresController: ConductoresController;
-  let conductoresService: ConductoresService;
+
+  const mockConductorService = {
+    create: jest.fn(),
+    findAll: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
+  };
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       controllers: [ConductoresController],
       providers: [
         {
           provide: ConductoresService,
-          useValue: {
-            findAll: jest.fn().mockResolvedValue([]),
-          },
+          useValue: mockConductorService,
         },
       ],
     }).compile();
 
-    conductoresService = moduleRef.get<ConductoresService>(ConductoresService);
-    conductoresController = moduleRef.get<ConductoresController>(ConductoresController);
+    conductoresController = module.get<ConductoresController>(ConductoresController);
   });
 
-  describe('findAll', () => {
-    it('should return an empty array', async () => {
-      const result = await conductoresController.findAll();
-      expect(result).toEqual([]);
-    });
+  it('should be defined', () => {
+    expect(conductoresController).toBeDefined();
   });
 
-  describe('otherTest', () => {
-    it('should return a specific array', async () => {
-      jest.spyOn(conductoresService, 'findAll').mockResolvedValue([
-        {
-          "id": 0,
+  it('create => shuld create a new Conductor by a given data', async () =>{
+    const conductorDTO = {
           "nombreConductor": "string",
           "fechaNacimiento": "2021-10-06",
           "curp": "A123",
           "direccionCasa": "Domicilio",
           "salario": 150,
-          "numeroLicencia": 115,
-          "fechaIngresoSistemaConductor": new Date("2024-04-10T06:02:35.136Z"),
-          "deletedAt": new Date("2024-04-16T06:02:35.136Z")
-        }
-      ]);
+          "numeroLicencia": 115
+    };
 
-      const result = await conductoresController.findAll();
-      expect(result).toEqual([
-        {
-          "id": 0,
+    const conductor = {
+          "id": 1,
           "nombreConductor": "string",
           "fechaNacimiento": "2021-10-06",
           "curp": "A123",
           "direccionCasa": "Domicilio",
           "salario": 150,
-          "numeroLicencia": 115,
-          "fechaIngresoSistemaConductor": new Date("2024-04-10T06:02:35.136Z"),
-          "deletedAt": new Date("2024-04-16T06:02:35.136Z")
-        }
-      ]);
-    });
+          "numeroLicencia": 115
+    };
+
+    jest.spyOn(mockConductorService, 'create').mockResolvedValue(conductor);
+    const result = await conductoresController.create(conductorDTO);
+    expect(mockConductorService.create).toHaveBeenCalled();
+    expect(mockConductorService.create).toHaveBeenCalledWith(conductorDTO);
+    expect(result).toEqual(conductor);
   });
+
+  it('findAll => should return an array of conductores', async () =>{
+    const conductores = [
+      {
+          "id": 1,
+          "nombreConductor": "string",
+          "fechaNacimiento": "2021-10-06",
+          "curp": "A321",
+          "direccionCasa": "Domicilio",
+          "salario": 150,
+          "numeroLicencia": 999
+      },
+      {
+          "id": 2,
+          "nombreConductor": "string",
+          "fechaNacimiento": "2021-10-06",
+          "curp": "A001",
+          "direccionCasa": "Domicilio",
+          "salario": 150,
+          "numeroLicencia": 935
+      }
+    ];
+
+    jest.spyOn(mockConductorService, 'findAll').mockResolvedValue(conductores);
+    const result = await conductoresController.findAll();
+    expect(mockConductorService.findAll).toHaveBeenCalled();
+    expect(result).toEqual(conductores);
+  });
+
+  it('findOne => should return a specific conductor by a given id', async () =>{
+    const conductor = {
+          "id": 1,
+          "nombreConductor": "string",
+          "fechaNacimiento": "2021-10-06",
+          "curp": "A123",
+          "direccionCasa": "Domicilio",
+          "salario": 150,
+          "numeroLicencia": 115
+    };
+
+    jest.spyOn(mockConductorService, 'findOne').mockResolvedValue(conductor);
+    const result = await conductoresController.findOne(1);
+    expect(mockConductorService.findOne).toHaveBeenCalled();
+    expect(mockConductorService.findOne).toHaveBeenCalledWith(1);
+    expect(result).toEqual(conductor);
+  });
+
+  it('update => should update a specific conductor by a given id and data', async () =>{
+    const conductorDTO = {
+          "nombreConductor": "string",
+          "fechaNacimiento": "2021-10-06",
+          "curp": "A123",
+          "direccionCasa": "Domicilio",
+          "salario": 150,
+          "numeroLicencia": 115
+    };
+
+    const conductor = {
+          "id": 1,
+          "nombreConductor": "string",
+          "fechaNacimiento": "2021-10-06",
+          "curp": "A123",
+          "direccionCasa": "Domicilio",
+          "salario": 150,
+          "numeroLicencia": 115
+    };
+
+    jest.spyOn(mockConductorService, 'update').mockResolvedValue(conductor);
+    const result = await conductoresController.update(1, conductorDTO);
+    expect(mockConductorService.update).toHaveBeenCalled();
+    expect(mockConductorService.update).toHaveBeenCalledWith(1, conductorDTO);
+    expect(result).toEqual(conductor);
+  });
+
+  it('remove => should delete a specific ruta by a given id', async () =>{
+    jest.spyOn(mockConductorService, 'remove').mockResolvedValue(true);
+    const result = await conductoresController.remove(1);
+    expect(mockConductorService.remove).toHaveBeenCalled();
+    expect(mockConductorService.remove).toHaveBeenCalledWith(1);
+    expect(result).toEqual(true);
+  });
+
 });
