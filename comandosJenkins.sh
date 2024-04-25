@@ -8,8 +8,6 @@ docker network rm devops
 # La volvemos a crear 
 docker network create --subnet=172.22.0.0/16 devops
 
-
-
 # Volvemos a iniciar el contenedor de postgresql dentro de la red establecida
 docker run -d \
   --name postgres \
@@ -24,14 +22,14 @@ docker run -d \
   postgres:14
 
 # docker pull mysql:latest
-RAMA=$(echo $GIT_BRANCH | cut -b 8-14 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
+RAMA=$(echo $GIT_BRANCH | cut -b 8-10 | tr '[:upper:]' '[:lower:]' | tr '/' '_')
 echo "La etiqueta de versión generada es: $RAMA"
 
 # Construir la imagen con la etiqueta formateada
 docker build -t proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER .
 
 # Obtener el ID del contenedor
-CONTAINER_ID=$(docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA")
+CONTAINER_ID=$(sudo docker ps -a -q --filter="name=proyectodevopsbackend-$RAMA")
 
 # Verificar si el contenedor existe
 if [ -n "$CONTAINER_ID" ]; then
