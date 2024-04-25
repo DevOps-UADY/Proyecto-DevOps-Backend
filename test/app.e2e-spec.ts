@@ -169,11 +169,11 @@ describe('AppController (e2e)', () => {
     const createdConductorId = response.body.id;
     const updateResponse = await request(app.getHttpServer())
       .put(`/conductores/${createdConductorId}`)
-      .send({ Salario: 5000 , "fechaNacimiento":"2009-10-06"})
+      .send({ salario: 5000 , "fechaNacimiento":"2009-10-06"})
       .expect(200);
     console.log(updateResponse.body);
 
-    expect(updateResponse.body.Salario).toBe(5000);
+    expect(updateResponse.body.salario).toBe(5000);
     }
 
     
