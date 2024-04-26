@@ -12,6 +12,7 @@ describe('Conductores service', () => {
     save: jest.fn(),
     find: jest.fn(),
     findOneBy: jest.fn(),
+    findOne: jest.fn(),
     softDelete: jest.fn(),
     update: jest.fn(),
   };
@@ -86,7 +87,7 @@ describe('Conductores service', () => {
     ];
     
         jest.spyOn(mockConductoreRepository, 'find').mockReturnValue(conductores);
-        const resultFindAll = await conductoresService.findAll();
+      const resultFindAll = await conductoresService.findAll();
         expect(mockConductoreRepository.find).toHaveBeenCalled;
         expect(resultFindAll).toEqual(conductores);
     });
@@ -102,14 +103,26 @@ describe('Conductores service', () => {
           "numeroLicencia": 115
     } as Conductore;
     
-        jest.spyOn(mockConductoreRepository, 'findOneBy').mockReturnValue(conductor);
-        const resultFindOne = await conductoresService.findOne(1);
-        expect(mockConductoreRepository.findOneBy).toHaveBeenCalled;
-        expect(mockConductoreRepository.findOneBy).toHaveBeenCalledWith({id: 1});
-        expect(resultFindOne).toEqual(conductor);
+        jest.spyOn(mockConductoreRepository, 'findOne').mockReturnValue(conductor);
+      const resultFindOne = await conductoresService.findOne(1);
+      expect(mockConductoreRepository.findOne).toHaveBeenCalled;
+      expect(mockConductoreRepository.findOne).toHaveBeenCalledWith({
+        where: { id:1 },
+        select: [
+          'id',
+          'nombreConductor',
+          'fechaNacimiento',
+          'curp',
+          'direccionCasa',
+          'salario',
+          'numeroLicencia',
+          'fechaIngresoSistemaConductor'
+        ]
+    });
+      expect(resultFindOne).toEqual(conductor);
     });
 
-    it('update => should update a ruta and return its data', async ()=>{
+    it('update => should update a conductor and return its data', async ()=>{
 
         const conductorDTO = {
           "nombreConductor": "string",

@@ -46,16 +46,17 @@ export class ConductoresService {
     const conductor = await this.conductoreRepository.findOne({ 
         where: { id },
         select: [
-            "id",
-            "nombreConductor",
-            "fechaNacimiento",
-            "curp",
-            "direccionCasa",
-            "salario",
-            "numeroLicencia",
-            "fechaIngresoSistemaConductor"
-        ]
+            'id',
+            'nombreConductor',
+            'fechaNacimiento',
+            'curp',
+            'direccionCasa',
+            'salario',
+          'numeroLicencia',
+          'fechaIngresoSistemaConductor'
+      ]
     });
+
     if (!conductor) {
       throw new NotFoundException('ID invalido');
     }
@@ -63,6 +64,7 @@ export class ConductoresService {
   }
 
   async update (id: number, updateConductoreDto: UpdateConductoreDto) {
+
     const updateResult = await this.conductoreRepository.update(id, updateConductoreDto);
     if (updateResult.affected === 0) {
       throw new NotFoundException('Recurso no encontrado');
