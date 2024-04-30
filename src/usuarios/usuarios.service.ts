@@ -46,7 +46,7 @@ export class UsuariosService {
       // actualizamos el estado del código
       await this.codigoModel.save({
         ...codigoInvitacionDb,
-        estaActivo: false
+        isActive: false
       })
 
       return {
