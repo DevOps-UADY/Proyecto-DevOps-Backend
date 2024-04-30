@@ -15,7 +15,7 @@ export class CodigosService {
         const codigoEntidadCreated = await this.codigoInvitacionRepository.save(codigoEntidad);
         return {
           msg: 'Código creado con éxito',
-          data: codigoEntidadCreated
+          ...codigoEntidadCreated
         }
    
       } catch (error) {
@@ -28,7 +28,7 @@ export class CodigosService {
     try {
       const codigos = await this.codigoInvitacionRepository.find();
       return {
-        data:codigos
+        ...codigos
       }
     } catch (error) {
       console.log(error);
@@ -44,16 +44,16 @@ export class CodigosService {
     if (!codigo)
     throw new NotFoundException('No se encontró el código: '+id)
     return {
-      data: codigo
+      codigo
     }
   
   }
 
   async update (id: string) {
     try {
-     const {data} = await this.findOne(id)
+     const codigo = await this.findOne(id)
       await this.codigoInvitacionRepository.save({
-        ...data,
+        codigo,
         isActive:false
       })
     } catch (error) {
@@ -67,7 +67,7 @@ export class CodigosService {
       const codigoBorrado = await this.codigoInvitacionRepository.delete(id)
       return {
         msg: 'Borrado',
-        data: codigoBorrado
+         ...codigoBorrado
       }
     } catch (error) {
       console.log(error)

@@ -14,7 +14,7 @@ export class UsuariosController {
   @Post('register')
   @Header('Access-Control-Allow-Origin', '*')
   create (@Body() createUsuarioDto: CreateUsuarioDto) {
-    console.log(createUsuarioDto);
+   
     return this.usuariosService.create(createUsuarioDto);
   }
 
@@ -38,8 +38,7 @@ export class UsuariosController {
 
   @UseGuards(AuthGuard())
   @Put()
-  @Header('Access-Control-Allow-Origin', '*')
-  async update ( @Body() updateUsuarioDto: UpdateUsuarioDto,@Request() req) {
+  async update ( @Request() req, @Body() updateUsuarioDto: UpdateUsuarioDto,) {
     return await this.usuariosService.update(req.user, updateUsuarioDto);
   }
 
