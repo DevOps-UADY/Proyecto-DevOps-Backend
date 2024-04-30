@@ -50,7 +50,7 @@ export class UsuariosService {
       })
 
       return {
-        data: usuarioSaved,
+         ...usuarioSaved,
         token: this.getJwtToken({ id: usuarioSaved.id })
       }
     } catch (error) {
@@ -115,7 +115,7 @@ export class UsuariosService {
       await this.usuarioModel.delete({ id: user.id })
 
       return {
-        msg: 'Usuario borrado correctamente'
+        mensaje: 'Usuario borrado correctamente'
       }
     } catch (error) {
       

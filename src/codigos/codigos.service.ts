@@ -14,7 +14,7 @@ export class CodigosService {
         const codigoEntidad =  this.codigoInvitacionRepository.create();
         const codigoEntidadCreated = await this.codigoInvitacionRepository.save(codigoEntidad);
         return {
-          msg: 'Código creado con éxito',
+          mensaje: 'Código creado con éxito',
           ...codigoEntidadCreated
         }
    
@@ -66,7 +66,7 @@ export class CodigosService {
     try {
       const codigoBorrado = await this.codigoInvitacionRepository.delete(id)
       return {
-        msg: 'Borrado',
+        mensaje: 'Borrado',
          ...codigoBorrado
       }
     } catch (error) {
