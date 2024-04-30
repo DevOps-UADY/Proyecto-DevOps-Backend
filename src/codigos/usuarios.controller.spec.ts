@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import configuration from '../config/app.config';
 import { CodigosController } from './codigos.controller';
 import { CodigosService } from './codigos.service';
 
