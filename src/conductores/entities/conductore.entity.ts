@@ -1,4 +1,4 @@
-import { Column, DeleteDateColumn, Entity } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity } from "typeorm";
 
 @Entity()
 export class Conductore {
@@ -6,26 +6,26 @@ export class Conductore {
     id: number;
 
     @Column()
-    NombreConductor: string;
+    nombreConductor: string;
 
     @Column({ type: 'date' })
-    FechaNacimiento: string; 
+    fechaNacimiento: string; 
 
     @Column()
-    CURP: string;
+    curp: string;
 
     @Column()
-    DireccionCasa: string;
+    direccionCasa: string;
 
     @Column()
-    Salario: number;
+    salario: number;
 
     @Column()
-    NumLicencia: string;
-
-    @Column({ type: 'date' })
-    FechaIngresoSistemaConductor: string;
+    numeroLicencia: number;
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @CreateDateColumn()
+    fechaIngresoSistemaConductor: Date;
 }

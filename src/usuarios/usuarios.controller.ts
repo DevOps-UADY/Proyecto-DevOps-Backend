@@ -8,6 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Controller('usuarios')
 @ApiTags('usuarios')
+@ApiTags('usuarios')
 export class UsuariosController {
   constructor (private readonly usuariosService: UsuariosService) {}
 
@@ -36,11 +37,13 @@ export class UsuariosController {
     return this.usuariosService.findOne(id);
   }
 
+
   @UseGuards(AuthGuard())
   @Put()
   async update ( @Request() req, @Body() updateUsuarioDto: UpdateUsuarioDto,) {
     return await this.usuariosService.update(req.user, updateUsuarioDto);
   }
+
 
   @UseGuards(AuthGuard())
   @Delete()

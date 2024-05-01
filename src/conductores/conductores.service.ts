@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { CreateConductoreDto } from './dto/create-conductore.dto';
 import { UpdateConductoreDto } from './dto/update-conductore.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,22 +15,56 @@ export class ConductoresService {
 
   async create (createConductoreDto: CreateConductoreDto) {
     const conductor = this.conductoreRepository.create(createConductoreDto);
+    const curp = conductor.curp;
+    const numeroLicencia = conductor.numeroLicencia;
+
+    const existCurp = await this.conductoreRepository.findOneBy({ curp });
+    const existLicense = await this.conductoreRepository.findOneBy({ numeroLicencia });
+
+  if (existCurp || existLicense) {
+      throw new ConflictException('El conductor ingresado ya existe');
+    }
     return await this.conductoreRepository.save(conductor);
   }
 
   async findAll () {
-    return await this.conductoreRepository.find();
+    return await this.conductoreRepository.find({ 
+        select: [
+            "id",
+            "nombreConductor",
+            "fechaNacimiento",
+            "curp",
+            "direccionCasa",
+            "salario",
+            "numeroLicencia",
+            "fechaIngresoSistemaConductor"
+        ]
+    });
   }
 
   async findOne (id: number) {
-    const conductor = await this.conductoreRepository.findOneBy({ id });
+    const conductor = await this.conductoreRepository.findOne({ 
+        where: { id },
+        select: [
+            'id',
+            'nombreConductor',
+            'fechaNacimiento',
+            'curp',
+            'direccionCasa',
+            'salario',
+          'numeroLicencia',
+          'fechaIngresoSistemaConductor'
+      ]
+    });
+
     if (!conductor) {
-      throw new NotFoundException('Invalid id');
+      throw new NotFoundException('ID invalido');
     }
     return conductor;
   }
 
   async update (id: number, updateConductoreDto: UpdateConductoreDto) {
+
     const updateResult = await this.conductoreRepository.update(id, updateConductoreDto);
     if (updateResult.affected === 0) {
       throw new NotFoundException('Recurso no encontrado');

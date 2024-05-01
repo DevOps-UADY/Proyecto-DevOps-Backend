@@ -7,28 +7,18 @@ export class UpdateRutaDto extends PartialType(CreateRutaDto) {
     @IsString()
     @MinLength(1)
     @IsOptional()
-    NombreRuta?: string;
+    nombreRuta?: string;
 
     @IsOptional()
-    EstadoRuta?: boolean;
-
-    @Min(-90)
-    @Max(90)
-    @IsOptional()
-    LatitudInicio?: number;
-
-    @Min(-180)
-    @Max(180)
-    @IsOptional()
-    LongitudInicio?: number;
+    estadoRuta?: boolean;
 
     @Min(-90)
     @Max(90)
     @IsOptional()
-    LatitudDestino?: number;
+    latitudDestino?: number;
 
     @Min(-180)
     @Max(180)
     @IsOptional()
-    LongitudDestino?: number;
+    longitudDestino?: number;
 }

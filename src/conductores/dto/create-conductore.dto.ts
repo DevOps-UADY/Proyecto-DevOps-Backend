@@ -3,28 +3,28 @@ import { Min, IsString, MinLength, IsNumber, IsDateString } from "class-validato
 export class CreateConductoreDto {
     @IsString()
     @MinLength(1)
-    NombreConductor: string;
+    nombreConductor: string;
 
     @IsDateString()
-    FechaNacimiento: string;
+    fechaNacimiento: string;
 
     @IsString()
     @MinLength(1)
-    CURP: string;
+    curp: string;
 
     @IsString()
     @MinLength(1)
-    DireccionCasa: string;
+    direccionCasa: string;
 
     @IsNumber()
     @Min(0)
-    Salario: number
+    salario: number
 
-    @IsString()
-    @MinLength(1)
-    NumLicencia: string;
+    @IsNumber()
+    @Min(1)
+    numeroLicencia: number;
 
-    @IsDateString()
-    FechaIngresoSistemaConductor: string;
+    // @IsDateString()
+    // fechaIngresoSistemaConductor: string;
 
 }

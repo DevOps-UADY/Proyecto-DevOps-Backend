@@ -7,28 +7,28 @@ export class UpdateConductoreDto extends PartialType(CreateConductoreDto) {
     @IsString()
     @MinLength(1)
     @IsOptional()
-    NombreConductor?: string;
+    nombreConductor?: string;
 
     @IsOptional()
-    FechaNacimiento?: string;
-
-    @IsString()
-    @MinLength(1)
-    @IsOptional()
-    CURP?: string;
+    fechaNacimiento?: string;
 
     @IsString()
     @MinLength(1)
     @IsOptional()
-    DireccionCasa?: string;
+    curp?: string;
+
+    @IsString()
+    @MinLength(1)
+    @IsOptional()
+    direccionCasa?: string;
 
     @IsNumber()
     @Min(0)
     @IsOptional()
-    Salario?: number
+    salario?: number
 
-    @IsString()
-    @MinLength(1)
+    @IsNumber()
+    @Min(1)
     @IsOptional()
-    NumLicencia?: string;
+    numeroLicencia?: number;
 }

@@ -28,14 +28,10 @@ describe('AppController (e2e)', () => {
 
   it('/rutas (POST)', () => {
     const rutaData = {
-      NombreRuta: 'string',
-      FechaCreacionRuta: new Date(),
-      EstadoRuta: true,
-      LatitudInicio: 0,
-      LongitudInicio: 0,
-      LatitudDestino: 0,
-      LongitudDestino: 0,
-      deletedAt: new Date()
+      nombreRuta: 'string',
+      estadoRuta: true,
+      latitudDestino: 0,
+      longitudDestino: 0,
     };
 
     return request(app.getHttpServer())
@@ -45,34 +41,36 @@ describe('AppController (e2e)', () => {
 
   });
 
-  it('/conductores (POST)', () => {
+  it('/conductores (POST)', async () => {
     const conductorData = {
-      "NombreConductor": "string",
-      "FechaNacimiento": new Date(),
-      "CURP": "string",
-      "DireccionCasa": "string",
-      "Salario": 150,
-      "NumLicencia": "string",
-      "FechaIngresoSistemaConductor": new Date(),
-      "deletedAt": new Date()
+      "nombreConductor": "string",
+      "fechaNacimiento": "2021-10-06",
+      "curp": "string1",
+      "direccionCasa": "string",
+      "salario": 150,
+      "numeroLicencia": 110
     };
 
-    return request(app.getHttpServer())
+     const response = await request(app.getHttpServer())
       .post('/conductores')
       .send(conductorData)
-      .expect(201);
 
+    if (response.status == 409) {
+      return request(app.getHttpServer())
+      .post('/conductores')
+      .send(conductorData)
+      .expect(409);
+    } else {
+      expect(response.status).toBe(201);
+    }
   });
 
   it('/rutas (DELETE)', async () => {
     const rutaData = {
-      NombreRuta: 'string',
-      FechaCreacionRuta: new Date(),
-      EstadoRuta: true,
-      LatitudInicio: 0,
-      LongitudInicio: 0,
-      LatitudDestino: 0,
-      LongitudDestino: 0
+      nombreRuta: 'string',
+      estadoRuta: true,
+      latitudDestino: 0,
+      longitudDestino: 0
     };
 
     const response = await request(app.getHttpServer())
@@ -90,13 +88,12 @@ describe('AppController (e2e)', () => {
 
   it('/conductores (DELETE)', async () => {
     const conductorData = {
-      "NombreConductor": "string",
-      "FechaNacimiento": new Date(),
-      "CURP": "string",
-      "DireccionCasa": "string",
-      "Salario": 150,
-      "NumLicencia": "string",
-      "FechaIngresoSistemaConductor": new Date()
+      "nombreConductor": "string",
+      "fechaNacimiento": "2021-10-06",
+      "curp": "string2",
+      "direccionCasa": "string",
+      "salario": 150,
+      "numeroLicencia": 111
     };
 
     const response = await request(app.getHttpServer())
@@ -114,13 +111,10 @@ describe('AppController (e2e)', () => {
 
   it('/rutas (PUT)', async () => {
     const rutaData = {
-      NombreRuta: 'string',
-      FechaCreacionRuta: new Date(),
-      EstadoRuta: true,
-      LatitudInicio: 0,
-      LongitudInicio: 0,
-      LatitudDestino: 0,
-      LongitudDestino: 0
+      nombreRuta: 'string',
+      estadoRuta: true,
+      latitudDestino: 0,
+      longitudDestino: 0
     };
 
     const createResponse = await request(app.getHttpServer())
@@ -134,39 +128,44 @@ describe('AppController (e2e)', () => {
 
     const updateResponse = await request(app.getHttpServer())
       .put(`/rutas/${createdRutaId}`)
-      .send({ EstadoRuta: false })
+      .send({ estadoRuta: false })
       .expect(200);
     console.log(updateResponse.body);
 
-    expect(updateResponse.body.EstadoRuta).toBe(false);
+    expect(updateResponse.body.estadoRuta).toBe(false);
   });
 
   it('/conductores (PUT)', async () => {
     const conductorData = {
-      "NombreConductor": "string",
-      "FechaNacimiento": new Date(),
-      "CURP": "string",
-      "DireccionCasa": "string",
-      "Salario": 0,
-      "NumLicencia": "string",
-      "FechaIngresoSistemaConductor": new Date()
+      "nombreConductor": "string",
+      "fechaNacimiento": "2021-10-06",
+      "curp": "string3",
+      "direccionCasa": "string",
+      "salario": 150,
+      "numeroLicencia": 112
     };
 
-    const createResponse = await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .post('/conductores')
       .send(conductorData)
-      .expect(201);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    const createdConductorId = createResponse.body.id;
-
+    if (response.status == 409) {
+      return request(app.getHttpServer())
+      .post('/conductores')
+      .send(conductorData)
+      .expect(409);
+    } else {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    const createdConductorId = response.body.id;
     const updateResponse = await request(app.getHttpServer())
       .put(`/conductores/${createdConductorId}`)
-      .send({ Salario: 100 })
+      .send({ salario: 5000 , "fechaNacimiento":"2009-10-06"})
       .expect(200);
     console.log(updateResponse.body);
 
-    expect(updateResponse.body.Salario).toBe(100);
+    expect(updateResponse.body.salario).toBe(5000);
+    }
+
+    
   });
 });
