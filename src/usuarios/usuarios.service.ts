@@ -45,10 +45,12 @@ export class UsuariosService {
         isActive: false
       });
       return {
-        data: usuarioSaved,
+         ...usuarioSaved,
         token: this.getJwtToken({ id: usuarioSaved.id })
       };
     } catch (error) {
+     
+      this.dbErrors(error)
       console.log(error);
       this.dbErrors(error);
     }
@@ -60,7 +62,7 @@ export class UsuariosService {
       throw new BadRequestException('Correo o contraseña incorrecta');
     
     return {
-      user,
+      ...user,
       jwt: this.getJwtToken({ id: user.id })
     };
   }
@@ -74,7 +76,7 @@ export class UsuariosService {
         usuarios
       };
     } catch (error) {
-      console.log(error)
+      
       throw new InternalServerErrorException('Llame al administrador')
     }
   }
@@ -90,26 +92,28 @@ export class UsuariosService {
     delete usuario.contrasenia
 
     return {
-      usuario
+      ...usuario
     };
   }
 
   async update (user: Usuario, updateUsuarioDto: UpdateUsuarioDto) {
+    
     const contraseniaHashed = await bcrypt.hash(updateUsuarioDto.contrasenia, 10);
     user.contrasenia = contraseniaHashed
     const usuarioCreado = this.usuarioModel.create(user)
     const usuarioSaved = await this.usuarioModel.save(usuarioCreado);
-    return { data: usuarioSaved };
+    delete usuarioSaved.contrasenia
+    return { ...usuarioSaved };
   }
 
   async remove (user: Usuario) {
     try {
       await this.usuarioModel.delete({ id: user.id })
       return {
-        msg: 'Usuario borrado correctamente'
+        mensaje: 'Usuario borrado correctamente'
       }
     } catch (error) {
-      console.log(error)
+      
       throw new BadRequestException('No se encontró el usuario')
     }
 
@@ -122,9 +126,14 @@ export class UsuariosService {
   }
 
   private dbErrors (error) {
-    if (error.errno === 1062) {
-      throw new ConflictException(error.sqlMessage)
-    } else {
+   
+    if (error.code == 1062) {
+      throw new ConflictException(error.detail)
+    } 
+    if(error.code==23505){
+      throw new ConflictException(error.detail)
+    }
+    else {
       throw new InternalServerErrorException('Llame al administrador')
     }
   }

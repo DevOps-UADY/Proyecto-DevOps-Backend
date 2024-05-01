@@ -8,13 +8,14 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Controller('usuarios')
 @ApiTags('usuarios')
+@ApiTags('usuarios')
 export class UsuariosController {
   constructor (private readonly usuariosService: UsuariosService) {}
 
   @Post('register')
   @Header('Access-Control-Allow-Origin', '*')
   create (@Body() createUsuarioDto: CreateUsuarioDto) {
-    console.log(createUsuarioDto);
+   
     return this.usuariosService.create(createUsuarioDto);
   }
 
@@ -36,12 +37,13 @@ export class UsuariosController {
     return this.usuariosService.findOne(id);
   }
 
+
   @UseGuards(AuthGuard())
   @Put()
-  @Header('Access-Control-Allow-Origin', '*')
-  async update ( @Body() updateUsuarioDto: UpdateUsuarioDto,@Request() req) {
+  async update ( @Request() req, @Body() updateUsuarioDto: UpdateUsuarioDto,) {
     return await this.usuariosService.update(req.user, updateUsuarioDto);
   }
+
 
   @UseGuards(AuthGuard())
   @Delete()
