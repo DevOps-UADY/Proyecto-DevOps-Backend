@@ -110,7 +110,8 @@ export class VehiculosService {
           fotografia: fileNameUuid,
         };
       }
-      const updateVehiculo = await this.vehiculoRepository.update(vehiculo.id, entidadVehiculo);
+      
+      await this.vehiculoRepository.update(vehiculo.id, entidadVehiculo);
       
       return {
         ...vehiculo,
