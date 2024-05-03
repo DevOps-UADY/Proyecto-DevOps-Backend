@@ -5,27 +5,33 @@ export class UpdateVehiculoDto {
     @IsString()
     @MinLength(1)
     @IsNotEmpty()
+    @IsOptional()
     marca: string;
 
     @IsString()
     @IsNotEmpty()
+    @IsOptional()
     modelo: string;
 
     @IsString()
     @IsNotEmpty()
+    @IsOptional()
     vin: string;
 
     @IsString()
     @IsNotEmpty()
+    @IsOptional()
     placa: string;
 
     @IsDateString()
     @IsOptional()
+
     fechaCompra?: string;
-S
+
     @IsInt()
     @IsPositive()
     @IsNotEmpty()
+    @IsOptional()   
     costo: number;
 
     @HasMimeType(['image/jpeg', 'image/png', 'image/webp', 'image/jpg'], {

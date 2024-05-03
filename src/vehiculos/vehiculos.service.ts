@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateVehiculoDto } from './dto/create-vehiculo.dto';
 import { UpdateVehiculoDto } from './dto/update-vehiculo.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,7 +32,7 @@ export class VehiculosService {
 
       return {
         message: `Vehículo guardado correctamente`,
-        data: vehiculo
+        ...vehiculo
       };
 
     } catch (error) {
@@ -70,11 +70,15 @@ export class VehiculosService {
 
     return {
       message: `Vehículo con el ID ${id} recuperado correctamente`,
-      data: vehiculo
+      ...vehiculo
     };
   }
 
   async update (id: number, updateVehiculoDto: UpdateVehiculoDto) {
+    if (Object.keys(updateVehiculoDto).length === 0) {
+      throw new BadRequestException('Se debe enviar mínimo una propiedad a editar')
+    }
+
     const vehiculo = await this.vehiculoRepository.findOneBy({ id });
 
     if (!vehiculo) {
@@ -106,8 +110,12 @@ export class VehiculosService {
           fotografia: fileNameUuid,
         };
       }
+      const updateVehiculo = await this.vehiculoRepository.update(vehiculo.id, entidadVehiculo);
       
-      await this.vehiculoRepository.update(vehiculo.id, entidadVehiculo);
+      return {
+        ...vehiculo,
+        ...updateVehiculoDto
+      }
     }
   }
 
@@ -117,13 +125,13 @@ export class VehiculosService {
     if (!vehiculo) {
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
     }
-
-    return await this.vehiculoRepository.delete({ id });
+    await this.vehiculoRepository.delete({ id })
+    return {...vehiculo};
   }
 
   private handleDbException (error) {
-    if (error.code === 11000) {
-      throw new BadRequestException('Ya existe');
+    if (error.code) {
+      throw new ConflictException(error.detail);
     } else {
       throw new InternalServerErrorException(
         `Cant create  - Check server logs`,
