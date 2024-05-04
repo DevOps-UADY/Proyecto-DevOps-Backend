@@ -11,7 +11,7 @@ export class CreateVehiculoDto {
     @IsString()
     @IsNotEmpty({ message: 'El modelo del auto es obligatorio' })
     @Matches(/^[a-zA-Z0-9]*$/, {
-        message: 'El nombre de usuario no puede contener caracteres especiales.'
+        message: 'El modelo no puede contener caracteres especiales.'
       })
     modelo: string;
 
@@ -21,7 +21,9 @@ export class CreateVehiculoDto {
 
     @IsString()
     @IsNotEmpty({ message: 'La placa del auto es obligatoria' })
-    
+    @Matches(/^[a-zA-Z0-9\-]*$/, {
+        message: 'La placa no puede contener caracteres especiales excepto guiones medios.'
+      })
     @Transform(({ value }) => value.toUpperCase())
     placa: string;
 

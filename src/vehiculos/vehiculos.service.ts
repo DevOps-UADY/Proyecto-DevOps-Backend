@@ -18,6 +18,14 @@ export class VehiculosService {
   ) { }
 
   async create (createVehiculoDto: CreateVehiculoDto) {
+    const existePlaca = await this.vehiculoRepository.findOne({ 
+      where: { placa: createVehiculoDto.placa }
+    });
+
+    if (existePlaca) {
+      throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
+    }
+
     try {
       const fileNameUuid = fileNamer(createVehiculoDto.fotografia.extension);
       saveImage(createVehiculoDto.fotografia, fileNameUuid);
@@ -83,6 +91,14 @@ export class VehiculosService {
 
     if (!vehiculo) {
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
+    }
+
+    const existePlaca = await this.vehiculoRepository.findOne({ 
+      where: { placa: updateVehiculoDto.placa }
+    });
+
+    if (existePlaca) {
+      throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
     }
 
     let entidadVehiculo = {};
