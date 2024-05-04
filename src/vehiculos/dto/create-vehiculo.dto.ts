@@ -1,4 +1,5 @@
-import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
+import { Transform } from "class-transformer";
+import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Matches, MinLength } from "class-validator";
 import { HasMimeType, IsFile, MemoryStoredFile } from 'nestjs-form-data';
 
 export class CreateVehiculoDto {
@@ -9,6 +10,9 @@ export class CreateVehiculoDto {
 
     @IsString()
     @IsNotEmpty({ message: 'El modelo del auto es obligatorio' })
+    @Matches(/^[a-zA-Z0-9]*$/, {
+        message: 'El modelo no puede contener caracteres especiales.'
+      })
     modelo: string;
 
     @IsString()
@@ -17,6 +21,10 @@ export class CreateVehiculoDto {
 
     @IsString()
     @IsNotEmpty({ message: 'La placa del auto es obligatoria' })
+    @Matches(/^[a-zA-Z0-9\-]*$/, {
+        message: 'La placa no puede contener caracteres especiales excepto guiones medios.'
+      })
+    @Transform(({ value }) => value.toUpperCase())
     placa: string;
 
     @IsDateString()

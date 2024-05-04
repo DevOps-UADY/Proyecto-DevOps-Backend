@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity } from "typeorm";
+import { Column, Entity } from "typeorm";
 
 @Entity()
 export class Vehiculo {
@@ -17,7 +17,7 @@ export class Vehiculo {
     @Column()
     placa: string;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'date', default: () => 'CURRENT_DATE' })
     fechaCompra: string;
 
     @Column()
@@ -26,9 +26,9 @@ export class Vehiculo {
     @Column()
     fotografia: string;
 
-    @Column()
+    @Column({default:false})
     estatusAsignacion: boolean;
 
-    @CreateDateColumn()
+    @Column({ type: 'date', default: () => 'CURRENT_DATE' })
     fechaIngresoSistema: Date;
 }
