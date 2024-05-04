@@ -1,31 +1,30 @@
-import { Column, DeleteDateColumn, Entity } from "typeorm";
-
+import { Column, DeleteDateColumn, Entity, CreateDateColumn } from "typeorm";
 @Entity()
 export class Ruta {
     @Column({ primary: true, generated: true })
     id: number;
 
     @Column()
-    NombreRuta: string;
-
-    @Column({ type: 'date' })
-    FechaCreacionRuta: string;
+    nombreRuta: string;
 
     @Column()
-    EstadoRuta: boolean;
+    estadoRuta: boolean;
+
+    @Column("decimal", { precision: 10, scale: 8, default: 0 })
+    latitudInicio: number;
+
+    @Column("decimal", { precision: 11, scale: 8, default: 0 })
+    longitudInicio: number;
 
     @Column("decimal", { precision: 10, scale: 8 })
-    LatitudInicio: number;
+    latitudDestino: number;
 
     @Column("decimal", { precision: 11, scale: 8 })
-    LongitudInicio: number;
-
-    @Column("decimal", { precision: 10, scale: 8 })
-    LatitudDestino: number;
-
-    @Column("decimal", { precision: 11, scale: 8 })
-    LongitudDestino: number;
+    longitudDestino: number;
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @CreateDateColumn()
+    fechaCreacionRuta: Date;
 }

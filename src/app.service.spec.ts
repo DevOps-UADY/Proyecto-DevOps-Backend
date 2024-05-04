@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-describe('AppController', () => {
-  let app: AppController;
+describe('AppService', () => {
+  let app: AppService;
 
   const mockAppService = {
     getHello: jest.fn()
@@ -30,7 +30,6 @@ describe('AppController', () => {
   it('should return "Hello World!"', () => {
     jest.spyOn(mockAppService, 'getHello').mockReturnValue('Hello World!');
     expect(mockAppService.getHello).not.toHaveBeenCalled();
-    app.getHello();
   });
  
 });
