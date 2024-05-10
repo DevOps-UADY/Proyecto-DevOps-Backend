@@ -3,12 +3,12 @@ import { IsString, MinLength, IsNumber, IsDateString } from "class-validator";
 export class CreateCorridaDto {
 
     @IsNumber()
-    IDRuta: number;
+    idRuta: number;
 
     @IsString()
     @MinLength(10)
-    Comentarios: string;
+    comentarios: string;
  
     @IsDateString()
-    Fecha: string;
+    fecha: string;
 }

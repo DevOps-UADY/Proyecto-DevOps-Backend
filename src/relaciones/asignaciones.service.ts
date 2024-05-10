@@ -22,15 +22,11 @@ export class AsignacionesService {
       ) { }
     
       async create (createAsignacionDto:CreateAsignacionDto) {
-        const vehiculo = await this.vehiculoRepository.findOne({where: { id: createAsignacionDto.IDVehiculo }});
-        const ruta = await this.rutaRepository.findOne({where: { id: createAsignacionDto.IDRuta }});
-        const conductor = await this.conductorRepository.findOne({where: { id: createAsignacionDto.IDConductor }});
+        const vehiculo = await this.vehiculoRepository.findOne({where: { id: createAsignacionDto.idVehiculo }});
+        const conductor = await this.conductorRepository.findOne({where: { id: createAsignacionDto.idConductor }});
     
         if (!vehiculo) {
           throw new NotFoundException('Vehículo con ID ${createAsignacionDto.IDVehiculo} no encontrado');
-        }
-        if (!ruta) {
-          throw new NotFoundException('Ruta con ID ${createAsignacionDto.IDRuta} no encontrado');
         }
         if (!conductor) {
           throw new NotFoundException('Conductor con ID ${createAsignacionDto.IDConductor} no encontrado');
@@ -53,15 +49,11 @@ export class AsignacionesService {
       }
     
       async update (id: number, updateAsignacionDto: UpdateAsignacionDto) {
-        const vehiculo = await this.vehiculoRepository.findOne({where: { id: updateAsignacionDto.IDVehiculo }});
-        const ruta = await this.rutaRepository.findOne({where: { id: updateAsignacionDto.IDRuta }});
-        const conductor = await this.conductorRepository.findOne({where: { id: updateAsignacionDto.IDConductor }});
+        const vehiculo = await this.vehiculoRepository.findOne({where: { id: updateAsignacionDto.idVehiculo }});
+        const conductor = await this.conductorRepository.findOne({where: { id: updateAsignacionDto.idConductor }});
     
         if (!vehiculo) {
           throw new NotFoundException('Vehículo con ID ${updateAsignacionDto.IDVehiculo} no encontrado');
-        }
-        if (!ruta) {
-          throw new NotFoundException('Ruta con ID ${updateAsignacionDto.IDRuta} no encontrado');
         }
         if (!conductor) {
           throw new NotFoundException('Conductor con ID ${updateAsignacionDto.IDConductor} no encontrado');

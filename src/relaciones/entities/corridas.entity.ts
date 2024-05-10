@@ -8,11 +8,11 @@ export class Corrida {
 
     @OneToOne(()=>Ruta)
     @JoinColumn({name: 'id_ruta'})
-    IDRuta: number;
+    idRuta: number;
 
     @Column()
-    Comentarios: string;
+    comentarios: string;
 
     @Column({ type: 'date' })
-    Fecha: string;
+    fecha: string;
 }

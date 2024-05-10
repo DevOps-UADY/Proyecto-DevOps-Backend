@@ -16,7 +16,7 @@ export class CorridasService {
       ) { }
     
       async create (createCorridaDto: CreateCorridaDto) {
-        const ruta = await this.rutaRepository.findOne({where: { id: createCorridaDto.IDRuta }});
+        const ruta = await this.rutaRepository.findOne({where: { id: createCorridaDto.idRuta }});
 
         if (!ruta) {
           throw new NotFoundException('Ruta con ID ${createAsignacionDto.IDRuta} no encontrado');
@@ -39,7 +39,7 @@ export class CorridasService {
       }
     
       async update (id: number, updateCorridaDto: UpdateCorridaDto) {
-        const ruta = await this.rutaRepository.findOne({where: { id: updateCorridaDto.IDRuta }});
+        const ruta = await this.rutaRepository.findOne({where: { id: updateCorridaDto.idRuta }});
 
         if (!ruta) {
           throw new NotFoundException('Ruta con ID ${createAsignacionDto.IDRuta} no encontrado');

@@ -5,13 +5,15 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-val
 export class UpdateCorridaDto extends PartialType(CreateCorridaDto) {
     @IsNumber()
     @IsNotEmpty()
-    IDRuta: number;
+    @IsOptional()
+    idRuta?: number;
 
     @IsString()
     @MinLength(10)
     @IsNotEmpty()
-    Comentarios: string;
+    @IsOptional()
+    comentarios?: string;
 
     @IsOptional()
-    Fecha?: string;
+    fecha?: string;
 }
