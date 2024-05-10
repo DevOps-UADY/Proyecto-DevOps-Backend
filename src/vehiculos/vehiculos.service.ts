@@ -64,6 +64,14 @@ export class VehiculosService {
     };
   }
 
+  async findTotal () {
+    const totalVehiculosDB = await this.vehiculoRepository.count();
+
+    return {
+      cantidad: totalVehiculosDB
+    };
+  }
+
   async findOne (id: number) {
     const vehiculo = await this.vehiculoRepository.findOne({ 
       where: { id },
