@@ -9,11 +9,11 @@ export class Asignacion {
 
     @OneToOne(()=>Vehiculo)
     @JoinColumn()
-    idVehiculo: number;
+    vehiculo: Vehiculo;
 
     @OneToOne(()=>Conductore)
     @JoinColumn()
-    idConductor: number;
+    conductor: Conductore;
 
     @Column({default: 0})
     idRuta: number;
