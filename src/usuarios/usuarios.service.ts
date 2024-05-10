@@ -97,9 +97,8 @@ export class UsuariosService {
   }
 
   async update (user: Usuario, updateUsuarioDto: UpdateUsuarioDto) {
-    
-    const contraseniaHashed = await bcrypt.hash(updateUsuarioDto.contrasenia, 10);
-    user.contrasenia = contraseniaHashed
+   
+    user.contrasenia = updateUsuarioDto.contrasenia
     const usuarioCreado = this.usuarioModel.create(user)
     const usuarioSaved = await this.usuarioModel.save(usuarioCreado);
     delete usuarioSaved.contrasenia
