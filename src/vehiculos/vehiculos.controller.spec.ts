@@ -10,6 +10,7 @@ describe('VehiculosController', () => {
   const mockVehiculosService = {
     create: jest.fn(),
     findAll: jest.fn(),
+    findTotal: jest.fn(),
     findOne: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
@@ -242,5 +243,15 @@ describe('VehiculosController', () => {
     expect(mockVehiculosService.remove).toHaveBeenCalled();
     expect(result).toEqual(true);
   });
+
+  it('findTotal => should return the total number of vehicles', async () =>{
+    const totalVehicles = 10;
+
+    jest.spyOn(mockVehiculosService, 'findTotal').mockResolvedValue({ total: totalVehicles });
+    const result = await vehiculosController.findTotal();
+    
+    expect(mockVehiculosService.findTotal).toHaveBeenCalled();
+    expect(result).toEqual({ total: totalVehicles });
+});
 
 });

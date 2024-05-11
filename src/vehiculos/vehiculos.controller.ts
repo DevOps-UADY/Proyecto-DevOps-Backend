@@ -21,6 +21,11 @@ export class VehiculosController {
     return this.vehiculosService.findAll();
   }
 
+  @Get('total')
+  findTotal () {
+    return this.vehiculosService.findTotal();
+  }
+
   @Get(':id')
   findOne (@Param('id') id: number) {
     return this.vehiculosService.findOne(id);
