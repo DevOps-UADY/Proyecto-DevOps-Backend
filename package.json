@@ -1,8 +1,8 @@
 {
   "name": "proyecto-dev-ops-backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Proyecto backend para la materia de DevOps",
+  "author": "Jonatan Jafet Santana May, Wilbert Gamboa, Ariel Fernandez, Edwin Andrade",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

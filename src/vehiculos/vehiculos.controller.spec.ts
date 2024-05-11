@@ -3,7 +3,7 @@ import { VehiculosController } from './vehiculos.controller';
 import { VehiculosService } from './vehiculos.service';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FileTypeResult } from 'file-type/core';
-
+// Esto lo hizo Ariel
 describe('VehiculosController', () => {
   let vehiculosController: VehiculosController;
 

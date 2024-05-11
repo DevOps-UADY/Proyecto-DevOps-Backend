@@ -5,20 +5,16 @@ import { IsBoolean, IsOptional,  IsNotEmpty, IsNumber } from "class-validator";
 export class UpdateAsignacionDto extends PartialType(CreateAsignacionDto) {
     @IsNumber()
     @IsNotEmpty()
-    IDVehiculo: number;
-
-    @IsNumber()
-    @IsNotEmpty()
-    IDConductor: number;
-
-    @IsNumber()
-    @IsNotEmpty()
-    IDRuta: number;
-
     @IsOptional()
-    FechaAsignacionVinculacion?: string;
+    idVehiculo?: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    @IsOptional()
+    idConductor?: number;
 
     @IsBoolean()
     @IsNotEmpty()
-    EnFuncionamiento: boolean;
+    @IsOptional()
+    enFuncionamiento?: boolean;
 }

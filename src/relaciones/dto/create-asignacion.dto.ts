@@ -1,18 +1,10 @@
-import { IsBoolean, IsNumber, IsDateString } from "class-validator";
+import { IsNumber } from "class-validator";
 
 export class CreateAsignacionDto {
     @IsNumber()
-    IDVehiculo: number;
+    idVehiculo: number;
 
     @IsNumber()
-    IDConductor: number;
+    idConductor: number;
 
-    @IsNumber()
-    IDRuta: number;
-
-    @IsDateString()
-    FechaAsignacionVinculacion: string;
-
-    @IsBoolean()
-    EnFuncionamiento: boolean;
 }

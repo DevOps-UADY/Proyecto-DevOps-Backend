@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RutasModule } from './rutas/rutas.module';
 import { AsignacionesModule } from './relaciones/asignaciones.module';
-import { CorridasModule } from './relaciones/corridas.module';
+import { RecorridosModule } from './relaciones/recorridos.module';
 import { ConductoresModule } from './conductores/conductores.module';
 import { CodigosModule } from './codigos/codigos.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
@@ -31,7 +31,7 @@ import configuration from './config/app.config';
     UsuariosModule,
     ConductoresModule,
     AsignacionesModule,
-    CorridasModule
+    RecorridosModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,7 +1,6 @@
 import { Conductore } from '../../conductores/entities/conductore.entity';
-import { Ruta } from '../../rutas/entities/ruta.entity';
 import { Vehiculo } from '../../vehiculos/entities/vehiculo.entity';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Asignacion {
@@ -9,20 +8,20 @@ export class Asignacion {
     id: number;
 
     @OneToOne(()=>Vehiculo)
-    @JoinColumn({name: 'id_vehiculo'})
-    IDVehiculo: number;
+    @JoinColumn()
+    vehiculo: Vehiculo;
 
     @OneToOne(()=>Conductore)
-    @JoinColumn({name: 'id_conductor'})
-    IDConductor: number;
+    @JoinColumn()
+    conductor: Conductore;
 
-    @OneToOne(()=>Ruta)
-    @JoinColumn({name: 'id_ruta'})
-    IDRuta: number;
+    @Column({default: 0})
+    idRuta: number;
 
-    @Column({ type: 'date' })
-    FechaAsignacionVinculacion: string;
+    @CreateDateColumn()
+    fechaAsignacionVinculacion: Date;
 
-    @Column()
-    EnFuncionamiento: boolean;
+    @Column({default: true})
+    enFuncionamiento: boolean;
+
 }
