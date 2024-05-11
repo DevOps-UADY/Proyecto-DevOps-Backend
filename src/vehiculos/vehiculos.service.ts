@@ -3,7 +3,7 @@ import { CreateVehiculoDto } from './dto/create-vehiculo.dto';
 import { UpdateVehiculoDto } from './dto/update-vehiculo.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vehiculo } from './entities/vehiculo.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { fileNamer } from './helpers/fileNamer.helper';
 import { saveImage } from './helpers/saveImage.helper';
 import * as fs from 'node:fs';
@@ -101,12 +101,16 @@ export class VehiculosService {
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
     }
 
-    const existePlaca = await this.vehiculoRepository.findOne({ 
-      where: { placa: updateVehiculoDto.placa }
-    });
+    if(updateVehiculoDto.placa !== "" && updateVehiculoDto.placa !== null && updateVehiculoDto.placa !== undefined){
 
-    if (existePlaca) {
-      throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
+      const existePlaca = await this.vehiculoRepository.exists({ 
+        where: { placa: updateVehiculoDto.placa, id: Not(id)}
+      });
+
+      if (existePlaca) {
+        throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
+      }
+      
     }
 
     let entidadVehiculo = {};
