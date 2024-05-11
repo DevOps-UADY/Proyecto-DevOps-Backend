@@ -43,4 +43,6 @@ else
 fi
 
 # Ejecutar el contenedor con la etiqueta de imagen formateada y el número de construcción
+
 docker run -d --name proyectodevopsbackend-$RAMA --network devops -p 3000:3000 proyectodevopsbackend-$RAMA:1.0.0-$BUILD_NUMBER
+

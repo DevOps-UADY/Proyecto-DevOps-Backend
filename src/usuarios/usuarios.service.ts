@@ -8,7 +8,6 @@ import { JwtPayload } from './strategies/jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
 import { Codigo } from '../codigos/entities/codigo.entity';
 import { LoginUsuarioDto } from './dto/login-usuario.dto';
-import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsuariosService {
 
@@ -97,9 +96,8 @@ export class UsuariosService {
   }
 
   async update (user: Usuario, updateUsuarioDto: UpdateUsuarioDto) {
-    
-    const contraseniaHashed = await bcrypt.hash(updateUsuarioDto.contrasenia, 10);
-    user.contrasenia = contraseniaHashed
+   
+    user.contrasenia = updateUsuarioDto.contrasenia
     const usuarioCreado = this.usuarioModel.create(user)
     const usuarioSaved = await this.usuarioModel.save(usuarioCreado);
     delete usuarioSaved.contrasenia

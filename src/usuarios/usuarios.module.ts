@@ -16,7 +16,7 @@ import configuration from '../config/app.config';
   PassportModule.register({ defaultStrategy: 'jwt' }),
   JwtModule.register({
     secret: configuration().JWT_SECRET,
-    signOptions: { expiresIn: '60s' },
+    signOptions: { expiresIn: '30d' },
   })],
   exports:[JwtStrategy,JwtModule,PassportModule]
 })
