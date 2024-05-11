@@ -5,7 +5,7 @@ import { IsDateString, IsBoolean, IsNumber, IsOptional, IsString } from "class-v
 export class UpdateRecorridoDto extends PartialType(CreateRecorridoDto) {
     @IsNumber()
     @IsOptional()
-    idAsignacion?: number;
+    asignacionId?: number;
 
     @IsNumber()
     @IsOptional()

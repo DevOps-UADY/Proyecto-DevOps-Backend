@@ -66,31 +66,44 @@ export class RecorridosService {
   }
 
   async update (id: number, updateCorridaDto: UpdateRecorridoDto) {
-    const { idAsignacion, rutaId, fechaRecorrido } = updateCorridaDto;
+    const { asignacionId, rutaId, fechaRecorrido } = updateCorridaDto;
     const ruta = await this.rutaRepository.findOne({where: { id: rutaId }});
     if (!ruta) {
       throw new NotFoundException(`Ruta con ID ${rutaId} no encontrado`);
     }
-
-    const asignacion = await this.validarAsignacion(idAsignacion);
+    
+    const asignacion = await this.validarAsignacion(asignacionId);
     if (!asignacion) {
       throw new NotFoundException('Asignacion no encontrada');
     }
 
-    const validarDisponibilidadConRuta = await this.validarDisponibilidad(fechaRecorrido,null,rutaId);
-    console.log(validarDisponibilidadConRuta);
-    
-    if(!validarDisponibilidadConRuta){
-      throw new NotFoundException('Ruta no disponible');
+    const asig = await this.asignacionRepository.findOne({
+      where: { id: asignacionId },
+      relations: ['vehiculo']
+    });
+
+    if(rutaId){
+      const validarDisponibilidadConRuta = await this.validarDisponibilidad(fechaRecorrido,asig.vehiculo.id,rutaId);  
+      if(!validarDisponibilidadConRuta){
+        throw new NotFoundException('Ruta no disponible');
+      }
     }
 
-    // const updateResult = await this.corridaRepository.update(id, updateCorridaDto);
-    // if (updateResult.affected === 0) {
-    //   throw new NotFoundException('Recurso no encontrado');
-    // }
-    // const newCorr = await this.corridaRepository.findOneBy({ id });
-    //return newCorr;
-    return true;
+    const corrToUpdate = await this.corridaRepository.findOneBy({ id });
+    if (!corrToUpdate) {
+      throw new NotFoundException('Recurso no encontrado');
+    }
+    
+    const newRecorrido = await this.corridaRepository.preload({
+      id,
+      ...updateCorridaDto,
+      asignacion: asig
+    });
+    if(!newRecorrido){
+      throw new NotFoundException('Recurso no encontrado');
+    }
+    const recorridoActualizado = await this.corridaRepository.save(newRecorrido);
+    return recorridoActualizado;
   }
 
   async remove (id: number) {
@@ -120,13 +133,10 @@ export class RecorridosService {
   private async validarDisponibilidad (fechaRecorrido: string, idVehiculo: number, rutaId?: number){
     let recorridosMismoDia;
     if(rutaId){
-       recorridosMismoDia = await this.validarDisponibilidadConRuta(fechaRecorrido, rutaId);
-        console.log("recorridosMismoDia");  
+       recorridosMismoDia = await this.validarDisponibilidadConRuta(fechaRecorrido, rutaId); 
       }else{
        recorridosMismoDia = await this.validarDisponibilidadConAsignacion(fechaRecorrido);
       }
-
-      console.log(recorridosMismoDia);
       
       const recorridosFiltrados = recorridosMismoDia.some((recorrido)=>{
         if(recorrido.asignacion.vehiculo.id === idVehiculo){
