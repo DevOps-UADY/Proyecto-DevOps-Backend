@@ -8,7 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('conductores')
 export class ConductoresController {
   constructor (private readonly conductoresService: ConductoresService) { }
-
+// E
   @Post()
   create (@Body() createConductoreDto: CreateConductoreDto) {
     return this.conductoresService.create(createConductoreDto);
@@ -18,7 +18,7 @@ export class ConductoresController {
   findAll () {
     return this.conductoresService.findAll();
   }
-
+// d
   @Get(':id')
   findOne (@Param('id') id: number) {
     return this.conductoresService.findOne(id);
@@ -28,7 +28,7 @@ export class ConductoresController {
   update (@Param('id') id: number, @Body() updateConductoreDto: UpdateConductoreDto) {
     return this.conductoresService.update(id, updateConductoreDto);
   }
-
+// wind
   @Delete(':id')
   remove (@Param('id') id: number) {
     return this.conductoresService.remove(id);

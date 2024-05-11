@@ -6,7 +6,7 @@ import { CodigosService } from './codigos.service';
 
 describe('CodigosController', () => {
   let codigosController: CodigosController;
-
+// esto
   const mockCodigosService = {
     create: jest.fn(),
     findAll: jest.fn(),
@@ -26,7 +26,7 @@ describe('CodigosController', () => {
         
       ],
       
-      
+// lo hizo wilbert  
     }).compile();
 
     codigosController = module.get<CodigosController>(CodigosController);
@@ -45,7 +45,7 @@ describe('CodigosController', () => {
         isActive: true,
     
     };
-
+// wil
     jest.spyOn(mockCodigosService, 'create').mockResolvedValue(codigo);
     const result = await codigosController.create();
     expect(mockCodigosService.create).toHaveBeenCalled();
@@ -53,7 +53,7 @@ describe('CodigosController', () => {
     expect(result).toEqual(codigo);
   });
 
-
+// bert
   it('findAll => should return an array of codigos', async () =>{
     const codigos = [
       {
