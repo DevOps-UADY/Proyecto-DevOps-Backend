@@ -26,6 +26,14 @@ export class VehiculosService {
       throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
     }
 
+    const existeVin = await this.vehiculoRepository.findOne({ 
+      where: { vin: createVehiculoDto.vin }
+    });
+
+    if (existeVin) {
+      throw new BadRequestException(`Ya existe un vehículo con el mismo vin`);
+    }
+
     try {
       const fileNameUuid = fileNamer(createVehiculoDto.fotografia.extension);
       saveImage(createVehiculoDto.fotografia, fileNameUuid);
@@ -109,6 +117,18 @@ export class VehiculosService {
 
       if (existePlaca) {
         throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
+      }
+      
+    }
+
+    if(updateVehiculoDto.vin !== "" && updateVehiculoDto.vin !== null && updateVehiculoDto.vin !== undefined){
+
+      const existeVin = await this.vehiculoRepository.exists({ 
+        where: { vin: updateVehiculoDto.vin, id: Not(id)}
+      });
+      console.log(existeVin);
+      if (existeVin) {
+        throw new BadRequestException(`Ya existe un vehículo con el mismo vin`);
       }
       
     }
