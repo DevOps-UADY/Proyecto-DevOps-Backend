@@ -1,4 +1,4 @@
-import { Column, Entity, CreateDateColumn,  JoinColumn, ManyToOne, DeleteDateColumn } from "typeorm";
+import { Column, Entity, CreateDateColumn,  JoinColumn, ManyToOne } from "typeorm";
 import { Asignacion } from "./asignaciones.entity";
 
 @Entity()
@@ -27,7 +27,4 @@ export class Recorrido {
 
     @CreateDateColumn()
     fechaCreacion: Date;
-
-    @DeleteDateColumn()
-    fechaBaja: Date;
 }

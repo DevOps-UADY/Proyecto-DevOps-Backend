@@ -6,7 +6,7 @@ import { Ruta } from '../rutas/entities/ruta.entity'
 import { CreateRecorridoDto } from './dto/create-recorrido.dto';
 import { UpdateRecorridoDto } from './dto/update-recorrido.dto';
 import { Asignacion } from './entities/asignaciones.entity';
-
+// Esto lo hizo Jonatan
 @Injectable()
 export class RecorridosService {
   constructor (
@@ -117,8 +117,8 @@ export class RecorridosService {
     if (fechaRecorridoDate < fechaActual) {
       throw new NotFoundException('No se puede eliminar un recorrido pasado');
     }
-
-    const deleteResult = await this.corridaRepository.softDelete({ id });
+// Esto lo hizo Jonatan
+    const deleteResult = await this.corridaRepository.delete({ id });
     if (deleteResult.affected === 0) {
       throw new NotFoundException('Recurso no encontrado');
     }
@@ -146,7 +146,7 @@ export class RecorridosService {
 
       return recorridosFiltrados === false;
   }
-
+// Esto lo hizo Jonatan
   private async validarDisponibilidadConRuta (fechaRecorrido: string, rutaId: number){
     return await this.corridaRepository.find(
       {where: {
@@ -174,3 +174,4 @@ export class RecorridosService {
       });
   }
 }
+// Esto lo hizo Jonatan
