@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Asignacion } from './entities/asignaciones.entity';
 import { Vehiculo } from '../vehiculos/entities/vehiculo.entity';
@@ -143,19 +143,24 @@ export class AsignacionesService {
       }
     
       async remove (id: number) {
-        const asigToDelete = await this.asignacionRepository.findOne({ 
-          where: { id },
-          relations: ['vehiculo', 'conductor']
-        });
-
-        if (!asigToDelete) {
-          throw new NotFoundException('Recurso no encontrado');
+        try{
+          const asigToDelete = await this.asignacionRepository.findOne({ 
+            where: { id },
+            relations: ['vehiculo', 'conductor']
+          });
+  
+          if (!asigToDelete) {
+            throw new NotFoundException('Recurso no encontrado');
+          }
+  
+          const deleteResult = await this.asignacionRepository.delete({ id });
+          if (deleteResult.affected === 0) {
+            throw new NotFoundException('Recurso no encontrado');
+          }
+          return asigToDelete;
+        }catch(e){
+          throw new HttpException('No se puede borrar ya que se tiene una relación con recorridos', 409);
         }
 
-        const deleteResult = await this.asignacionRepository.delete({ id });
-        if (deleteResult.affected === 0) {
-          throw new NotFoundException('Recurso no encontrado');
-        }
-        return asigToDelete;
       }
 }
