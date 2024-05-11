@@ -21,6 +21,11 @@ export class VehiculosController {
     return this.vehiculosService.findAll();
   }
 
+  @Get('total')
+  findTotal () {
+    return this.vehiculosService.findTotal();
+  }
+
   @Get(':id')
   findOne (@Param('id') id: number) {
     return this.vehiculosService.findOne(id);
@@ -28,13 +33,13 @@ export class VehiculosController {
 
   @Put(':id')
   @FormDataRequest()
-  @HttpCode(204)
-  update (@Param('id') id: number, @Body() updateVehiculoDto: UpdateVehiculoDto) {
-    return this.vehiculosService.update(id, updateVehiculoDto);
+
+  async update (@Param('id') id: number, @Body() updateVehiculoDto: UpdateVehiculoDto) {
+    return await this.vehiculosService.update(id, updateVehiculoDto);
   }
 
   @Delete(':id')
-  @HttpCode(204)
+  
   remove (@Param('id') id: number) {
     return this.vehiculosService.remove(id);
   }
