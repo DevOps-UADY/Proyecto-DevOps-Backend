@@ -13,11 +13,6 @@ export class UpdateAsignacionDto extends PartialType(CreateAsignacionDto) {
     @IsOptional()
     idConductor?: number;
 
-    @IsNumber()
-    @IsNotEmpty()
-    @IsOptional()
-    idRuta?: number;
-
     @IsBoolean()
     @IsNotEmpty()
     @IsOptional()

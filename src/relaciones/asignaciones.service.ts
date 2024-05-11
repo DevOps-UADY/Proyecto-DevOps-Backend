@@ -132,7 +132,6 @@ export class AsignacionesService {
           id: id,
           vehiculo: vehiculo,
           conductor: conductor,
-          idRuta: updateAsignacionDto.idRuta,
           enFuncionamiento: updateAsignacionDto.enFuncionamiento
         });
         
