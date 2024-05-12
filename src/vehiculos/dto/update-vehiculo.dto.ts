@@ -4,7 +4,7 @@ import { HasMimeType, IsFile, MemoryStoredFile } from 'nestjs-form-data';
 
 export class UpdateVehiculoDto {
     @IsString()
-    @MinLength(1)
+    @MinLength(1, { message: 'La marca del vehículo es obligatoria' })
     @IsNotEmpty()
     @IsOptional()
     marca: string;
@@ -33,11 +33,10 @@ export class UpdateVehiculoDto {
 
     @IsDateString()
     @IsOptional()
-
     fechaCompra?: string;
 
-    @IsInt()
-    @IsPositive()
+    @IsInt({ message: 'El costo del vehículo debe ser un número entero' })
+    @IsPositive({ message: 'El costo del vehículo debe ser un número positivo' })
     @IsNotEmpty()
     @IsOptional()   
     costo: number;
@@ -49,7 +48,7 @@ export class UpdateVehiculoDto {
     @IsOptional()
     fotografia?: MemoryStoredFile;
 
-    @IsBoolean()
+    @IsBoolean({ message: 'El estado de asignación debe ser un valor booleano' })
     @IsOptional()
     estatusAsignacion?: boolean;
 }
