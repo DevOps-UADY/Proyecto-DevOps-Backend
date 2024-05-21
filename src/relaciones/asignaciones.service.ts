@@ -6,6 +6,7 @@ import { Vehiculo } from '../vehiculos/entities/vehiculo.entity';
 import { Conductore } from '../conductores/entities/conductore.entity';
 import { CreateAsignacionDto } from './dto/create-asignacion.dto';
 import { UpdateAsignacionDto } from './dto/update-asignacion.dto';
+import { AppLogger } from '../logger/logger.service';
 
 @Injectable()
 export class AsignacionesService {
@@ -15,7 +16,8 @@ export class AsignacionesService {
         @InjectRepository(Vehiculo)
         private vehiculoRepository: Repository<Vehiculo>,
         @InjectRepository(Conductore)
-        private conductorRepository: Repository<Conductore>
+        private conductorRepository: Repository<Conductore>,
+        private readonly logger: AppLogger
       ) { }
     
       async create (createAsignacionDto:CreateAsignacionDto) {
@@ -23,9 +25,11 @@ export class AsignacionesService {
         const conductor = await this.conductorRepository.findOne({where: { id: createAsignacionDto.idConductor }});
         
         if (!vehiculo) {
+          this.logger.warn(`Vehículo con ID ${createAsignacionDto.idVehiculo} no encontrado`);
           throw new NotFoundException(`Vehículo con ID ${createAsignacionDto.idVehiculo} no encontrado`);
         }
         if (!conductor) {
+          this.logger.warn(`Conductor con ID ${createAsignacionDto.idConductor} no encontrado`);
           throw new NotFoundException(`Conductor con ID ${createAsignacionDto.idConductor} no encontrado`);
         }
         
@@ -59,13 +63,15 @@ export class AsignacionesService {
         );
 
         if (conductorAsignacion && conductorAsignacion.conductor.id === createAsignacionDto.idConductor) {
-          console.log('Conductor ya asignado');
+          this.logger.warn('Conductor ya asignado');
           throw new NotFoundException('Conductor ya asignado');
         }
 
         const asignacion = new Asignacion();
         asignacion.vehiculo = vehiculo;
         asignacion.conductor = conductor;
+        this.logger.log('Asignación creada');
+        this.logger.log(JSON.stringify(asignacion));
         return await this.asignacionRepository.save(asignacion);
       }
     
@@ -80,8 +86,11 @@ export class AsignacionesService {
         });
 
         if (!asig) {
+          this.logger.warn(`Asignación con id ${id} no encontrada`);
           throw new NotFoundException('Invalid id');
         }
+        this.logger.log(`Asignación con id ${id} encontrada`);
+        this.logger.log(JSON.stringify(asig));
         return asig;
       }
     
@@ -90,9 +99,11 @@ export class AsignacionesService {
         const conductor = await this.conductorRepository.findOne({where: { id: updateAsignacionDto.idConductor }});
     
         if (!vehiculo) {
+          this.logger.warn(`Vehículo con ID ${updateAsignacionDto.idVehiculo} no encontrado`);
           throw new NotFoundException(`Vehículo con ID ${updateAsignacionDto.idVehiculo} no encontrado`);
         }
         if (!conductor) {
+          this.logger.warn(`Conductor con ID ${updateAsignacionDto.idConductor} no encontrado`);
           throw new NotFoundException(`Conductor con ID ${updateAsignacionDto.idConductor} no encontrado`);
         }
 
@@ -108,7 +119,8 @@ export class AsignacionesService {
           }
         );
         if (vehiculoAsignacion && vehiculoAsignacion.vehiculo.id === updateAsignacionDto.idVehiculo) {
-          console.log('Vehículo ya asignado');
+          this.logger.warn('Vehículo ya asignado');
+          this.logger.debug(JSON.stringify(vehiculoAsignacion));
           throw new NotFoundException('Vehículo ya asignado');
         }
 
@@ -124,7 +136,8 @@ export class AsignacionesService {
           }
         );
         if (conductorAsignacion && conductorAsignacion.conductor.id === updateAsignacionDto.idConductor) {
-          console.log('Conductor ya asignado');
+          this.logger.warn('Conductor ya asignado');
+          this.logger.debug(JSON.stringify(conductorAsignacion));
           throw new NotFoundException('Conductor ya asignado');
         }
         
@@ -136,9 +149,13 @@ export class AsignacionesService {
         });
         
         if (!newAsig) {
+          this.logger.log(`Asignación con ID ${id} no encontrada`);
+          this.logger.debug(`Asignación con ID ${id} no encontrada`);
           throw new NotFoundException(`Asignación con ID ${id} no encontrada`);
         }
         const newAsignacion = await this.asignacionRepository.save(newAsig);
+        this.logger.log(`Asignación con ID ${id} modificada`);
+        this.logger.debug(JSON.stringify(newAsignacion));
         return newAsignacion;
       }
     
@@ -159,6 +176,7 @@ export class AsignacionesService {
           }
           return asigToDelete;
         }catch(e){
+          this.logger.error(e.message, e.trace);
           throw new HttpException('No se puede borrar ya que se tiene una relación con recorridos', 409);
         }
 

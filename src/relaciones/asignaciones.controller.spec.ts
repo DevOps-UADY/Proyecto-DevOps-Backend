@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AsignacionesController } from "./asignaciones.controller";
 import { AsignacionesService } from "./asignaciones.service";
+import { AppLogger } from '../logger/logger.service';
 
 describe('AsignacionesController', () => {
     let asignacionesController: AsignacionesController;
@@ -13,6 +14,11 @@ describe('AsignacionesController', () => {
         remove: jest.fn(),
     };
 
+    const mockLogger = {
+        log: jest.fn(),
+        warn: jest.fn(),
+      };
+
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [AsignacionesController],
@@ -21,6 +27,10 @@ describe('AsignacionesController', () => {
                     provide: AsignacionesService,
                     useValue: mockAsignacionesService,
                 },
+                {
+                    provide: AppLogger,
+                    useValue: mockLogger,
+                }
             ],
         }).compile();
 
