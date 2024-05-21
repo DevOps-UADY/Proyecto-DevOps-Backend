@@ -3,7 +3,7 @@ import { RutasService } from './rutas.service';
 import { RutasController } from './rutas.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ruta } from './entities/ruta.entity'
-import { LoggerModule } from 'src/logger/logger.module';
+import { LoggerModule } from '../logger/logger.module';
 
 @Module({
   imports: [
