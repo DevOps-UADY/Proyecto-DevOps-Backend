@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RutasController } from './rutas.controller';
 import { RutasService } from './rutas.service';
+import { AppLogger } from '../logger/logger.service';
 
 describe('RutasController', () => {
   let rutasController: RutasController;
@@ -13,6 +14,11 @@ describe('RutasController', () => {
     remove: jest.fn(),
   };
 
+  const mockLogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [RutasController],
@@ -21,6 +27,10 @@ describe('RutasController', () => {
           provide: RutasService,
           useValue: mockRutaService,
         },
+        {
+          provide: AppLogger,
+          useValue: mockLogger,
+        }
       ],
     }).compile();
 

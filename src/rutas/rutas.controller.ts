@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { RutasService } from './rutas.service';
-import { AppLogger } from 'src/logger/logger.service';
+import { AppLogger } from '../logger/logger.service';
 import { CreateRutaDto } from './dto/create-ruta.dto';
 import { UpdateRutaDto } from './dto/update-ruta.dto';
 import { ApiTags } from '@nestjs/swagger';

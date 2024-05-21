@@ -4,7 +4,7 @@ import { UpdateRutaDto } from './dto/update-ruta.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ruta } from './entities/ruta.entity';
 import { Repository } from 'typeorm';
-import { AppLogger } from 'src/logger/logger.service';
+import { AppLogger } from '../logger/logger.service';
 
 @Injectable()
 export class RutasService {
