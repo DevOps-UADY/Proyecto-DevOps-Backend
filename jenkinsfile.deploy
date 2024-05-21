@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    environment {
+        BRANCH = sh(script: 'echo $GIT_BRANCH | cut -b 8-14 | tr \'[:upper:]\' \'[:lower:]\' | tr \'/\' \'_\'', returnStdout: true).trim()
+        IMAGE_TAG = "proyectodevopsbackend-$BRANCH:1.0.0-${BUILD_NUMBER}"
+        CONTAINER_NAME = "proyectodevopsbackend-$BRANCH"
+    }
+
+    stages {
+        stage('Build, Package & Tag') {
+            steps {
+                sh "docker build -t $IMAGE_TAG ."
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=$CONTAINER_NAME\"", returnStdout: true).trim()
+                    if (CONTAINER_ID) {
+                        sh "docker stop $CONTAINER_ID"
+                        sh "docker rm $CONTAINER_ID"
+                    } else {
+                        echo "El contenedor no existe."
+                    }
+                    sh "docker run -d --name $CONTAINER_NAME --network devops -p 3000:3000 $CONTAINER_NAME:1.0.0-${BUILD_NUMBER}"
+                }
+            }
+        }
+    }
+}
