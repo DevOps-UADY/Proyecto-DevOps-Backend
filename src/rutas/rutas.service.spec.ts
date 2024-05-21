@@ -3,6 +3,7 @@ import { RutasService } from './rutas.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Ruta } from './entities/ruta.entity';
 import { CreateRutaDto } from './dto/create-ruta.dto';
+import { AppLogger } from '../logger/logger.service';
 
 describe('Rutas service', () => {
     let rutaService: RutasService;
@@ -16,6 +17,11 @@ describe('Rutas service', () => {
     update: jest.fn(),
   };
 
+  const mockLogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -24,6 +30,10 @@ describe('Rutas service', () => {
           provide: getRepositoryToken(Ruta),
           useValue: mockRutaRepository,
         },
+        {
+          provide: AppLogger,
+          useValue: mockLogger,
+        }
       ],
     }).compile();
 
