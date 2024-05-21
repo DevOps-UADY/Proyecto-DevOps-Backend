@@ -10,6 +10,7 @@ import { ConductoresModule } from './conductores/conductores.module';
 import { CodigosModule } from './codigos/codigos.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import configuration from './config/app.config';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import configuration from './config/app.config';
     UsuariosModule,
     ConductoresModule,
     AsignacionesModule,
-    RecorridosModule
+    RecorridosModule,
+    LoggerModule
   ],
   controllers: [AppController],
   providers: [AppService],

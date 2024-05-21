@@ -1,0 +1,8 @@
+2024-05-21 00:08:28 [info]: Llamando GET /rutas/:id
+2024-05-21 00:08:28 [warn]: Ruta con id 10 no encontrada
+2024-05-21 00:09:01 [info]: Llamando PUT /rutas/:id
+2024-05-21 00:09:01 [info]: Ruta con id 2 modificada
+2024-05-21 00:09:01 [info]: {"nombreRuta":"priedras"}
+2024-05-21 00:09:14 [info]: Llamando DELETE /rutas/:id
+2024-05-21 00:09:14 [info]: Ruta con id 2 eliminada
+2024-05-21 00:09:14 [info]: {"id":2,"nombreRuta":"priedras","estadoRuta":true,"latitudInicio":"0.00000000","longitudInicio":"0.00000000","latitudDestino":"90.00000000","longitudDestino":"180.00000000","deletedAt":null,"fechaCreacionRuta":"2024-05-21T11:50:07.222Z"}
