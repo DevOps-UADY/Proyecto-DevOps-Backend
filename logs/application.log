@@ -6,3 +6,60 @@
 2024-05-21 00:09:14 [info]: Llamando DELETE /rutas/:id
 2024-05-21 00:09:14 [info]: Ruta con id 2 eliminada
 2024-05-21 00:09:14 [info]: {"id":2,"nombreRuta":"priedras","estadoRuta":true,"latitudInicio":"0.00000000","longitudInicio":"0.00000000","latitudDestino":"90.00000000","longitudDestino":"180.00000000","deletedAt":null,"fechaCreacionRuta":"2024-05-21T11:50:07.222Z"}
+2024-05-21 10:27:22 [info]: Llamando POST /asignaciones
+2024-05-21 10:27:33 [info]: Llamando POST /rutas
+2024-05-21 10:27:33 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-21 10:47:54 [info]: Llamando POST /asignaciones
+2024-05-21 10:47:54 [info]: Asignación creada
+2024-05-21 10:47:54 [info]: {"vehiculo":{"id":2,"marca":"chevy","modelo":"aaa","vin":"bbb2","placa":"A823-EEE2","fechaCompra":"2024-04-04","costo":1,"fotografia":"4b654070-1ee6-4bcb-bf06-4770a9fc53a6.jpg","estatusAsignacion":true,"fechaIngresoSistema":"2024-05-21"},"conductor":{"id":2,"nombreConductor":"string","fechaNacimiento":"2024-04-04","curp":"string1","direccionCasa":"string","salario":0,"numeroLicencia":2,"deletedAt":null,"fechaIngresoSistemaConductor":"2024-05-21T22:26:58.276Z"}}
+2024-05-21 10:48:06 [info]: Llamando GET /asignaciones
+2024-05-21 10:48:13 [info]: Llamando GET /asignaciones/:id
+2024-05-21 10:48:13 [warn]: Asignación con id 10 no encontrada
+2024-05-21 10:48:17 [info]: Llamando GET /asignaciones/:id
+2024-05-21 10:48:17 [warn]: Asignación con id 10 no encontrada
+2024-05-21 10:48:21 [info]: Llamando GET /asignaciones/:id
+2024-05-21 10:48:21 [warn]: Asignación con id 100 no encontrada
+2024-05-21 10:49:14 [info]: Llamando PUT /asignaciones/:id
+2024-05-21 10:49:14 [warn]: Vehículo con ID 0 no encontrado
+2024-05-21 10:49:40 [info]: Llamando PUT /asignaciones/:id
+2024-05-21 10:49:41 [warn]: Conductor con ID 7 no encontrado
+2024-05-21 10:49:46 [info]: Llamando PUT /asignaciones/:id
+2024-05-21 10:49:46 [warn]: Conductor ya asignado
+2024-05-21 10:49:52 [info]: Llamando PUT /asignaciones/:id
+2024-05-21 10:49:52 [warn]: Conductor ya asignado
+2024-05-21 10:49:57 [info]: Llamando PUT /asignaciones/:id
+2024-05-21 10:49:57 [info]: Asignación con ID 1 modificada
+2024-05-21 10:50:23 [info]: Llamando GET /asignaciones
+2024-05-21 10:51:28 [info]: Llamando POST /recorridos
+2024-05-21 10:51:28 [info]: Recorrido creado
+2024-05-21 10:51:28 [info]: {"auxAsignacion":1,"rutaId":1,"fechaRecorrido":"2024-05-05","asignacion":{"id":1,"idRuta":0,"fechaAsignacionVinculacion":"2024-05-21T22:27:22.422Z","enFuncionamiento":true,"vehiculo":{"id":1,"marca":"chevy","modelo":"aaa","vin":"bbb","placa":"A823-EEE3","fechaCompra":"2024-04-04","costo":1,"fotografia":"198520bc-013a-4792-ae13-29e0734bc635.jpg","estatusAsignacion":true,"fechaIngresoSistema":"2024-05-21"}}}
+2024-05-21 10:51:34 [info]: Llamando DELETE /asignaciones/:id
+2024-05-21 10:51:34 [error]: update or delete on table "asignacion" violates foreign key constraint "FK_bb8e929d8ed7aa8aa65daaa54a0" on table "recorrido" undefined
+2024-05-21 10:52:19 [info]: Llamando GET /recorridos/:id
+2024-05-21 10:52:19 [warn]: Recorrido con id 10 no encontrado
+2024-05-21 10:52:23 [info]: Llamando GET /recorridos/:id
+2024-05-21 10:52:23 [info]: Recorrido encontrado
+2024-05-21 10:52:23 [info]: {"id":1,"auxAsignacion":1,"rutaId":1,"fechaRecorrido":"2024-05-05","exito":true,"comentario":"","fechaCreacion":"2024-05-21T22:51:28.728Z","asignacion":{"id":1,"idRuta":0,"fechaAsignacionVinculacion":"2024-05-21T22:27:22.422Z","enFuncionamiento":true}}
+2024-05-21 10:52:47 [info]: Llamando PUT /recorridos/:id
+2024-05-21 10:52:47 [warn]: Recorrido con id 10 no encontrado
+2024-05-21 10:52:53 [info]: Llamando PUT /recorridos/:id
+2024-05-21 10:52:53 [warn]: Recorrido con id 10 no encontrado
+2024-05-21 10:52:57 [info]: Llamando PUT /recorridos/:id
+2024-05-21 10:52:57 [info]: Recorrido actualizado
+2024-05-21 10:52:57 [info]: {"id":1,"auxAsignacion":1,"rutaId":1,"fechaRecorrido":"2024-05-05","exito":true,"comentario":"hola","fechaCreacion":"2024-05-21T22:51:28.728Z","asignacion":{"id":1,"idRuta":0,"fechaAsignacionVinculacion":"2024-05-21T22:27:22.422Z","enFuncionamiento":true,"vehiculo":{"id":1,"marca":"chevy","modelo":"aaa","vin":"bbb","placa":"A823-EEE3","fechaCompra":"2024-04-04","costo":1,"fotografia":"198520bc-013a-4792-ae13-29e0734bc635.jpg","estatusAsignacion":true,"fechaIngresoSistema":"2024-05-21"}}}
+2024-05-21 10:53:08 [info]: Llamando DELETE /recorridos/:id
+2024-05-21 10:53:08 [warn]: Recorrido con id 10 no encontrado
+2024-05-21 10:53:12 [info]: Llamando DELETE /recorridos/:id
+2024-05-21 10:53:12 [warn]: No se puede eliminar un recorrido pasado
+2024-05-21 10:54:06 [info]: Llamando POST /rutas
+2024-05-21 10:54:06 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":0,"longitudDestino":0}
+2024-05-21 10:54:07 [info]: Llamando POST /rutas
+2024-05-21 10:54:07 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":0,"longitudDestino":0}
+2024-05-21 10:54:08 [info]: Llamando DELETE /rutas/:id
+2024-05-21 10:54:08 [info]: Ruta con id 6 eliminada
+2024-05-21 10:54:08 [info]: {"id":6,"nombreRuta":"string","estadoRuta":true,"latitudInicio":"0.00000000","longitudInicio":"0.00000000","latitudDestino":"0.00000000","longitudDestino":"0.00000000","deletedAt":null,"fechaCreacionRuta":"2024-05-21T22:54:07.322Z"}
+2024-05-21 10:54:09 [info]: Llamando POST /rutas
+2024-05-21 10:54:09 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":0,"longitudDestino":0}
+2024-05-21 10:54:10 [info]: Llamando PUT /rutas/:id
+2024-05-21 10:54:10 [info]: Ruta con id 7 modificada
+2024-05-21 10:54:10 [info]: {"estadoRuta":false}

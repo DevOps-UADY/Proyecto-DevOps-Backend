@@ -5,9 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Recorrido } from './entities/recorridos.entity'
 import { Asignacion } from './entities/asignaciones.entity';
 import { Ruta } from '../rutas/entities/ruta.entity'
+import { LoggerModule } from '../logger/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Recorrido, Asignacion, Ruta])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Recorrido, 
+      Asignacion, 
+      Ruta
+    ]),
+    LoggerModule
+  ],
   controllers: [RecorridosController],
   providers: [RecorridosService],
 })
