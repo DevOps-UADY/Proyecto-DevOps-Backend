@@ -4,12 +4,14 @@ pipeline {
         BRANCH = sh(script: 'echo $GIT_BRANCH | cut -b 8-14 | tr \'[:upper:]\' \'[:lower:]\' | tr \'/\' \'_\'', returnStdout: true).trim()
         IMAGE_TAG = "proyectodevopsbackend-$BRANCH:1.0.0-${BUILD_NUMBER}"
         CONTAINER_NAME = "proyectodevopsbackend-$BRANCH"
+        LOGSTASH_IMAGE_TAG = "logstash:1.0.0-${BUILD_NUMBER}"
     }
 
     stages {
         stage('Build, Package & Tag') {
             steps {
                 sh "docker build -t $IMAGE_TAG ."
+                sh "docker build -t $LOGSTASH_IMAGE_TAG -f logstash/Dockerfile ."
             }
         }
         stage('Deploy') {
