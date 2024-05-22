@@ -3,6 +3,7 @@ import { ConductoresService } from './conductores.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Conductore } from './entities/conductore.entity';
 import { CreateConductoreDto } from './dto/create-conductore.dto';
+import { AppLogger } from '../logger/logger.service';
 
 describe('Conductores service', () => {
     let conductoresService: ConductoresService;
@@ -17,6 +18,11 @@ describe('Conductores service', () => {
     update: jest.fn(),
   };
 
+  const mockLogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -25,6 +31,10 @@ describe('Conductores service', () => {
           provide: getRepositoryToken(Conductore),
           useValue: mockConductoreRepository,
         },
+        {
+          provide: AppLogger,
+          useValue: mockLogger,
+        }
       ],
     }).compile();
 
