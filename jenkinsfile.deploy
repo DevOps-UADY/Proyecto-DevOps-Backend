@@ -9,20 +9,29 @@ pipeline {
     stages {
         stage('Build, Package & Tag') {
             steps {
-                sh "docker build -t $IMAGE_TAG ."
+                sh "sudo docker build -t $IMAGE_TAG ."
             }
         }
         stage('Deploy') {
             steps {
                 script {
-                    CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=$CONTAINER_NAME\"", returnStdout: true).trim()
+                    // Deploy the project container
+                    CONTAINER_ID = sh(script: "sudo docker ps -a -q --filter=\"name=$CONTAINER_NAME\"", returnStdout: true).trim()
                     if (CONTAINER_ID) {
-                        sh "docker stop $CONTAINER_ID"
-                        sh "docker rm $CONTAINER_ID"
+                        sh "sudo docker stop $CONTAINER_ID"
+                        sh "sudo docker rm $CONTAINER_ID"
                     } else {
                         echo "El contenedor no existe."
                     }
-                    sh "docker run -d --name $CONTAINER_NAME --network devops -p 3000:3000 $CONTAINER_NAME:1.0.0-${BUILD_NUMBER}"
+                    sh "sudo docker run -d --name $CONTAINER_NAME --network devops -v project_logs:/app/logs -p 3000:3000 $IMAGE_TAG"
+
+                    // Deploy the Logstash container
+                    LOGSTASH_CONTAINER_ID = sh(script: "sudo docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
+                    if (LOGSTASH_CONTAINER_ID) {
+                        sh "sudo docker stop $LOGSTASH_CONTAINER_ID"
+                        sh "sudo docker rm $LOGSTASH_CONTAINER_ID"
+                    }
+                    sh "sudo docker run -d --name logstash-$BRANCH --network devops -v project_logs:/app/logs -v $WORKSPACE/logstash/pipeline:/usr/share/logstash/pipeline docker.elastic.co/logstash/logstash:7.12.1"
                 }
             }
         }

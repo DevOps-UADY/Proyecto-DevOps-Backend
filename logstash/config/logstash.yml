@@ -1,0 +1,4 @@
+node.name: logstash_devops-backend
+api.environment: dev
+pipeline.id: devops-backend-pipeline
+path.config: "/usr/share/logstash/pipeline/devops-backend-pipeline.conf"

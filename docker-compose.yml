@@ -11,5 +11,25 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - d_data:/var/lib/postgresql/data
+
+  project:
+    build: .
+    image: proyectodevopsbackend:latest
+    volumes:
+      - project_logs:/app/logs
+    ports:
+      - "3000:3000"
+  
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.12.1
+    volumes:
+      - project_logs:/app/logs
+      - ./logstash/pipeline/:/usr/share/logstash/pipeline/
+    environment:
+      - xpack.monitoring.enabled=false
+    depends_on:
+      - project
+
 volumes:
   d_data:
+  project_logs:
