@@ -31,7 +31,7 @@ pipeline {
                     sh 'sudo docker volume create $CONTAINER_NAME-logs'
 
                     // Deploy the project container
-                    CONTAINER_ID = sh(script: "sudo docker ps -a -q --filter=\"name=$CONTAINER_NAME\"", returnStdout: true).trim()
+                    CONTAINER_ID = sh(script: 'sudo docker ps -a -q --filter="name=$CONTAINER_NAME"', returnStdout: true).trim()
                     if (CONTAINER_ID) {
                         sh 'sudo docker stop $CONTAINER_ID'
                         sh 'sudo docker rm $CONTAINER_ID'
@@ -42,7 +42,7 @@ pipeline {
                     sh 'sudo docker run -d --name $CONTAINER_NAME --mount source=$CONTAINER_NAME-logs,target=/logs $IMAGE_TAG'
 
                     // Deploy the Logstash container
-                    LOGSTASH_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
+                    LOGSTASH_CONTAINER_ID = sh(script: "sudo docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
                     if (LOGSTASH_CONTAINER_ID) {
                         sh 'sudo docker stop $LOGSTASH_CONTAINER_ID'
                         sh 'sudo docker rm $LOGSTASH_CONTAINER_ID'
