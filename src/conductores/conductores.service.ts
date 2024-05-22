@@ -4,13 +4,15 @@ import { UpdateConductoreDto } from './dto/update-conductore.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Conductore } from './entities/conductore.entity';
 import { Repository } from 'typeorm';
+import { AppLogger } from '../logger/logger.service';
 
 @Injectable()
 export class ConductoresService {
 
   constructor (
     @InjectRepository(Conductore)
-    private readonly conductoreRepository: Repository<Conductore>
+    private readonly conductoreRepository: Repository<Conductore>,
+    private readonly logger: AppLogger
   ) { }
 
   async create (createConductoreDto: CreateConductoreDto) {
@@ -58,17 +60,22 @@ export class ConductoresService {
     });
 
     if (!conductor) {
+      this.logger.warn(`Conductor con id ${id} no encontrada`);
       throw new NotFoundException('ID invalido');
     }
+    this.logger.log(`Conductor con id ${id} encontrada`);
+    this.logger.log(JSON.stringify(conductor));
     return conductor;
   }
 
   async update (id: number, updateConductoreDto: UpdateConductoreDto) {
-
     const updateResult = await this.conductoreRepository.update(id, updateConductoreDto);
     if (updateResult.affected === 0) {
+      this.logger.warn(`Conductor con id ${id} no encontrada`);
       throw new NotFoundException('Recurso no encontrado');
     }
+    this.logger.log(`Conductor con id ${id} modificado`);
+    this.logger.log(JSON.stringify(updateConductoreDto));
     const conductorModificado = await this.conductoreRepository.findOneBy({ id });
     return conductorModificado;
   }
@@ -76,13 +83,17 @@ export class ConductoresService {
   async remove (id: number) {
     const conductorToDelete = await this.conductoreRepository.findOneBy({ id });
     if (!conductorToDelete) {
+      this.logger.warn(`Conductor con id ${id} no encontrada`);
       throw new NotFoundException('Recurso no encontrado');
     }
 
     const deleteResult = await this.conductoreRepository.softDelete({ id });
     if (deleteResult.affected === 0) {
+      this.logger.warn(`Conductor con id ${id} no encontrada`);
       throw new NotFoundException('Recurso no encontrado');
     }
+    this.logger.log(`Conductor con id ${id} eliminada`);
+    this.logger.log(JSON.stringify(conductorToDelete));
     return conductorToDelete;
   }
 }
