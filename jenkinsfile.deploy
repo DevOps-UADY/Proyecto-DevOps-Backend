@@ -11,7 +11,8 @@ pipeline {
         stage('Build, Package & Tag') {
             steps {
                 sh "docker build -t $IMAGE_TAG ."
-                sh "docker build -t $LOGSTASH_IMAGE_TAG -f logstash/Dockerfile ."
+                sh "docker build -t $LOGSTASH_IMAGE_TAG -f ./logstash/Dockerfile/ ."
+                logstash/Dockerfile/dockerfile
             }
         }
         stage('Deploy') {
