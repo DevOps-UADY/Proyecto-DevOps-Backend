@@ -48,7 +48,7 @@ pipeline {
                         sh 'sudo docker rm $LOGSTASH_CONTAINER_ID'
                     }
                     //sh "docker run -d --name logstash-$BRANCH --network devops -v project_logs:/app/logs -v $WORKSPACE/logstash/pipeline:/usr/share/logstash/pipeline docker.elastic.co/logstash/logstash:7.12.1"
-                    sh 'sudo docker run -d --name logstash-$BRANCH --mount source=$CONTAINER_NAME-logs,target=/logs -v $(pwd)/logstash.conf:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.10.1'
+                    sh 'sudo docker run -d --name logstash-$BRANCH --mount source=$CONTAINER_NAME-logs,target=/logs -v $(WORKSPACE)/logstash.conf:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.10.1'
 
                     // // Deploy Kibana
                     // KIBANA_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
