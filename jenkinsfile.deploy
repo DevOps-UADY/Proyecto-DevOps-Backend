@@ -25,7 +25,7 @@ pipeline {
                         sh " docker rm $ELASTIC_CONTAINER_ID"
                     }
                     //sh "docker run -d --name elasticsearch-$BRANCH --network devops -p 9200:9200 -e discovery.type=single-node -e ES_JAVA_OPTS='-Xms512m -Xmx512m' -v es_data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:7.12.1"
-                    sh 'docker run -d --name elasticsearch-$BRANCH -p 9200:9200 --network devops -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.1'
+                    sh 'docker run -d --name elasticsearch-$BRANCH -p 9200:9200 --network devops --ip 172.22.0.3 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.1'
 
                     //create a volume for the logs
                     sh 'docker volume create $CONTAINER_NAME-logs'
