@@ -48,8 +48,8 @@ pipeline {
                         sh "docker rm $LOGSTASH_CONTAINER_ID"
                     }
                 
-                   sh "docker run -d --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
-                    //sh "docker run --rm --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
+                   sh "docker run -d --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
+                 //sh "docker run --rm --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
                         
                     // // Deploy Kibana
                     // KIBANA_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
