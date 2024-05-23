@@ -58,7 +58,7 @@ pipeline {
                     } else {
                         echo "El contenedor no existe."
                     }
-                    sh "docker run -d --name $CONTAINER_NAME -p 3000:3000 --network $NETWORK_NAME --ip $PROJECT_IP --mount source=$CONTAINER_NAME-logs,target=/logs $IMAGE_TAG"
+                    sh "docker run -d --name $CONTAINER_NAME -p 3000:3000 --network $NETWORK_NAME --ip $PROJECT_IP -v $PWD/logs:/app/logs $IMAGE_TAG"
                 }
             }
         }
@@ -71,7 +71,7 @@ pipeline {
                         sh "docker stop $logstashContainerId"
                         sh "docker rm $logstashContainerId"
                     }
-                    sh "docker run -d --name logstash-$BRANCH --network $NETWORK_NAME --ip $LOGSTASH_IP --mount source=$CONTAINER_NAME-logs,target=/logs $LOGSTASH_IMAGE_TAG"
+                    sh "docker run -d --name logstash-$BRANCH --network $NETWORK_NAME --ip $LOGSTASH_IP -v $PWD/logs:/logs $LOGSTASH_IMAGE_TAG"
                 }
             }
         }

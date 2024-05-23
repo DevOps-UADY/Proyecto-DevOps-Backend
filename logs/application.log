@@ -86,3 +86,17 @@
 2024-05-21 19:46:49 [info]: Llamando DELETE /conductores/:id
 2024-05-21 19:46:49 [info]: Conductor con id 9 eliminada
 2024-05-21 19:46:49 [info]: {"id":9,"nombreConductor":"Edwin","fechaNacimiento":"2001-05-28","curp":"QWERTYUIOPLKJHGFDS","direccionCasa":"Casa","salario":200,"numeroLicencia":46,"deletedAt":null,"fechaIngresoSistemaConductor":"2024-04-28T12:53:09.832Z"}
+2024-05-23 17:51:19 [info]: Llamando POST /rutas
+2024-05-23 17:51:19 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:05:13 [info]: Llamando POST /rutas
+2024-05-23 18:05:13 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:05:38 [info]: Llamando POST /rutas
+2024-05-23 18:05:38 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:05:40 [info]: Llamando POST /rutas
+2024-05-23 18:05:40 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:09:40 [info]: Llamando POST /rutas
+2024-05-23 18:09:40 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}2024-05-23 18:12:22 [info]: Llamando POST /rutas
+2024-05-23 18:12:22 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:12:31 [info]: Llamando GET /conductores
+2024-05-23 18:20:01 [info]: Llamando GET /rutas
+2024-05-23 18:26:28 [info]: Llamando GET /conductores
