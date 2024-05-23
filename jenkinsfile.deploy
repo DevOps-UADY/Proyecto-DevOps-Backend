@@ -15,64 +15,7 @@ pipeline {
     stages {
         stage('Build, Package & Tag') {
             steps {
-                sh "docker build -t $IMAGE_TAG -f dockerfile.backend ."
-                sh "docker build -t $LOGSTASH_IMAGE_TAG -f dockerfile.logstash ."
-            }
-        }
-
-        stage('Deploy Elasticsearch') {
-            steps {
-                script {
-                    def elasticContainerId = sh(script: "docker ps -a -q --filter=\"name=elasticsearch-$BRANCH\"", returnStdout: true).trim()
-                    if (elasticContainerId) {
-                        sh "docker stop $elasticContainerId"
-                        sh "docker rm $elasticContainerId"
-                    }
-                    sh '''
-                        docker run -d --name elasticsearch-$BRANCH \
-                        -p 9200:9200 \
-                        --network $NETWORK_NAME \
-                        --ip $ELASTICSEARCH_IP \
-                        -e discovery.type=single-node \
-                        -e ES_JAVA_OPTS="-Xms1g -Xmx1g" \
-                        -e xpack.security.enabled=false \
-                        elasticsearch:8.7.0
-                    '''
-                }
-            }
-        }
-
-        stage('Create Logs Volume') {
-            steps {
-                sh "docker volume create $CONTAINER_NAME-logs"
-            }
-        }
-
-        stage('Deploy Project Container') {
-            steps {
-                script {
-                    def projectContainerId = sh(script: 'docker ps -a -q --filter="name=$CONTAINER_NAME"', returnStdout: true).trim()
-                    if (projectContainerId) {
-                        sh "docker stop $projectContainerId"
-                        sh "docker rm $projectContainerId"
-                    } else {
-                        echo "El contenedor no existe."
-                    }
-                    sh "docker run -d --name $CONTAINER_NAME -p 3000:3000 --network $NETWORK_NAME --ip $PROJECT_IP --mount source=$CONTAINER_NAME-logs,target=/logs $IMAGE_TAG"
-                }
-            }
-        }
-
-        stage('Deploy Logstash Container') {
-            steps {
-                script {
-                    def logstashContainerId = sh(script: "docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
-                    if (logstashContainerId) {
-                        sh "docker stop $logstashContainerId"
-                        sh "docker rm $logstashContainerId"
-                    }
-                    sh "docker run -d --name logstash-$BRANCH --network $NETWORK_NAME --ip $LOGSTASH_IP --mount source=$CONTAINER_NAME-logs,target=/logs $LOGSTASH_IMAGE_TAG"
-                }
+                sh "docker-compose up -d --build"
             }
         }
     }

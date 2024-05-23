@@ -78,11 +78,3 @@
 2024-05-21 19:44:44 [info]: Llamando PUT /conductores/:id
 2024-05-21 19:44:45 [info]: Conductor con id 14 modificado
 2024-05-21 19:44:45 [info]: {"nombreConductor":"Patinson Jr","fechaNacimiento":"2010-11-11","curp":"MNBVCXZLKJHGFWEERR","direccionCasa":"house","salario":150,"numeroLicencia":360}
-2024-05-21 19:45:00 [info]: Llamando GET /conductores/:id
-2024-05-21 19:45:00 [info]: Conductor con id 14 encontrada
-2024-05-21 19:45:00 [info]: {"id":14,"nombreConductor":"Patinson Jr","fechaNacimiento":"2010-11-11","curp":"MNBVCXZLKJHGFWEERR","direccionCasa":"house","salario":150,"numeroLicencia":360,"fechaIngresoSistemaConductor":"2024-05-22T07:41:53.329Z"}
-2024-05-21 19:45:34 [info]: Llamando DELETE /conductores/:id
-2024-05-21 19:45:34 [warn]: Conductor con id 6 no encontrada
-2024-05-21 19:46:49 [info]: Llamando DELETE /conductores/:id
-2024-05-21 19:46:49 [info]: Conductor con id 9 eliminada
-2024-05-21 19:46:49 [info]: {"id":9,"nombreConductor":"Edwin","fechaNacimiento":"2001-05-28","curp":"QWERTYUIOPLKJHGFDS","direccionCasa":"Casa","salario":200,"numeroLicencia":46,"deletedAt":null,"fechaIngresoSistemaConductor":"2024-04-28T12:53:09.832Z"}
