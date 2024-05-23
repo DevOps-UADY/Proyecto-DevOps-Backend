@@ -1,63 +1,77 @@
 pipeline {
     agent any
+    
     environment {
-        BRANCH = sh(script: 'echo $GIT_BRANCH | cut -b 8-14 | tr \'[:upper:]\' \'[:lower:]\' | tr \'/\' \'_\'', returnStdout: true).trim()
+        BRANCH = sh(script: 'echo $GIT_BRANCH | cut -b 8-10 | tr \'[:upper:]\' \'[:lower:]\' | tr \'/\' \'_\'', returnStdout: true).trim()
         IMAGE_TAG = "proyectodevopsbackend-$BRANCH:1.0.0-${BUILD_NUMBER}"
         CONTAINER_NAME = "proyectodevopsbackend-$BRANCH"
         LOGSTASH_IMAGE_TAG = "logstash:1.0.0-${BUILD_NUMBER}"
+        NETWORK_NAME = "devops"
+        ELASTICSEARCH_IP = "172.22.0.3"
+        LOGSTASH_IP = "172.22.0.5"
+        PROJECT_IP = "172.22.0.2"
     }
 
     stages {
         stage('Build, Package & Tag') {
             steps {
-                sh "docker build -t $IMAGE_TAG -f dockerfile.backend  ."
+                sh "docker build -t $IMAGE_TAG -f dockerfile.backend ."
                 sh "docker build -t $LOGSTASH_IMAGE_TAG -f dockerfile.logstash ."
             }
         }
-        stage('Deploy') {
+
+        stage('Deploy Elasticsearch') {
             steps {
                 script {
-
-                    // Deploy Elasticsearch
-                    ELASTIC_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=elasticsearch-$BRANCH\"", returnStdout: true).trim()
-                    if (ELASTIC_CONTAINER_ID) {
-                        sh " docker stop $ELASTIC_CONTAINER_ID"
-                        sh " docker rm $ELASTIC_CONTAINER_ID"
+                    def elasticContainerId = sh(script: "docker ps -a -q --filter=\"name=elasticsearch-$BRANCH\"", returnStdout: true).trim()
+                    if (elasticContainerId) {
+                        sh "docker stop $elasticContainerId"
+                        sh "docker rm $elasticContainerId"
                     }
-                    //sh "docker run -d --name elasticsearch-$BRANCH --network devops -p 9200:9200 -e discovery.type=single-node -e ES_JAVA_OPTS='-Xms512m -Xmx512m' -v es_data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:7.12.1"
-                    sh 'docker run -d --name elasticsearch-$BRANCH -p 9200:9200 --network devops --ip 172.22.0.3 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.1'
+                    sh '''
+                        docker run -d --name elasticsearch-$BRANCH \
+                        -p 9200:9200 \
+                        --network $NETWORK_NAME \
+                        --ip $ELASTICSEARCH_IP \
+                        -e discovery.type=single-node \
+                        -e ES_JAVA_OPTS="-Xms1g -Xmx1g" \
+                        -e xpack.security.enabled=false \
+                        elasticsearch:8.7.0
+                    '''
+                }
+            }
+        }
 
-                    //create a volume for the logs
-                    sh 'docker volume create $CONTAINER_NAME-logs'
+        stage('Create Logs Volume') {
+            steps {
+                sh "docker volume create $CONTAINER_NAME-logs"
+            }
+        }
 
-                    // Deploy the project container
-                    CONTAINER_ID = sh(script: ' docker ps -a -q --filter="name=$CONTAINER_NAME"', returnStdout: true).trim()
-                    if (CONTAINER_ID) {
-                        sh "docker stop $CONTAINER_ID"
-                        sh "docker rm $CONTAINER_ID"
+        stage('Deploy Project Container') {
+            steps {
+                script {
+                    def projectContainerId = sh(script: 'docker ps -a -q --filter="name=$CONTAINER_NAME"', returnStdout: true).trim()
+                    if (projectContainerId) {
+                        sh "docker stop $projectContainerId"
+                        sh "docker rm $projectContainerId"
                     } else {
                         echo "El contenedor no existe."
                     }
-                    //sh "docker run -d --name $CONTAINER_NAME --network devops -v project_logs:/app/logs -p 3000:3000 $IMAGE_TAG"
-                    sh 'docker run -d --name $CONTAINER_NAME -p 3000:3000 --network devops --ip 172.22.0.2 --mount source=$CONTAINER_NAME-logs,target=/logs $IMAGE_TAG'
+                    sh "docker run -d --name $CONTAINER_NAME -p 3000:3000 --network $NETWORK_NAME --ip $PROJECT_IP --mount source=$CONTAINER_NAME-logs,target=/logs $IMAGE_TAG"
+                }
+            }
+        }
 
-                    // Deploy the Logstash container
-                    LOGSTASH_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
-                    if (LOGSTASH_CONTAINER_ID) {
-                        sh "docker stop $LOGSTASH_CONTAINER_ID"
-                        sh "docker rm $LOGSTASH_CONTAINER_ID"
+        stage('Deploy Logstash Container') {
+            steps {
+                script {
+                    def logstashContainerId = sh(script: "docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
+                    if (logstashContainerId) {
+                        sh "docker stop $logstashContainerId"
+                        sh "docker rm $logstashContainerId"
                     }
-                
-                   sh "docker run -d --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
-                 //sh "docker run --rm --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
-                        
-                    // // Deploy Kibana
-                    // KIBANA_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
-                    // if (KIBANA_CONTAINER_ID) {
-                    //     sh "docker stop $KIBANA_CONTAINER_ID"
-                    //     sh "docker rm $KIBANA_CONTAINER_ID"
-                    // }
-                    // sh "docker run -d --name kibana-$BRANCH --network devops -p 5601:5601 -e ELASTICSEARCH_URL=http://elasticsearch:9200 docker.elastic.co/kibana/kibana:7.12.1"
+                    sh "docker run -d --name logstash-$BRANCH --network $NETWORK_NAME --ip $LOGSTASH_IP --mount source=$CONTAINER_NAME-logs,target=/logs $LOGSTASH_IMAGE_TAG"
                 }
             }
         }
