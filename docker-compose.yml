@@ -10,6 +10,9 @@ services:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - xpack.security.enabled=false
+    networks:
+      devops:
+        ipv4_address: 172.22.0.10  # IP fija asignada
 
   kibana:
     image: kibana:8.7.0
@@ -21,6 +24,8 @@ services:
       - discovery.type=single-node
     depends_on:
       - elasticsearch
+    networks:
+      - devops
 
   filebeat:
     build:
@@ -33,6 +38,8 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+    networks:
+      - devops
   
   nestjs-app:
     build:
@@ -41,6 +48,8 @@ services:
     container_name: nestjs-app
     ports:
       - "3000:3000"
+    networks:
+      - devops
     depends_on:
       - elasticsearch
       - postgres
@@ -51,16 +60,26 @@ services:
     image: postgres:14
     container_name: postgres4
     environment:
-      POSTGRES_USER: test
+      POSTGRES_DB: test
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: root
+    networks:
+      devops:
+         ipv4_address: 172.22.0.4
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - d_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
 volumes:
   elasticsearch_data:
     driver: local
-  postgres_data:
+  d_data:
     driver: local
+
+networks:
+  devops:
+    external: true
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16

@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.development' });
 
 export default () => ({
-    host: process.env.POSTGRES_HOST || '172.22.0.4', 
+    host: '172.22.0.4', 
     port: parseInt(process.env.POSTGRES_PORT) || 5432,
     username: process.env.POSTGRES_USER || 'root',
     password: process.env.POSTGRES_PASSWORD || '',
