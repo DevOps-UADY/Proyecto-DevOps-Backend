@@ -3,28 +3,28 @@ version: '3'
 services:
   elasticsearch:
     image: elasticsearch:8.7.0
-    container_name: elasticsearch-$BRANCH
+    container_name: elasticsearch-dev
     ports:
       - "9200:9200"
-    networks:
-      - devops
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - xpack.security.enabled=false
-
+    networks:
+      devops:
+        ipv4_address: 172.22.0.10
   kibana:
     image: kibana:8.7.0
-    container_name: kibana-$BRANCH
+    container_name: kibana-dev
     ports:
       - "5601:5601"
-    networks:
-      - devops
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
     depends_on:
       - elasticsearch
+    networks:
+      - devops
 
   filebeat:
     build:
@@ -37,10 +37,12 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+    networks:
+      - devops
   
   nestjs-app:
     build:
-      context: dockerfile.backend
+      context: ./
       dockerfile: Dockerfile
     container_name: nestjs-app
     ports:
@@ -49,12 +51,30 @@ services:
       - devops
     depends_on:
       - elasticsearch
+      - postgres
     volumes:
       - ./logs:/src/logs
     
-volume:
-    elasticsearch_data:
-      driver: local
+  postgres:
+    image: postgres:14
+    container_name: postgres4
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    networks:
+      devops:
+         ipv4_address: 172.22.0.4
+    volumes:
+      - d_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  elasticsearch_data:
+    driver: local
+  d_data:
+    driver: local
 
 networks:
   devops:
