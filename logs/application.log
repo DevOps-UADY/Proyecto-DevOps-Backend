@@ -100,3 +100,9 @@
 2024-05-23 18:12:31 [info]: Llamando GET /conductores
 2024-05-23 18:20:01 [info]: Llamando GET /rutas
 2024-05-23 18:26:28 [info]: Llamando GET /conductores
+2024-05-23 18:09:40 [info]: Llamando POST /rutas
+2024-05-23 18:09:40 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}2024-05-23 18:12:22 [info]: Llamando POST /rutas
+2024-05-23 18:12:22 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:12:31 [info]: Llamando GET /conductores
+2024-05-23 18:20:01 [info]: Llamando GET /rutas
+2024-05-23 18:26:28 [info]: Llamando GET /conductores
