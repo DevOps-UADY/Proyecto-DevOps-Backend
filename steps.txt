@@ -39,9 +39,17 @@ Docker -------------------------------------------------------------------------
 
     Proyecto NestJS 3000
         docker build -t proyectodevopsbackend:1.0.0 .
+        
+        // Para montar directorio en docker y computadora local
+        docker run -d --name back11 -p 3000:3000 --network devops --ip 172.22.0.2 -v $PWD/logs:/app/logs back-1
 
         docker run -d --name dev1 -p 3000:3000 proyectodevopsbackend:1.0.0
         docker run -d --name prod2 --network devops -p 3000:3000 proyectodevopsbackend:1.0.0
+
+    logstah 
+        docker build -t pruebalogstash -f dockerfile.logstash .
+        docker run -d --name logstash-1 --network devops --ip 172.22.0.5 -v $PWD/logs:/logs pruebalogstash
+        docker run -d --name logstash-1 --network devops --ip 172.22.0.5 -v $PWD/logs:/logs pruebalogstash
 
     Elastick Search 9200
         sysctl -w vm.max_map_count=262144 (Se ejecuta en la terminal para aumentar el limite de mapas de memoria)
