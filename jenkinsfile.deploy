@@ -25,7 +25,7 @@ pipeline {
                         sh "sudo docker rm $ELASTIC_CONTAINER_ID"
                     }
                     //sh "docker run -d --name elasticsearch-$BRANCH --network devops -p 9200:9200 -e discovery.type=single-node -e ES_JAVA_OPTS='-Xms512m -Xmx512m' -v es_data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:7.12.1"
-                    sh 'sudo docker run -d --name elasticsearch-$BRANCH -p 9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.1'
+                    sh 'sudo docker run -d --name elasticsearch-$BRANCH -p 9200:9200 --network devops -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.1'
 
                     //create a volume for the logs
                     sh 'sudo docker volume create $CONTAINER_NAME-logs'
@@ -48,7 +48,7 @@ pipeline {
                         sh "sudo docker rm $LOGSTASH_CONTAINER_ID"
                     }
                     //sh "docker run -d --name logstash-$BRANCH --network devops -v project_logs:/app/logs -v $WORKSPACE/logstash/pipeline:/usr/share/logstash/pipeline docker.elastic.co/logstash/logstash:7.12.1"
-                    sh "sudo docker run -d --name logstash-$BRANCH --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
+                    sh "sudo docker run -d --name logstash-$BRANCH --network devops --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.10.1"
 
                     // // Deploy Kibana
                     // KIBANA_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
