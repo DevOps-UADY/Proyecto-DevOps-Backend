@@ -47,9 +47,10 @@ pipeline {
                         sh "docker stop $LOGSTASH_CONTAINER_ID"
                         sh "docker rm $LOGSTASH_CONTAINER_ID"
                     }
-                    //sh "docker run -d --name logstash-$BRANCH --network devops -v project_logs:/app/logs -v $WORKSPACE/logstash/pipeline:/usr/share/logstash/pipeline docker.elastic.co/logstash/logstash:7.12.1"
-                    sh "docker run -d --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.config docker.elastic.co/logstash/logstash:7.10.1"
-                    //sh "docker run -it --rm --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.conf docker.elastic.co/logstash/logstash:7.10.1 /bin/bash"
+                
+                   // sh "docker run -d --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.config docker.elastic.co/logstash/logstash:7.10.1"
+                    sh "docker run -it --rm --name logstash-$BRANCH --network devops --ip 172.22.0.5 --mount source=$CONTAINER_NAME-logs,target=/logs -v ${WORKSPACE}/logstash.config:/usr/share/logstash/config/logstash.conf docker.elastic.co/logstash/logstash:7.10.1 /bin/bash"
+                        
                     // // Deploy Kibana
                     // KIBANA_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
                     // if (KIBANA_CONTAINER_ID) {
