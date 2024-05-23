@@ -1,7 +1,4 @@
-FROM docker.elastic.co/logstash/logstash:7.10.1
-# delete default configuration
+FROM docker.elastic.co/logstash/logstash:8.13.4
 RUN rm -f /usr/share/logstash/pipeline/logstash.conf
-RUN rm -f /usr/share/logstash/config/logstash-sample.conf
-# # copy configurations
-# COPY logstash/pipeline/ /usr/share/logstash/pipeline/
-# COPY logstash/config/ /usr/share/logstash/config/
+COPY logstash/pipeline/ /usr/share/logstash/pipeline/
+COPY logstash/config/ /usr/share/logstash/config/

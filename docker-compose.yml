@@ -1,56 +1,61 @@
 version: '3'
+
 services:
-  db:
-    image: postgres:14
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "${POSTGRES_PORT}:5432"
-    volumes:
-      - d_data:/var/lib/postgresql/data
-  
-  project:
-    build: .
-    image: proyectodevopsbackend:latest
-    volumes:
-      - project_logs:/app/logs
-    ports:
-      - "3000:3000"
-  
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
-    environment:
-      - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    image: elasticsearch:8.7.0
+    container_name: elasticsearch-$BRANCH
     ports:
       - "9200:9200"
-    volumes:
-      - es_data:/usr/share/elasticsearch/data
-  
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.12.1
-    volumes:
-      - project_logs:/app/logs
-      - ./logstash/pipeline/:/usr/share/logstash/pipeline/
+    networks:
+      - devops
     environment:
-      - xpack.monitoring.enabled=false
-    depends_on:
-      - project
-      - elasticsearch
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.12.1
+    image: kibana:8.7.0
+    container_name: kibana-$BRANCH
     ports:
       - "5601:5601"
+    networks:
+      - devops
     environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
+      - xpack.security.enabled=false
+      - discovery.type=single-node
     depends_on:
       - elasticsearch
 
-volumes:
-  d_data:
-  project_logs:
-  es_data:
+  filebeat:
+    build:
+      context: ./filebeat
+      dockerfile: Dockerfile
+    container_name: filebeat
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./logs:/src/logs
+    depends_on:
+      - elasticsearch
+      - kibana
+  
+  nestjs-app:
+    build:
+      context: dockerfile.backend
+      dockerfile: Dockerfile
+    container_name: nestjs-app
+    ports:
+      - "3000:3000"
+    networks:
+      - devops
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./logs:/src/logs
+    
+volume:
+    elasticsearch_data:
+      driver: local
+
+networks:
+  devops:
+    external: true
