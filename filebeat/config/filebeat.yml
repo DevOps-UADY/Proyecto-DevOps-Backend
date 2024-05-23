@@ -1,0 +1,24 @@
+name: "nestjs logs"
+logging.metrics.enabled: false
+xpack.security.enabled: false
+xpack.monitoring.enabled: false
+setup.ilm.enabled: false
+setup.template.enabled: false
+
+filebeat.inputs:
+- type: log
+  scan_frequency: 1s
+  enabled: true
+  paths:
+    - /src/logs/*.log
+  fields:
+    - service: "nestjs-app"
+  fields_under_root: true
+  json:
+    keys_under_root: true
+    message_key: 'message'
+    overwrite_keys: true
+
+output.elasticsearch:
+  hosts: ["http://172.22.0.3:9200"]
+  index: "nestjs-app-%{+yyyy.MM.dd}"

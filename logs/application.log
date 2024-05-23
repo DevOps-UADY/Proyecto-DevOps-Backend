@@ -63,3 +63,46 @@
 2024-05-21 10:54:10 [info]: Llamando PUT /rutas/:id
 2024-05-21 10:54:10 [info]: Ruta con id 7 modificada
 2024-05-21 10:54:10 [info]: {"estadoRuta":false}
+2024-05-21 19:36:14 [info]: Conductor con id 9 encontrada
+2024-05-21 19:36:14 [info]: {"id":9,"nombreConductor":"Edwin","fechaNacimiento":"2001-05-28","curp":"QWERTYUIOPLKJHGFDS","direccionCasa":"Casa","salario":200,"numeroLicencia":46,"fechaIngresoSistemaConductor":"2024-04-28T12:53:09.832Z"}
+2024-05-21 19:36:27 [warn]: Conductor con id 1 no encontrada
+2024-05-21 19:40:32 [info]: Llamando GET /conductores
+2024-05-21 19:41:53 [info]: Llamando POST /conductores
+2024-05-21 19:41:53 [info]: {"nombreConductor":"Johanson","fechaNacimiento":"2010-11-11","curp":"MNBVCXZLKJHGFWEERR","direccionCasa":"house","salario":150,"numeroLicencia":360}
+2024-05-21 19:42:16 [info]: Llamando GET /conductores
+2024-05-21 19:43:46 [info]: Llamando GET /conductores/:id
+2024-05-21 19:43:46 [warn]: Conductor con id 13 no encontrada
+2024-05-21 19:44:04 [info]: Llamando GET /conductores/:id
+2024-05-21 19:44:04 [info]: Conductor con id 14 encontrada
+2024-05-21 19:44:04 [info]: {"id":14,"nombreConductor":"Johanson","fechaNacimiento":"2010-11-11","curp":"MNBVCXZLKJHGFWEERR","direccionCasa":"house","salario":150,"numeroLicencia":360,"fechaIngresoSistemaConductor":"2024-05-22T07:41:53.329Z"}
+2024-05-21 19:44:44 [info]: Llamando PUT /conductores/:id
+2024-05-21 19:44:45 [info]: Conductor con id 14 modificado
+2024-05-21 19:44:45 [info]: {"nombreConductor":"Patinson Jr","fechaNacimiento":"2010-11-11","curp":"MNBVCXZLKJHGFWEERR","direccionCasa":"house","salario":150,"numeroLicencia":360}
+2024-05-21 19:45:00 [info]: Llamando GET /conductores/:id
+2024-05-21 19:45:00 [info]: Conductor con id 14 encontrada
+2024-05-21 19:45:00 [info]: {"id":14,"nombreConductor":"Patinson Jr","fechaNacimiento":"2010-11-11","curp":"MNBVCXZLKJHGFWEERR","direccionCasa":"house","salario":150,"numeroLicencia":360,"fechaIngresoSistemaConductor":"2024-05-22T07:41:53.329Z"}
+2024-05-21 19:45:34 [info]: Llamando DELETE /conductores/:id
+2024-05-21 19:45:34 [warn]: Conductor con id 6 no encontrada
+2024-05-21 19:46:49 [info]: Llamando DELETE /conductores/:id
+2024-05-21 19:46:49 [info]: Conductor con id 9 eliminada
+2024-05-21 19:46:49 [info]: {"id":9,"nombreConductor":"Edwin","fechaNacimiento":"2001-05-28","curp":"QWERTYUIOPLKJHGFDS","direccionCasa":"Casa","salario":200,"numeroLicencia":46,"deletedAt":null,"fechaIngresoSistemaConductor":"2024-04-28T12:53:09.832Z"}
+2024-05-23 17:51:19 [info]: Llamando POST /rutas
+2024-05-23 17:51:19 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:05:13 [info]: Llamando POST /rutas
+2024-05-23 18:05:13 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:05:38 [info]: Llamando POST /rutas
+2024-05-23 18:05:38 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:05:40 [info]: Llamando POST /rutas
+2024-05-23 18:05:40 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:09:40 [info]: Llamando POST /rutas
+2024-05-23 18:09:40 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}2024-05-23 18:12:22 [info]: Llamando POST /rutas
+2024-05-23 18:12:22 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:12:31 [info]: Llamando GET /conductores
+2024-05-23 18:20:01 [info]: Llamando GET /rutas
+2024-05-23 18:26:28 [info]: Llamando GET /conductores
+2024-05-23 18:09:40 [info]: Llamando POST /rutas
+2024-05-23 18:09:40 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}2024-05-23 18:12:22 [info]: Llamando POST /rutas
+2024-05-23 18:12:22 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
+2024-05-23 18:12:31 [info]: Llamando GET /conductores
+2024-05-23 18:20:01 [info]: Llamando GET /rutas
+2024-05-23 18:26:28 [info]: Llamando GET /conductores
