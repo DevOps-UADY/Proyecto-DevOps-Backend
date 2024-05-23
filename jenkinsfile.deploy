@@ -39,7 +39,7 @@ pipeline {
                         echo "El contenedor no existe."
                     }
                     //sh "docker run -d --name $CONTAINER_NAME --network devops -v project_logs:/app/logs -p 3000:3000 $IMAGE_TAG"
-                    sh 'docker run -d --name $CONTAINER_NAME --network devops --ip 172.22.0.2 --mount source=$CONTAINER_NAME-logs,target=/logs $IMAGE_TAG'
+                    sh 'docker run -d --name $CONTAINER_NAME -p 3000:3000 --network devops --ip 172.22.0.2 --mount source=$CONTAINER_NAME-logs,target=/logs $IMAGE_TAG'
 
                     // Deploy the Logstash container
                     LOGSTASH_CONTAINER_ID = sh(script: "docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
