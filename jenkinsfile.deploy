@@ -16,21 +16,21 @@ pipeline {
     stages {
         stage('Build, Package & Tag') {
             steps {
-                sh "docker build -t $IMAGE_TAG -f dockerfile.backend ."
-                sh "docker build -t $LOGSTASH_IMAGE_TAG -f dockerfile.logstash ."
+                sh "sudo docker build -t $IMAGE_TAG -f dockerfile.backend ."
+                sh "sudo docker build -t $LOGSTASH_IMAGE_TAG -f dockerfile.logstash ."
             }
         }
 
         stage('Deploy Elasticsearch') {
             steps {
                 script {
-                    def elasticContainerId = sh(script: "docker ps -a -q --filter=\"name=elasticsearch-$BRANCH\"", returnStdout: true).trim()
+                    def elasticContainerId = sh(script: "sudo docker ps -a -q --filter=\"name=elasticsearch-$BRANCH\"", returnStdout: true).trim()
                     if (elasticContainerId) {
-                        sh "docker stop $elasticContainerId"
-                        sh "docker rm $elasticContainerId"
+                        sh "sudo docker stop $elasticContainerId"
+                        sh "sudo docker rm $elasticContainerId"
                     }
                     sh '''
-                        docker run -d --name elasticsearch-$BRANCH \
+                        sudo docker run -d --name elasticsearch-$BRANCH \
                         -p 9200:9200 \
                         --network $NETWORK_NAME \
                         --ip $ELASTICSEARCH_IP \
@@ -45,7 +45,7 @@ pipeline {
 
         stage('Create Logs Volume') {
             steps {
-                sh "docker volume create $CONTAINER_NAME-logs"
+                sh "sudo docker volume create $CONTAINER_NAME-logs"
             }
         }
 
@@ -54,12 +54,12 @@ pipeline {
                 script {
                     def projectContainerId = sh(script: 'docker ps -a -q --filter="name=$CONTAINER_NAME"', returnStdout: true).trim()
                     if (projectContainerId) {
-                        sh "docker stop $projectContainerId"
-                        sh "docker rm $projectContainerId"
+                        sh "sudo docker stop $projectContainerId"
+                        sh "sudo docker rm $projectContainerId"
                     } else {
                         echo "El contenedor no existe."
                     }
-                    sh "docker run -d --name $CONTAINER_NAME -p 3000:3000 --network $NETWORK_NAME --ip $PROJECT_IP -v $PWD/logs:/app/logs $IMAGE_TAG"
+                    sh "sudo docker run -d --name $CONTAINER_NAME -p 3000:3000 --network $NETWORK_NAME --ip $PROJECT_IP -v $PWD/logs:/app/logs $IMAGE_TAG"
                 }
             }
         }
@@ -67,12 +67,12 @@ pipeline {
         stage('Deploy Logstash Container') {
             steps {
                 script {
-                    def logstashContainerId = sh(script: "docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
+                    def logstashContainerId = sh(script: "sudo docker ps -a -q --filter=\"name=logstash-$BRANCH\"", returnStdout: true).trim()
                     if (logstashContainerId) {
-                        sh "docker stop $logstashContainerId"
-                        sh "docker rm $logstashContainerId"
+                        sh "sudo docker stop $logstashContainerId"
+                        sh "sudo docker rm $logstashContainerId"
                     }
-                    sh "docker run -d --name logstash-$BRANCH --network $NETWORK_NAME --ip $LOGSTASH_IP -v $PWD/logs:/logs $LOGSTASH_IMAGE_TAG"
+                    sh "sudo docker run -d --name logstash-$BRANCH --network $NETWORK_NAME --ip $LOGSTASH_IP -v $PWD/logs:/logs $LOGSTASH_IMAGE_TAG"
                 }
             }
         }
@@ -82,11 +82,11 @@ pipeline {
                 script{
                     def kibanaContainerId = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
                     if (kibanaContainerId) {
-                        sh "docker stop $kibanaContainerId"
-                        sh "docker rm $kibanaContainerId"
+                        sh "sudo docker stop $kibanaContainerId"
+                        sh "sudo docker rm $kibanaContainerId"
                     }
                     sh '''
-                        docker run -d --name kibana-$BRANCH \
+                        sudo docker run -d --name kibana-$BRANCH \
                         -p 5601:5601 \
                         --network $NETWORK_NAME \
                         --ip $KIBANA_IP \
