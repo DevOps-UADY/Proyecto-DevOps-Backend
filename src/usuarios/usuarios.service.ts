@@ -8,6 +8,7 @@ import { JwtPayload } from './strategies/jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
 import { Codigo } from '../codigos/entities/codigo.entity';
 import { LoginUsuarioDto } from './dto/login-usuario.dto';
+import { AppLogger } from '../logger/logger.service';
 @Injectable()
 export class UsuariosService {
 
@@ -17,6 +18,7 @@ export class UsuariosService {
     @InjectRepository(Codigo)
     private codigoModel: Repository<Codigo>,
     private readonly jwtService: JwtService,
+    private readonly logger: AppLogger
   ) { }
 
   async create (createUsuarioDto: CreateUsuarioDto) {
@@ -26,11 +28,17 @@ export class UsuariosService {
       id: createUsuarioDto.codigoInvitacion
     });
   
-    if (!codigoInvitacionDb)
+    if (!codigoInvitacionDb){
+      this.logger.warn(`El código no existe`);  
       throw new NotFoundException('El código no existe');
+    }
+     
   
-    if (!codigoInvitacionDb.isActive)
+    if (!codigoInvitacionDb.isActive){
+      this.logger.warn(`El código de invitación es inválido`);  
       throw new BadRequestException('El código de invitación es inválido');
+    }
+      
   
     try {
       // Guardamos en la base de datos
@@ -48,7 +56,7 @@ export class UsuariosService {
         token: this.getJwtToken({ id: usuarioSaved.id })
       };
     } catch (error) {
-     
+  
       this.dbErrors(error)
       console.log(error);
       this.dbErrors(error);
@@ -57,8 +65,11 @@ export class UsuariosService {
 
   async login (loginUsuarioDto: LoginUsuarioDto) {
     const user = await this.usuarioModel.findOneBy({ correo: loginUsuarioDto.correo });
-    if (!user || loginUsuarioDto.contrasenia !== user.contrasenia)
+    if (!user || loginUsuarioDto.contrasenia !== user.contrasenia){
+      this.logger.warn(`Correo o contraseña incorrecta`);  
       throw new BadRequestException('Correo o contraseña incorrecta');
+    }
+   
     
     return {
       ...user,
@@ -75,8 +86,8 @@ export class UsuariosService {
         usuarios
       };
     } catch (error) {
-      
-      throw new InternalServerErrorException('Llame al administrador')
+      this.logger.warn(`No se encontraro registros`);  
+      throw new BadRequestException('No se encontraro registros')
     }
   }
 
@@ -85,8 +96,11 @@ export class UsuariosService {
       id
     })
 
-    if (!usuario)
+    if (!usuario){
+      this.logger.warn('Usuario no encontrado id:' + id);  
       throw new NotFoundException('Usuario no encontrado id:' + id)
+    }
+      
 
     delete usuario.contrasenia
 
@@ -111,7 +125,7 @@ export class UsuariosService {
         mensaje: 'Usuario borrado correctamente'
       }
     } catch (error) {
-      
+      this.logger.warn('No se encontró el usuario'); 
       throw new BadRequestException('No se encontró el usuario')
     }
 
@@ -126,12 +140,15 @@ export class UsuariosService {
   private dbErrors (error) {
    
     if (error.code == 1062) {
+      this.logger.warn(`Ocurrió un error inesperado al intentar agregar el usuario`);
       throw new ConflictException(error.detail)
     } 
     if(error.code==23505){
+      this.logger.warn(`Ocurrió un error inesperado al intentar agregar el usuario`);
       throw new ConflictException(error.detail)
     }
     else {
+      this.logger.error(`Ocurrió un error inesperado al intentar agregar el usuario`,error.detail);
       throw new InternalServerErrorException('Llame al administrador')
     }
   }
