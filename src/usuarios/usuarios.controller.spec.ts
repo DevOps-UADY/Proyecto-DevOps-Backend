@@ -4,7 +4,7 @@ import { UsuariosService } from './usuarios.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import configuration from '../config/app.config';
-
+import { AppLogger } from '../logger/logger.service';
 
 
 describe('UsuariosController', () => {
@@ -17,6 +17,10 @@ describe('UsuariosController', () => {
     update: jest.fn(),
     remove: jest.fn(),
   };
+  const mockLogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,6 +30,10 @@ describe('UsuariosController', () => {
           provide: UsuariosService,
           useValue: mockUsuariosService,
         },
+        {
+          provide: AppLogger,
+          useValue: mockLogger,
+        }
         
       ],
       imports:[
