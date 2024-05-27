@@ -105,4 +105,11 @@
 2024-05-23 18:12:22 [info]: {"nombreRuta":"string","estadoRuta":true,"latitudDestino":90,"longitudDestino":180}
 2024-05-23 18:12:31 [info]: Llamando GET /conductores
 2024-05-23 18:20:01 [info]: Llamando GET /rutas
-2024-05-23 18:26:28 [info]: Llamando GET /conductores
+2024-05-23 18:26:28 [info]: Llamando GET /conductores2024-05-27 00:01:32 [info]: Llamando GET /vehiculos
+2024-05-27 00:01:47 [info]: Llamando POST /vehiculos
+2024-05-27 00:02:02 [info]: Llamando PUT /vehiculos/:id
+2024-05-27 00:02:02 [warn]: No se encontró ningún vehículo con el ID: 19
+2024-05-27 00:02:18 [info]: Llamando PUT /vehiculos/:id
+2024-05-27 00:02:18 [warn]: No se encontró ningún vehículo con el ID: 19
+2024-05-27 00:02:24 [info]: Llamando PUT /vehiculos/:id
+2024-05-27 00:02:24 [warn]: Ya existe un vehículo con el mismo vin: qwww212121221
