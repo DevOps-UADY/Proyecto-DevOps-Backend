@@ -3,6 +3,8 @@ import { VehiculosController } from './vehiculos.controller';
 import { VehiculosService } from './vehiculos.service';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FileTypeResult } from 'file-type/core';
+import { AppLogger } from '../logger/logger.service';
+
 // Esto lo hizo Ariel
 describe('VehiculosController', () => {
   let vehiculosController: VehiculosController;
@@ -16,6 +18,11 @@ describe('VehiculosController', () => {
     remove: jest.fn(),
   };
 
+  const mockLogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [VehiculosController],
@@ -24,7 +31,10 @@ describe('VehiculosController', () => {
           provide: VehiculosService,
           useValue: mockVehiculosService,
         },
-        
+        {
+          provide: AppLogger,
+          useValue: mockLogger,
+        }
       ],
       imports:[
         NestjsFormDataModule

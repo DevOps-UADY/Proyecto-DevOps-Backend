@@ -8,13 +8,15 @@ import { fileNamer } from './helpers/fileNamer.helper';
 import { saveImage } from './helpers/saveImage.helper';
 import * as fs from 'node:fs';
 import { routeImage } from './helpers/routeImage.helper';
+import { AppLogger } from '../logger/logger.service';
 
 @Injectable()
 export class VehiculosService {
 
   constructor (
     @InjectRepository(Vehiculo)
-    private readonly vehiculoRepository: Repository<Vehiculo>
+    private readonly vehiculoRepository: Repository<Vehiculo>,
+    private readonly logger: AppLogger
   ) { }
 
   async create (createVehiculoDto: CreateVehiculoDto) {
@@ -23,6 +25,7 @@ export class VehiculosService {
     });
 
     if (existePlaca) {
+      this.logger.warn(`Ya existe un vehículo con la misma placa: ${createVehiculoDto.placa}`);
       throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
     }
 
@@ -31,6 +34,7 @@ export class VehiculosService {
     });
 
     if (existeVin) {
+      this.logger.warn(`Ya existe un vehículo con el mismo vin: ${createVehiculoDto.vin}`);
       throw new BadRequestException(`Ya existe un vehículo con el mismo vin`);
     }
 
@@ -52,6 +56,7 @@ export class VehiculosService {
       };
 
     } catch (error) {
+      this.logger.log(`Ocurrió un error inesperado al intentar agregar el vehiculo`);
       this.handleDbException(error);
     }
   }
@@ -87,6 +92,7 @@ export class VehiculosService {
     });
 
     if (!vehiculo) {
+      this.logger.warn(`No se encontró ningún vehículo con el ID: ${id}`);
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
     }
 
@@ -106,6 +112,7 @@ export class VehiculosService {
     const vehiculo = await this.vehiculoRepository.findOneBy({ id });
 
     if (!vehiculo) {
+      this.logger.warn(`No se encontró ningún vehículo con el ID: ${id}`);
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
     }
 
@@ -116,6 +123,7 @@ export class VehiculosService {
       });
 
       if (existePlaca) {
+        this.logger.warn(`Ya existe un vehículo con la misma placa: ${updateVehiculoDto.placa}`);
         throw new BadRequestException(`Ya existe un vehículo con la misma placa`);
       }
       
@@ -128,6 +136,7 @@ export class VehiculosService {
       });
       console.log(existeVin);
       if (existeVin) {
+        this.logger.warn(`Ya existe un vehículo con el mismo vin: ${updateVehiculoDto.vin}`);
         throw new BadRequestException(`Ya existe un vehículo con el mismo vin`);
       }
       
@@ -144,8 +153,10 @@ export class VehiculosService {
 
         fs.unlink(filePath, (err) => {
           if (err) {
+            this.logger.log(`Error al eliminar el archivo: ${err} del vehiculo ${id}`);
             console.error('Error al eliminar el archivo:', err);
           } else {
+            this.logger.log(`Archivo del vehiculo ${id} eliminado exitosamente`);
             console.log('Archivo eliminado exitosamente.');
           }
         });
@@ -172,6 +183,7 @@ export class VehiculosService {
     const vehiculo = await this.vehiculoRepository.findOneBy({ id });
 
     if (!vehiculo) {
+      this.logger.warn(`No se encontró ningún vehículo con el ID: ${id}`);
       throw new BadRequestException(`No se encontró ningún vehículo con el ID ${id}`);
     }
     await this.vehiculoRepository.delete({ id })
@@ -179,6 +191,7 @@ export class VehiculosService {
   }
 
   private handleDbException (error) {
+    this.logger.log(`${error}`);
     if (error.code) {
       throw new ConflictException(error.detail);
     } else {

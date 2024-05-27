@@ -4,9 +4,14 @@ import { VehiculosController } from './vehiculos.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Vehiculo } from './entities/vehiculo.entity';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+import { LoggerModule } from '../logger/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Vehiculo]), NestjsFormDataModule],
+  imports: [
+    TypeOrmModule.forFeature([Vehiculo]), 
+    NestjsFormDataModule,
+    LoggerModule
+  ],
   controllers: [VehiculosController],
   providers: [VehiculosService],
 })
