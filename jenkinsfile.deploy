@@ -77,26 +77,26 @@ pipeline {
             }
         }
 
-        stage("KIbana"){
-            steps{
-                script{
-                    def kibanaContainerId = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
-                    if (kibanaContainerId) {
-                        sh "docker stop $kibanaContainerId"
-                        sh "docker rm $kibanaContainerId"
-                    }
-                    sh '''
-                        docker run -d --name kibana-$BRANCH \
-                        -p 5601:5601 \
-                        --network $NETWORK_NAME \
-                        --ip $KIBANA_IP \
-                        -e xpack.security.enabled=false \
-                        -e discovery.type=single-node \
-                        kibana:8.7.0
-                    '''
-                }
-            }
-        }
+        // stage("KIbana"){
+        //     steps{
+        //         script{
+        //             def kibanaContainerId = sh(script: "docker ps -a -q --filter=\"name=kibana-$BRANCH\"", returnStdout: true).trim()
+        //             if (kibanaContainerId) {
+        //                 sh "docker stop $kibanaContainerId"
+        //                 sh "docker rm $kibanaContainerId"
+        //             }
+        //             sh '''
+        //                 docker run -d --name kibana-$BRANCH \
+        //                 -p 5601:5601 \
+        //                 --network $NETWORK_NAME \
+        //                 --ip $KIBANA_IP \
+        //                 -e xpack.security.enabled=false \
+        //                 -e discovery.type=single-node \
+        //                 kibana:8.7.0
+        //             '''
+        //         }
+        //     }
+        // }
     }
 }
 
