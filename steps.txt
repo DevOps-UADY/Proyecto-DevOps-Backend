@@ -1,0 +1,59 @@
+Generar una nueva entidad --------------------------------------------------------------------
+    Este módulo se agrega automaticamente a app.modules para ser usado
+        nest g res <nombre en plural> --no-spec
+            - REST API
+            - Generate CRUD "YES"
+
+    En http://localhost:3000/docs está el Swagger
+
+Docker --------------------------------------------------------------------------------------------
+    Crear red si no la tienen
+        docker network create --subnet=172.22.0.0/16 devops
+    
+    Base de datos postgres 5432
+
+        ----Sin red, para usar en dev----
+        docker run \
+            --name mi_contenedor_postgres \
+            -e POSTGRES_HOST=localhost \
+            -e POSTGRES_DB=test \
+            -e POSTGRES_USER=root \
+            -e POSTGRES_PASSWORD=root \
+            -e POSTGRES_PORT=5432 \
+            -p 5432:5432 \
+            -d \
+            postgres:14
+
+        ----Con red para usar con jenkins----
+        docker run -d \
+            --name postgres \
+            --network devops \
+            --ip 172.22.0.4 \
+            -e POSTGRES_HOST=172.22.0.4 \
+            -e POSTGRES_DB=test \
+            -e POSTGRES_USER=root \
+            -e POSTGRES_PASSWORD=root \
+            -p 5432:5432 \
+            -v d_data:/var/lib/postgresql/data \
+            postgres:14
+
+    Proyecto NestJS 3000
+        docker build -t proyectodevopsbackend:1.0.0 .
+        
+        // Para montar directorio en docker y computadora local
+        docker run -d --name back11 -p 3000:3000 --network devops --ip 172.22.0.2 -v $PWD/logs:/app/logs back-1
+
+        docker run -d --name dev1 -p 3000:3000 proyectodevopsbackend:1.0.0
+        docker run -d --name prod2 --network devops -p 3000:3000 proyectodevopsbackend:1.0.0
+
+    logstah 
+        docker build -t pruebalogstash -f dockerfile.logstash .
+        docker run -d --name logstash-1 --network devops --ip 172.22.0.5 -v $PWD/logs:/logs pruebalogstash
+        docker run -d --name logstash-1 --network devops --ip 172.22.0.5 -v $PWD/logs:/logs pruebalogstash
+
+    Elastick Search 9200
+        sysctl -w vm.max_map_count=262144 (Se ejecuta en la terminal para aumentar el limite de mapas de memoria)
+        docker run --name elastic --net devops -p 9200:9200 -e discovery.type=single-node -e ES_JAVA_OPTS="-Xms1g -Xmx1g" -e xpack.security.enabled=false -d  elasticsearch:8.7.0
+
+    Kibana 5601
+        docker run --name kibana --net devops -p 5601:5601 -e xpack.security.enabled=false -e discovery.type=single-node -d kibana:8.7.0

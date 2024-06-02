@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+        stage('Execute lint cases') {
+            steps {
+                sh 'npm run lint'
+            }
+        }
+    }
+    post {
+        success {
+            build 'DevOps_back_deploy_to_prod'
+        }
+    }
+}
